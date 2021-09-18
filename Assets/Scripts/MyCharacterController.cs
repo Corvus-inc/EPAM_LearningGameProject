@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField]  private Transform playerTransform;
 
-    [Range(1, 10)]
-     public int mooveSpeed;
-
-    private Vector3 moveTo;
+    [Range(1, 20)]
+    public float mooveSpeed = 5f;
+    [Range(1, 5)]
+    public float boostSpeedRate;
 
     void Start()
     {
@@ -18,22 +18,29 @@ public class MyCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movement();
 
-        if (Input.GetKey(KeyCode.W))
+    }
+    private void Movement()
+    {
+        float currentSpeed = mooveSpeed;
+
+        if (Input.GetAxis("BoostSpeed") != 0)
         {
-            playerRigidbody.velocity = Vector3.forward * mooveSpeed;
+            currentSpeed *= boostSpeedRate * Input.GetAxis("BoostSpeed");
         }
-        if (Input.GetKey(KeyCode.A))
+
+        if (Input.GetAxis("Vertical") != 0)
         {
-            playerRigidbody.velocity = -Vector3.right * mooveSpeed;
+            Vector3 vec = Vector3.forward * Input.GetAxis("Vertical") * Time.deltaTime * currentSpeed;
+            playerTransform.position += vec;
         }
-        if (Input.GetKey(KeyCode.S))
+
+        if (Input.GetAxis("Horizontal") != 0)
         {
-            playerRigidbody.velocity = -Vector3.forward * mooveSpeed;
+            Vector3 vec = Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * currentSpeed;
+            playerTransform.position += vec;
         }
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerRigidbody.velocity = Vector3.right * mooveSpeed;
-        }
+
     }
 }
