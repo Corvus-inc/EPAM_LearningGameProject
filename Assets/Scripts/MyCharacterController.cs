@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
 {
-    [SerializeField]  private Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
+
+    [SerializeField] private Transform targetForLook;
 
     [Range(1, 20)]
     public float mooveSpeed = 5f;
@@ -14,8 +16,9 @@ public class MyCharacterController : MonoBehaviour
     void Update()
     {
         Movement();
-
+        LookAtTargetforPlayer(targetForLook);
     }
+
     private void Movement()
     {
         float currentSpeed = mooveSpeed;
@@ -36,6 +39,12 @@ public class MyCharacterController : MonoBehaviour
             Vector3 vec = Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * currentSpeed;
             playerTransform.position += vec;
         }
+    }
 
+    private void LookAtTargetforPlayer(Transform targetForLook)
+    { 
+        Vector3 positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
+        transform.LookAt(targetForLook);       
     }
 }
