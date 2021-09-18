@@ -11,11 +11,6 @@ public class MyCharacterController : MonoBehaviour
     [Range(1, 5)]
     public float boostSpeedRate;
 
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
     void Update()
     {
         Movement();
