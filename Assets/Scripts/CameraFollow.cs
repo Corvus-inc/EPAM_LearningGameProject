@@ -10,14 +10,15 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Transform lookAtTarget;
     [SerializeField] Vector3 lookAtOffset;
 
+    [Range(0, 10)]
     [SerializeField]    float followSpeed;
 
-    void FixedUpdate()
+    void Update()
     {
         if (followTarget != null)
         {
             var desiredPosition = followTarget.position + followOffset;
-            var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.fixedDeltaTime);
+            var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
         }
 

@@ -11,6 +11,7 @@
 /[Mm]emoryCaptures/
 /Assets/[Rr]obot Kyle/
 /Assets/RPG_FPS_game_assets_industrial/
+/Assets/Low Poly Guns/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta

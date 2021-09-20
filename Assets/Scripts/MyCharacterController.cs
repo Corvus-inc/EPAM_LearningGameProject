@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MyCharacterController : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
-
     [SerializeField] private Transform targetForLook;
 
     [Range(1, 20)]
@@ -30,14 +28,14 @@ public class MyCharacterController : MonoBehaviour
 
         if (Input.GetAxis("Vertical") != 0)
         {
-            Vector3 vec = Vector3.forward * Input.GetAxis("Vertical") * Time.deltaTime * currentSpeed;
-            playerTransform.position += vec;
+            // movement with transform
+            transform.Translate(Vector3.forward.normalized * Input.GetAxis("Vertical") * Time.deltaTime * currentSpeed, Space.World);
         }
 
         if (Input.GetAxis("Horizontal") != 0)
         {
-            Vector3 vec = Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * currentSpeed;
-            playerTransform.position += vec;
+            // movement with transform
+            transform.Translate(Vector3.right.normalized * Input.GetAxis("Horizontal") * Time.deltaTime * currentSpeed, Space.World);
         }
     }
 
