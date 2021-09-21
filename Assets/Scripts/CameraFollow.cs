@@ -11,9 +11,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Vector3 lookAtOffset;
 
     [Range(0, 10)]
-    [SerializeField]    float followSpeed;
+    [SerializeField] float followSpeed;
 
-    void Update()
+    void LateUpdate()
     {
         if (followTarget != null)
         {
