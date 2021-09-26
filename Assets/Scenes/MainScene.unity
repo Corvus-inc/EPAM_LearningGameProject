@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 1377198272}
   - component: {fileID: 1377198271}
   - component: {fileID: 1377198274}
+  - component: {fileID: 1377198275}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -306,16 +307,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377198270}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1260e57d7beb42b41be28fa4efa2f724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   followTarget: {fileID: 5717371555888173107}
-  followOffset: {x: 0, y: 22.66, z: -9.13}
+  followOffset: {x: 0, y: 22, z: -9}
   lookAtTarget: {fileID: 0}
   lookAtOffset: {x: 0, y: 0, z: 0}
   followSpeed: 6.79
+--- !u!114 &1377198275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377198270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8cc299681768844afadc1a569292c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget: {fileID: 5717371555888173107}
+  followOffset: {x: 0, y: 22, z: -9}
+  smoothTime: 0.39
 --- !u!850595691 &1732033519
 LightingSettings:
   m_ObjectHideFlags: 0
