@@ -7,6 +7,8 @@ using UnityEngine;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {
+    public int clipCount; 
+
     protected int forceRate;
     public bool weaponActive;
     protected BaseBullet bullet;

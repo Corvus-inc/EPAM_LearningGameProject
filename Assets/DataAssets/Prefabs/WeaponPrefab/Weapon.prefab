@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gun: {fileID: 5379313988270399009}
   _bullet: {fileID: 1454338482759084960}
+  _poolBullet: {fileID: 5187978268103757631}
   _spawnBullet: {fileID: 870351167264063580}
   _timeLiveBullet: 3
 --- !u!1 &6075001794257524095
