@@ -17,7 +17,7 @@ public class EnemySpawningController : MonoBehaviour
     {
         if (enemyCounter > 0) { 
             var inst = Instantiate(enemy, transform.position, Quaternion.identity, transform);
-            inst.transform.localPosition = new Vector3(Random.Range(-10, 10), 0f, Random.Range(-10, 10));
+            inst.transform.localPosition = new Vector3(Random.Range(-10, 10), enemy.transform.position.y, Random.Range(-10, 10));
 
             enemyCounter--;
         }

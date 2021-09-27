@@ -17,7 +17,11 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(target != null) transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime);
+        if (target != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime);
+            transform.LookAt(target);
+        }
     }
 
     void OnTriggerEnter(Collider other)
