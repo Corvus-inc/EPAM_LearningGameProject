@@ -32,8 +32,11 @@ public class WeaponController : MonoBehaviour
     private IEnumerator PutBulletOnSpawn(float secToSpawn, int indexBullet)
     {
         yield return new WaitForSeconds(secToSpawn);
+        
+        listBullets[indexBullet].ReduceDamage(_gun.ForceRate);
         listBullets[indexBullet].transform.position = _spawnBullet.transform.position;
         listBullets[indexBullet].transform.rotation = _spawnBullet.transform.rotation;
+        listBullets[indexBullet].gameObject.SetActive(false);
     }
 
 
@@ -43,6 +46,7 @@ public class WeaponController : MonoBehaviour
         {
             if (!listBullets[indexBullet].IsFlying)
             {
+                listBullets[indexBullet].AddBulletDamage(_gun.ForceRate);
                 StartCoroutine(listBullets[indexBullet].ActiveBullet(_timeLiveBullet));
                 StartCoroutine(PutBulletOnSpawn(_timeLiveBullet, indexBullet));
             }

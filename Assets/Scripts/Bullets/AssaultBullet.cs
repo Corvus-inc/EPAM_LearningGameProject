@@ -20,7 +20,11 @@ public class AssaultBullet : BaseBullet
 
     private void Update()
     {
-        if(isFlying) transform.Translate(Vector3.up * Time.deltaTime* speedBullet);
+        if (isFlying)
+        {
+            transform.Translate(Vector3.up * Time.deltaTime * speedBullet);
+
+        }
     }
 
     public override IEnumerator ActiveBullet(float timeLive)
@@ -32,5 +36,10 @@ public class AssaultBullet : BaseBullet
         transform.SetParent(saveParent);
         gameObject.SetActive(false);
         isFlying = false;
+    }
+
+    public override void MakeFinalDamage()
+    {
+        base.MakeFinalDamage();
     }
 }

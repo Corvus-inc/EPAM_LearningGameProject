@@ -7,7 +7,7 @@ using UnityEngine;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {
-    public int clipCount; 
+    public int clipCount;
 
     protected int forceRate;
     public bool weaponActive;
@@ -16,10 +16,10 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     public int ForceRate => forceRate;
     public bool WeaponActive => weaponActive; 
 
-    protected BaseWeapon(bool active)
-    {
-        weaponActive = active;
-    }
+    //protected BaseWeapon(bool active)
+    //{
+    //    weaponActive = active;
+    //}
 
 
     protected virtual int Damage(int forceRate, int forceBullet)

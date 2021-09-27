@@ -6,13 +6,18 @@ public class AssaultGun : BaseWeapon
 {
     [SerializeField] public int assaultGunRate = 5;
 
-    public AssaultGun(bool active, BaseBullet bullet) : base(active:true) 
+    private void Start()
     {
         forceRate = assaultGunRate;
-        weaponActive = active;
-        this.bullet = bullet;
-       
     }
+
+    //public AssaultGun(bool active, BaseBullet bullet) : base(active:true) 
+    //{
+    //    forceRate = assaultGunRate;
+    //    weaponActive = active;
+    //    this.bullet = bullet;
+       
+    //}
 
     private int AssaultGunDamage(int bulletDamage)
     {

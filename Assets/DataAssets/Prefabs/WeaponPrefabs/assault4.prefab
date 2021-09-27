@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3c8f51c195dbb40bb57b455e5f8d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clipCount: 0
-  weaponActive: 0
-  assaultGunRate: 0
+  clipCount: 30
+  weaponActive: 1
+  assaultGunRate: 3
