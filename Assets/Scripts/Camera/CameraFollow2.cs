@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class CameraFollow2 : MonoBehaviour
 {
-    [SerializeField] Transform followTarget;
-    [SerializeField] Vector3 followOffset;
+    [SerializeField] Transform _followTarget;
+    [SerializeField] Vector3 _followOffset;
     
     [Range(0, 2)]
-    public float smoothTime;
+    [SerializeField]
+    private float smoothTime;
 
     private Vector3 velocity = Vector3.zero;
 
     void LateUpdate()
     {
-       var desiredPosition = followTarget.position + followOffset;
+       var desiredPosition = _followTarget.position + _followOffset;
        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
     }
 }

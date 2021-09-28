@@ -7,35 +7,41 @@ public class MyCharacterController : MonoBehaviour
     [SerializeField] private Transform targetForLook;
 
     [Range(1, 20)]
-    public float mooveSpeed = 5f;
+    [SerializeField]
+    private float mooveSpeed = 5f;
     [Range(1, 5)]
-    public float boostSpeedRate;
+    [SerializeField]
+    private float boostSpeedRate;
 
     void Update()
     {
-        Movement();
+        CharacterMove();
         LookAtTargetforPlayer(targetForLook);
     }
 
-    private void Movement()
+    private void CharacterMove()
     {
         float currentSpeed = mooveSpeed;
 
-        if (Input.GetAxis("BoostSpeed") != 0)
+        var boostAxis = Input.GetAxis("BoostSpeed");
+        var verticalAxis = Input.GetAxis("Vertical");
+        var horiontalAxis = Input.GetAxis("Horizontal");
+
+        if (boostAxis != 0)
         {
-            currentSpeed *= boostSpeedRate * Input.GetAxis("BoostSpeed");
+            currentSpeed *= boostSpeedRate * boostAxis;
         }
 
-        if (Input.GetAxis("Vertical") != 0)
+        if (verticalAxis != 0)
         {
-            // movement with transform
-            transform.Translate(Vector3.forward.normalized * Input.GetAxis("Vertical") * Time.deltaTime * currentSpeed, Space.World);
+            Vector3 toTranslate = Vector3.forward * verticalAxis * Time.deltaTime * currentSpeed;
+            transform.Translate(toTranslate, Space.World);
         }
 
-        if (Input.GetAxis("Horizontal") != 0)
+        if (horiontalAxis != 0)
         {
-            // movement with transform
-            transform.Translate(Vector3.right.normalized * Input.GetAxis("Horizontal") * Time.deltaTime * currentSpeed, Space.World);
+            Vector3 toTranslate = Vector3.right * horiontalAxis * Time.deltaTime * currentSpeed;
+            transform.Translate(toTranslate, Space.World);
         }
     }
 
@@ -43,6 +49,7 @@ public class MyCharacterController : MonoBehaviour
     { 
         Vector3 positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
+
         transform.LookAt(targetForLook);       
     }
 }

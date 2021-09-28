@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] Transform followTarget;
-    [SerializeField] Vector3 followOffset;
+    [SerializeField] private Transform _followTarget;
+    [SerializeField] private Vector3 _followOffset;
 
-    [SerializeField] Transform lookAtTarget;
-    [SerializeField] Vector3 lookAtOffset;
+    [SerializeField] private Transform _lookAtTarget;
+    [SerializeField] private Vector3 _lookAtOffset;
 
     [Range(0, 10)]
-    [SerializeField] float followSpeed;
+    [SerializeField]
+    private float _followSpeed;
 
     void LateUpdate()
     {
-        if (followTarget != null)
+        if (_followTarget != null)
         {
-            var desiredPosition = followTarget.position + followOffset;
-            var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.deltaTime);
+            var desiredPosition = _followTarget.position + _followOffset;
+            var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, _followSpeed * Time.deltaTime);
             transform.position = smoothedPosition;
         }
 
-        if (lookAtTarget != null)   transform.LookAt(lookAtTarget.position + lookAtOffset);
+        if (_lookAtTarget != null)   transform.LookAt(_lookAtTarget.position + _lookAtOffset);
     }
 }
