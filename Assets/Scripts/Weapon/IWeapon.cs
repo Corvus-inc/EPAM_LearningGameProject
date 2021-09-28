@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-interface IWeapon
+public interface IWeapon
 {
     void Shoot();
 }

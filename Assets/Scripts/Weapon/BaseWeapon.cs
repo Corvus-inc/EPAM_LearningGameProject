@@ -7,24 +7,30 @@ using UnityEngine;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {
-    public int clipCount;
+    [SerializeField] private int clipCount;
 
-    protected int forceRate;
-    public bool weaponActive;
-    protected BaseBullet bullet;
+    private bool _weaponActive;
 
-    public int ForceRate => forceRate;
-    public bool WeaponActive => weaponActive; 
+    protected int forceWeapon;
+    protected IBullet bullet;
 
-    //protected BaseWeapon(bool active)
-    //{
-    //    weaponActive = active;
-    //}
+    public int ClipCount => clipCount;
+    public int ForceWeapon => forceWeapon;
 
-
-    protected virtual int Damage(int forceRate, int forceBullet)
+    public bool WeaponActive 
     {
-        return forceRate + forceBullet;
+        get { return _weaponActive;}
+        set {_weaponActive = value;}
+    } 
+
+    public void AddBullet(IBullet bullet)
+    {
+        this.bullet = bullet;
+    }
+    protected virtual int DamageToBullet(IBullet bullet)
+    {
+        bullet.AddBulletDamage(forceWeapon);
+        return bullet.GetBulletDamage();
     }
 
     public abstract void Shoot();

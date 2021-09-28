@@ -8,11 +8,6 @@ public class AssaultBullet : BaseBullet
 
     private float speedBullet = 300f;//вынести в базовый
 
-    public AssaultBullet()
-    {
-        bulletDamage = 5;
-    }
-
     private void Awake()
     {
         saveParent = transform.parent;
@@ -20,26 +15,26 @@ public class AssaultBullet : BaseBullet
 
     private void Update()
     {
-        if (isFlying)
+        if (_isFlying)
         {
             transform.Translate(Vector3.up * Time.deltaTime * speedBullet);
 
         }
     }
 
-    public override IEnumerator ActiveBullet(float timeLive)
+    public override void ActivatingBullet()
     {
         gameObject.SetActive(true);
         transform.parent = null;
-        isFlying = true;
+        _isFlying = true;
+    }
+
+    public override IEnumerator DeactivatingBullet(float timeLive)
+    {
+        
         yield return new WaitForSeconds(timeLive);
         transform.SetParent(saveParent);
         gameObject.SetActive(false);
-        isFlying = false;
-    }
-
-    public override void MakeFinalDamage()
-    {
-        base.MakeFinalDamage();
+        _isFlying = false;
     }
 }

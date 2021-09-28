@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class AssaultGun : BaseWeapon
 {
-    [SerializeField] public int assaultGunRate = 5;
+    [SerializeField] private int assaultGunForce = 5;
 
     private void Start()
     {
-        forceRate = assaultGunRate;
+        forceWeapon = assaultGunForce;
     }
 
-    //public AssaultGun(bool active, BaseBullet bullet) : base(active:true) 
-    //{
-    //    forceRate = assaultGunRate;
-    //    weaponActive = active;
-    //    this.bullet = bullet;
-       
-    //}
-
-    private int AssaultGunDamage(int bulletDamage)
+    protected override int DamageToBullet(IBullet bullet)
     {
-        return Damage(forceRate, bulletDamage);
+        bullet.AddBulletDamage(assaultGunForce);
+        return bullet.GetBulletDamage();
+    }
+
+    private void AssaultGunDamageAddToBullet()
+    {
+         DamageToBullet(bullet);
     }
 
     public override void Shoot()
     {
-       var t = AssaultGunDamage(bullet.bulletDamage);
-        Debug.Log(t);
+        AssaultGunDamageAddToBullet();
+        bullet.ActivatingBullet();
     }
+    
 }

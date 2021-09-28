@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IBullet
+public interface IBullet
 {
-    IEnumerator ActiveBullet(float timeLive);
-    void MakeFinalDamage();
-    void AddBulletDamage(int damage);
+    float TimeLiveBullet { get;}
+    
+    int GetBulletDamage();
     void ReduceDamage(int damage);
+    void AddBulletDamage(int damage);
+    void ActivatingBullet();
+    IEnumerator DeactivatingBullet(float timeLive);
 }

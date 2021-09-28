@@ -59,7 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04b2071000788b45b5770cb5f73951d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletDamage: 5
+  _timeLiveBullet: 3
+  _bulletDamage: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1001 &703204450493737870
 PrefabInstance:
   m_ObjectHideFlags: 0

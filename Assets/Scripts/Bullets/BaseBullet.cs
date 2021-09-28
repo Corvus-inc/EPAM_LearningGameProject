@@ -4,30 +4,31 @@ using UnityEngine;
 
 public abstract class BaseBullet : MonoBehaviour, IBullet
 {
-    [SerializeField] public int bulletDamage;
+
+    [SerializeField] protected float _timeLiveBullet;
+    [SerializeField] protected int _bulletDamage;
     [SerializeField] private LayerMask layerMask;
 
-    protected bool isFlying = false;
+    protected bool _isFlying = false;
 
-    public bool IsFlying => isFlying;
+    public float TimeLiveBullet => _timeLiveBullet;
+    public bool IsFlying => _isFlying;
 
-    public virtual IEnumerator ActiveBullet(float timeLive)
+    public abstract void ActivatingBullet();
+    public abstract IEnumerator DeactivatingBullet(float timeLive);
+
+    public int GetBulletDamage()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public virtual void MakeFinalDamage()
-    {
-        throw new System.NotImplementedException();
+        return _bulletDamage;
     }
 
     public void AddBulletDamage(int damage)
     {
-        bulletDamage += damage;
+        _bulletDamage += damage;
     }
 
     public void ReduceDamage(int damage)
     {
-        bulletDamage -= damage;
+        _bulletDamage -= damage;
     }
 }
