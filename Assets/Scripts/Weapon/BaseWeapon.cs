@@ -8,10 +8,10 @@ using UnityEngine;
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField] private int clipCount;
-
+    [SerializeField] protected int forceWeapon;
     private bool _weaponActive;
 
-    protected int forceWeapon;
+    
     protected IBullet bullet;
 
     public int ClipCount => clipCount;
