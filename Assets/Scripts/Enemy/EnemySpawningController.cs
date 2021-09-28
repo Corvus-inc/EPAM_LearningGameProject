@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemySpawningController : MonoBehaviour
 {
-    [SerializeField] private int enemyCounter;
-    [SerializeField] private float coolDown;
-    [SerializeField] private GameObject enemy;
+    [SerializeField] private int _enemyCounter;
+    [SerializeField] private float _coolDown;
+    [SerializeField] private GameObject _enemy;
 
     void Start()
     {
@@ -15,11 +15,12 @@ public class EnemySpawningController : MonoBehaviour
 
     void CounterEnemyCheck()
     {
-        if (enemyCounter > 0) { 
-            var inst = Instantiate(enemy, transform.position, Quaternion.identity, transform);
-            inst.transform.localPosition = new Vector3(Random.Range(-10, 10), enemy.transform.position.y, Random.Range(-10, 10));
+        if (_enemyCounter > 0)
+        {
+            GameObject instEmemy = Instantiate(_enemy, transform.position, Quaternion.identity, transform);
+            instEmemy.transform.localPosition = new Vector3(Random.Range(-10, 10), _enemy.transform.position.y, Random.Range(-10, 10));
 
-            enemyCounter--;
+            _enemyCounter--;
         }
     }
 
@@ -31,6 +32,4 @@ public class EnemySpawningController : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
-
-
 }

@@ -4,45 +4,43 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask _layerMask;
 
-    private SphereCollider enemyTrigger;
-    private Transform target;
+    private SphereCollider _enemyTrigger;
+    private Transform _target;
 
     void Awake()
     {
-        enemyTrigger = GetComponent<SphereCollider>();
+        _enemyTrigger = GetComponent<SphereCollider>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (target != null)
+        if (_target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime);
-            transform.LookAt(target);
+            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime);
+            transform.LookAt(_target);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (CheckLayerMask(other.gameObject, layerMask))
+        if (CheckLayerMask(other.gameObject, _layerMask))
         {
-            target = other.transform;
+            _target = other.transform;
             //enemyTrigger.enabled = false;
             enabled = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        target = null;
+        _target = null;
     }
 
     private bool CheckLayerMask(GameObject obj, LayerMask layers)
     {
         if (((1 << obj.layer) & layers) != 0)
         {
-           
             return true;
         }
 
