@@ -6,8 +6,6 @@ public class AssaultBullet : BaseBullet
 {
     private Transform saveParent;
 
-    private float speedBullet = 300f;//вынести в базовый
-
     private void Awake()
     {
         saveParent = transform.parent;
@@ -18,7 +16,6 @@ public class AssaultBullet : BaseBullet
         if (_isFlying)
         {
             transform.Translate(Vector3.up * Time.deltaTime * speedBullet);
-
         }
     }
 
