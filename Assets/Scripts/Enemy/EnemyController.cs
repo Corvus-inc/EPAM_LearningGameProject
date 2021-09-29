@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private HealthBar _healsBarEnemy;
+    float size = 1;
 
     private SphereCollider _enemyTrigger;
     private Transform _target;
@@ -16,6 +18,10 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        _healsBarEnemy.SetColour(Color.red);
+        _healsBarEnemy.SetSize(size);
+        size -= 0.1f * Time.deltaTime;
+
         if (_target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime);
