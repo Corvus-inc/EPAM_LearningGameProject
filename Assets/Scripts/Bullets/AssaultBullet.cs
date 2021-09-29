@@ -15,7 +15,7 @@ public class AssaultBullet : BaseBullet
     {
         if (_isFlying)
         {
-            transform.Translate(Vector3.up * Time.deltaTime * speedBullet);
+            transform.Translate(Vector3.up * Time.deltaTime * _speedBullet);
         }
     }
 

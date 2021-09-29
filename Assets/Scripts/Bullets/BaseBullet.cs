@@ -5,13 +5,13 @@ using UnityEngine;
 public abstract class BaseBullet : MonoBehaviour, IBullet
 {
     [SerializeField] protected int _bulletDamage;
-    [SerializeField] protected float _timeLiveBullet;
-    [SerializeField] protected float bulletSpeed = 300f;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] protected float _lifeTimeBullet;
+    [SerializeField] protected float _speedBullet = 300f;
+    [SerializeField] private LayerMask _layerMask;
     
     protected bool _isFlying = false;
 
-    public float TimeLiveBullet => _timeLiveBullet;
+    public float TimeLiveBullet => _lifeTimeBullet;
     public bool IsFlying => _isFlying;
 
     public abstract void ActivatingBullet();
