@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private HealthBar _healsBarEnemy;
-    float size = 1;
+    [Range(0,1000)] [SerializeField] private int _startHealthEnemy;
 
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private HealthBar _healthBarEnemy;
+
+    private HealthSystem _healthSystem;
     private SphereCollider _enemyTrigger;
     private Transform _target;
 
@@ -16,12 +18,17 @@ public class EnemyController : MonoBehaviour
         _enemyTrigger = GetComponent<SphereCollider>();
     }
 
+    private void Start()
+    {
+        _healthSystem = new HealthSystem(_startHealthEnemy);
+        _healthBarEnemy.Setup(_healthSystem);
+        _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
+    }
+
     void Update()
     {
-        _healsBarEnemy.SetColour(Color.red);
-        _healsBarEnemy.SetSize(size);
-        size -= 0.1f * Time.deltaTime;
-
+        if (Input.GetKeyDown(KeyCode.Backspace)) _healthSystem.Damage(20);
+        if (Input.GetKeyDown(KeyCode.Space)) _healthSystem.Heal(20);
         if (_target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime);

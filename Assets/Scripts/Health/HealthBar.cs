@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar:MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     private Transform _bar;
     private Camera _eventCamera;
+    private HealthSystem _healthSystem;
 
     void Awake()
     {
@@ -16,6 +17,17 @@ public class HealthBar:MonoBehaviour
     {
         transform.LookAt(_eventCamera.transform);
         transform.Rotate(0, 180, 0);
+    }
+
+    public void Setup(HealthSystem healthSystem)
+    {
+        _healthSystem = healthSystem;
+        healthSystem.OnHealthChanged += HealthSystem_OnOnHealthChanged;
+    }
+
+    private void HealthSystem_OnOnHealthChanged(object sender, System.EventArgs e)
+    {
+        SetSize(_healthSystem.GetHealthPrecent());
     }
 
     public void SetSize(float sizeNormalized)
