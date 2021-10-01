@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2510288431695512873}
   - component: {fileID: 2841014361661087589}
   - component: {fileID: 5461865039692911500}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AssaultBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,11 +59,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04b2071000788b45b5770cb5f73951d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeLiveBullet: 3
   _bulletDamage: 5
-  layerMask:
+  _lifeTimeBullet: 0
+  _speedBullet: 300
+  _layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
 --- !u!1001 &703204450493737870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 1000013510172720, guid: ddf0187b9b9cef54bab5c9c49969758a, type: 3}
       propertyPath: m_Name
       value: Barrel_v2_single
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013510172720, guid: ddf0187b9b9cef54bab5c9c49969758a, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000010997587424, guid: ddf0187b9b9cef54bab5c9c49969758a, type: 3}
       propertyPath: m_RootOrder

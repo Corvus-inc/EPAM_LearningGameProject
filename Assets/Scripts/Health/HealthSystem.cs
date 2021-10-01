@@ -6,6 +6,7 @@ using UnityEngine;
 public class HealthSystem
 {
     public event EventHandler OnHealthChanged;
+    public event EventHandler OnHealthStateMin;
 
     private int _health;
     private int _healthMax;
@@ -32,8 +33,11 @@ public class HealthSystem
     {
         _health -= damageAmount;
 
-        if (_health < _healthMin) _health = 0;
-
+        if (_health < _healthMin)
+        {
+            _health = 0;
+            if (OnHealthStateMin != null) OnHealthStateMin(this, EventArgs.Empty);
+        }
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
     }
 

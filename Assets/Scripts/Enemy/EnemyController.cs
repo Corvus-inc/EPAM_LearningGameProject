@@ -6,7 +6,8 @@ public class EnemyController : MonoBehaviour
 {
     [Range(0,1000)] [SerializeField] private int _startHealthEnemy;
 
-    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private LayerMask _layerPlayer;
+    [SerializeField] private LayerMask _layerBullet;
     [SerializeField] private HealthBar _healthBarEnemy;
 
     private HealthSystem _healthSystem;
@@ -21,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         _healthSystem = new HealthSystem(_startHealthEnemy);
+        _healthSystem.OnHealthStateMin += EnemyDie;
         _healthBarEnemy.Setup(_healthSystem);
         _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
     }
@@ -36,9 +38,23 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (CheckLayerMask(other.gameObject, _layerMask))
+       bool check = CheckLayerMask(collision.gameObject, _layerBullet);
+        
+       if (check)
+        {
+            IBullet bullet = collision.gameObject.GetComponent<IBullet>();
+            int damage = bullet.GetBulletDamage();
+            _healthSystem.Damage(damage);
+            StopCoroutine(bullet.DeactivatingBullet(0));
+            StartCoroutine(bullet.DeactivatingBullet(0));
+        }    
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (CheckLayerMask(other.gameObject, _layerPlayer))
         {
             _target = other.transform;
             //enemyTrigger.enabled = false;
@@ -47,7 +63,6 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        _target = null;
     }
 
     private bool CheckLayerMask(GameObject obj, LayerMask layers)
@@ -58,5 +73,10 @@ public class EnemyController : MonoBehaviour
         }
 
         return false;
+    }
+     private void EnemyDie(object sender, System.EventArgs e)
+    {
+        _healthSystem.OnHealthStateMin -= EnemyDie;
+        Destroy(gameObject);
     }
 }
