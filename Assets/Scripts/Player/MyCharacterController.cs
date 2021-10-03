@@ -5,7 +5,12 @@ using UnityEngine;
 public class MyCharacterController : MonoBehaviour
 {
     [SerializeField] private Transform targetForLook;
+    [SerializeField] private HealthSystem _healthSystem;
+    [SerializeField] private LayerMask _layerEnemy;
 
+    [Range(0, 1000)]
+    [SerializeField]
+    private int HealthPlayer;
     [Range(1, 20)]
     [SerializeField]
     private float mooveSpeed = 5f;
@@ -13,10 +18,28 @@ public class MyCharacterController : MonoBehaviour
     [SerializeField]
     private float boostSpeedRate;
 
+    private void Start()
+    {
+        _healthSystem = new HealthSystem(HealthPlayer);
+    }
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Backspace))
+            _healthSystem.Damage(20);
+        if (Input.GetKeyDown(KeyCode.Space)) _healthSystem.Heal(20);
+
         CharacterMove();
         LookAtTargetforPlayer(targetForLook);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        bool check = CheckLayerMask(collision.gameObject, _layerEnemy);
+        if (check)
+        {
+            _healthSystem.Damage(20);
+        }
     }
 
     private void CharacterMove()
@@ -51,5 +74,20 @@ public class MyCharacterController : MonoBehaviour
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
 
         transform.LookAt(targetForLook);       
+    }
+    
+    public HealthSystem GetHealthSystem()
+    {
+        return _healthSystem;
+    }
+
+    private bool CheckLayerMask(GameObject obj, LayerMask layers) //For this method need creating service
+    {
+        if (((1 << obj.layer) & layers) != 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

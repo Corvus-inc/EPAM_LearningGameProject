@@ -1155,6 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetForLook: {fileID: 4530213877250091512}
+  HealthPlayer: 105
   mooveSpeed: 10
   boostSpeedRate: 2.57
 --- !u!1 &6102406257423225598

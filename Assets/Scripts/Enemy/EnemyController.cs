@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] private LayerMask _layerPlayer;
     [SerializeField] private LayerMask _layerBullet;
-    [SerializeField] private HealthBar _healthBarEnemy;
+    [SerializeField] private HealthBarEnemy _healthBarEnemy;
 
     private HealthSystem _healthSystem;
     private SphereCollider _enemyTrigger;
@@ -29,8 +29,6 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Backspace)) _healthSystem.Damage(20);
-        if (Input.GetKeyDown(KeyCode.Space)) _healthSystem.Heal(20);
         if (_target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime);
