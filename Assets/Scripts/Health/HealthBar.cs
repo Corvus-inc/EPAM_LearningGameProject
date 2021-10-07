@@ -24,9 +24,9 @@ public class HealthBar : MonoBehaviour
 
     public void SetSize(float sizeNormalized)
     {
-        //_bar.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeNormalized);
+        _bar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, sizeNormalized*_bar.rect.width);
 
-        _bar.localScale = new Vector3(sizeNormalized, _bar.localScale.y, _bar.localScale.z); // Why Bar on Canvas state invisible when Scale Z=0 !!!
+        //_bar.localScale = new Vector3(sizeNormalized, _bar.localScale.y, _bar.localScale.z); // Why Bar on Canvas state invisible when Scale Z=0 !!!
     }
     
     public void SetColour(Color color)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Range(0,1000)] [SerializeField] private int _startHealthEnemy;
+    [Range(0,10)] [SerializeField] private float _speedEnemy;
 
     [SerializeField] private LayerMask _layerPlayer;
     [SerializeField] private LayerMask _layerBullet;
@@ -31,7 +32,7 @@ public class Enemy : MonoBehaviour
     {
         if (_target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime* _speedEnemy);
             transform.LookAt(_target);
         }
     }

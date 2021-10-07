@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletDamage: 5
   _lifeTimeBullet: 3
-  _speedBullet: 1
+  _speedBullet: 30
 --- !u!1001 &703204450493737870
 PrefabInstance:
   m_ObjectHideFlags: 0
