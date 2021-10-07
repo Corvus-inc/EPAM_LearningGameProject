@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenPlayerController : MonoBehaviour
+public class UIPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject Player;//!warning
 
@@ -14,7 +14,7 @@ public class ScreenPlayerController : MonoBehaviour
 
     private void Start()
     {
-        HealthSystem _healthSystem = Player.GetComponent<MyCharacterController>().GetHealthSystem();//!warning
+        HealthSystem _healthSystem = Player.GetComponent<PlayerCharacter>().GetHealthSystem();//!warning
 
         _healthBar.Setup(_healthSystem);//how to link system ref //!warning
         _healthBar.SetColour(Color.green);

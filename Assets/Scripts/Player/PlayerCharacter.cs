@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyCharacterController : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour
 {
     [SerializeField] private Transform targetForLook;
     [SerializeField] private HealthSystem _healthSystem;

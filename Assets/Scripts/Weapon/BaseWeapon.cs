@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
-{
-    [SerializeField] private int clipCount;
+{   
+    [SerializeField] protected int clipCount;
     [SerializeField] protected int forceWeapon;
+
+    [SerializeField] private float _rateScale;
+    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private Transform _pointPositionWeapon;
+   
     private bool _weaponActive;
 
-    
     protected IBullet bullet;
 
     public int ClipCount => clipCount;
@@ -35,5 +39,25 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
 
     public abstract void Shoot();
 
+
+    public Vector3 GetSpawnBulletPosition()
+    {
+        return _spawnBullet.position;
+    }
+
+    public Quaternion GetSpawnBulletLocalRotation()
+    {
+        return _spawnBullet.localRotation;
+    }
+    
+    public Vector3 GetPointLocalPositionWeapon()
+    {
+        return _pointPositionWeapon.localPosition;
+    }
+
+    public Vector3 GetRateScale()
+    {
+        return new Vector3(_rateScale, _rateScale, _rateScale);
+    }
 }
 

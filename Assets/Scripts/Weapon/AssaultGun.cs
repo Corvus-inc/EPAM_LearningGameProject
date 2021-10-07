@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssaultGun : BaseWeapon
+public class AssaultGun : BaseWeapon, IWeapon
 {
     protected override int DamageToBullet(IBullet bullet)
     {
@@ -20,5 +20,4 @@ public class AssaultGun : BaseWeapon
         DamageAddToBullet();
         bullet.ActivatingBullet();
     }
-
 }

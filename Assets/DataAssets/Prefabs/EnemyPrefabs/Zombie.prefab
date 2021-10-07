@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 7496082630642398528}
   - component: {fileID: 581332888240990435}
   m_Layer: 0
-  m_Name: Zombie2
+  m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2191,6 +2191,10 @@ PrefabInstance:
     - target: {fileID: 3298189177092793582, guid: b6fe0ce57f3a89e41b989a24d659c449, type: 3}
       propertyPath: m_SizeDelta.y
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3298189177092793582, guid: b6fe0ce57f3a89e41b989a24d659c449, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3298189177092793582, guid: b6fe0ce57f3a89e41b989a24d659c449, type: 3}
       propertyPath: m_AnchoredPosition.x

@@ -7,15 +7,21 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     [SerializeField] protected int _bulletDamage;
     [SerializeField] protected float _lifeTimeBullet;
     [SerializeField] protected float _speedBullet = 300f;
-    [SerializeField] private LayerMask _layerMask;
     
     protected bool _isFlying = false;
+
+    private int _startBulletDamage;
 
     public float TimeLiveBullet => _lifeTimeBullet;
     public bool IsFlying => _isFlying;
 
     public abstract void ActivatingBullet();
     public abstract IEnumerator DeactivatingBullet(float timeLive);
+
+    private void Start()
+    {
+        _startBulletDamage = _bulletDamage;
+    }
 
     public int GetBulletDamage()
     {
@@ -27,8 +33,8 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
         _bulletDamage += damage;
     }
 
-    public void ReduceDamage(int damage)
+    public void ReduceDamage()
     {
-        _bulletDamage -= damage;
+        _bulletDamage = _startBulletDamage;
     }
 }

@@ -4,25 +4,40 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private BaseWeapon _gun;
-    [SerializeField] private BaseBullet _bullet;
+    [SerializeField] private BaseWeapon _gunPrefab;
+    [SerializeField] private BaseBullet _bulletPrefab;
     [SerializeField] private Transform _poolBullet;
-    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private Transform _spawnWeapon;
 
+    private BaseWeapon _gunCurrent;
+    private Vector3 _spawnBulletPosition;
+    private Quaternion _spawnBulletRotation;
+   
     private List<BaseBullet> _listBullets;
     private int _indexBullet = 0;
 
     private void Awake()
     {
-        _gun.WeaponActive = true;
-        _listBullets = CreateClip(_bullet);
+        _gunCurrent = Instantiate(_gunPrefab, _spawnWeapon);
+
+       
+        _spawnWeapon.localScale = _gunCurrent.GetRateScale();
+        //Need correctly write this calculated
+        _gunCurrent.transform.localPosition = new Vector3(
+            _gunCurrent.transform.localPosition.x - _gunCurrent.GetPointLocalPositionWeapon().x,
+            _gunCurrent.transform.localPosition.y - _gunCurrent.GetPointLocalPositionWeapon().y,
+            _gunCurrent.transform.localPosition.z - _gunCurrent.GetPointLocalPositionWeapon().z);
+
+        _gunCurrent.WeaponActive = true;
+
+        _listBullets = CreateClip(_bulletPrefab);
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (_indexBullet < _gun.ClipCount-1) _indexBullet++;
+            if (_indexBullet < _gunCurrent.ClipCount-1) _indexBullet++;
             else _indexBullet = 0;
             LetItFly(_indexBullet);
         }
@@ -30,37 +45,37 @@ public class WeaponController : MonoBehaviour
 
     private void LetItFly(int indexBullet)
     {
-        if (_gun.WeaponActive)
+        if (_gunCurrent.WeaponActive)
         {
             //Add check on Null for List
             BaseBullet bullet = _listBullets[indexBullet];
             
             if (!bullet.IsFlying)
             {   
-                _gun.AddBullet(bullet);
-                _gun.Shoot();
+                _gunCurrent.AddBullet(bullet);
+                ResetBulletToSpawn(bullet);
+                _gunCurrent.Shoot();
                 StartCoroutine(bullet.DeactivatingBullet(bullet.TimeLiveBullet));
-                StartCoroutine(ResetBulletToSpawn(bullet));
             }
         }
     }
 
-    private IEnumerator ResetBulletToSpawn(BaseBullet bullet)
+    private void  ResetBulletToSpawn(BaseBullet bullet)
     { 
-        yield return new WaitForSeconds(bullet.TimeLiveBullet);
+        //yield return new WaitForSeconds(0);
        
-        bullet.ReduceDamage(_gun.ForceWeapon);
-        bullet.transform.position = _spawnBullet.transform.position;
-        bullet.transform.rotation = _spawnBullet.transform.rotation;
-        bullet.gameObject.SetActive(false);
+        bullet.ReduceDamage();
+        bullet.transform.position = _gunCurrent.GetSpawnBulletPosition();
+        bullet.transform.localRotation = _gunCurrent.GetSpawnBulletLocalRotation();
+        //bullet.gameObject.SetActive(false);
     }
 
     private List<BaseBullet> CreateClip(BaseBullet bullet)
     {
-        List<BaseBullet> listBullets = new List<BaseBullet>(_gun.ClipCount);
-        for (int i = 0; i < _gun.ClipCount; i++)
+        List<BaseBullet> listBullets = new List<BaseBullet>(_gunCurrent.ClipCount);
+        for (int i = 0; i < _gunCurrent.ClipCount; i++)
         {
-            listBullets.Add(Instantiate(bullet, _spawnBullet.transform.position, _spawnBullet.transform.rotation, _poolBullet)); 
+            listBullets.Add(Instantiate(bullet, _poolBullet)); 
         }
 
         return listBullets;
