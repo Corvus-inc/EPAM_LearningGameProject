@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 7832164600766570263}
   - component: {fileID: 2048442851194534884}
   - component: {fileID: 7496082630642398528}
-  - component: {fileID: 581332888240990435}
+  - component: {fileID: 7821355853311804580}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -510,7 +510,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   _healthBarEnemy: {fileID: 494336672195344416}
---- !u!54 &581332888240990435
+--- !u!54 &7821355853311804580
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -524,7 +524,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!1 &2057808353243881084
 GameObject:

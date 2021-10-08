@@ -10,11 +10,10 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Transform _spawnWeapon;
 
     private BaseWeapon _gunCurrent;
-    private Vector3 _spawnBulletPosition;
-    private Quaternion _spawnBulletRotation;
-   
     private List<BaseBullet> _listBullets;
     private int _indexBullet = 0;
+
+    public int BulletCountInTheClip;
 
     private void Awake()
     {
@@ -30,13 +29,18 @@ public class WeaponController : MonoBehaviour
         _gunCurrent.WeaponActive = true;
 
         _listBullets = CreateClip(_bulletPrefab);
+        BulletCountInTheClip = _listBullets.Count;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&& BulletCountInTheClip > 0)
         {
-            if (_indexBullet < _gunCurrent.ClipCount-1) _indexBullet++;
+            if (_indexBullet < _gunPrefab.ClipCount - 1)
+            {
+                BulletCountInTheClip--;
+                _indexBullet++;
+            }
             else _indexBullet = 0;
             LetItFly(_indexBullet);
         }

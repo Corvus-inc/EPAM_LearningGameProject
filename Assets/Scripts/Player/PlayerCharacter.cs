@@ -6,19 +6,15 @@ public class PlayerCharacter : MonoBehaviour
 {
     [SerializeField] private Transform targetForLook;
     [SerializeField] private LayerMask _layerEnemy;
+    [SerializeField] private WeaponController _playerWeapon;
 
-    [Range(0, 1000)]
-    [SerializeField]
-    private int _healthPlayer;
-    [Range(1, 20)]
-    [SerializeField]
-    private float mooveSpeed = 5f;
-    [Range(1, 5)]
-    [SerializeField]
-    private float boostSpeedRate;
+    [Range(0, 1000)] [SerializeField] private int _healthPlayer;
+    [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
+    [Range(1, 5)] [SerializeField] private float boostSpeedRate;
     
     private HealthSystem _healthSystem;
 
+    public int PlayerClip => _playerWeapon.BulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
 
     void Update()

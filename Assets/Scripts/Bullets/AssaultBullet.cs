@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AssaultBullet : BaseBullet
 {
+    //To Base
     private Transform saveParent;
 
     private void Awake()
     {
+        //To Base
         saveParent = transform.parent;
     }
 
@@ -26,6 +28,7 @@ public class AssaultBullet : BaseBullet
         _isFlying = true;
     }
 
+    //To Base
     public override IEnumerator DeactivatingBullet(float timeLive)
     {
         
