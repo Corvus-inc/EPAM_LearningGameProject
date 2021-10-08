@@ -7,7 +7,7 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     [SerializeField] protected int _bulletDamage;
     [SerializeField] protected float _lifeTimeBullet;
     [SerializeField] protected float _speedBullet = 300f;
-    
+
     protected bool _isFlying = false;
 
     private int _startBulletDamage;
@@ -18,9 +18,9 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     public abstract void ActivatingBullet();
     public abstract IEnumerator DeactivatingBullet(float timeLive);
 
-    private void Start()
+    private void Awake()
     {
-        _startBulletDamage = _bulletDamage;
+        ApplyStartBulletDamage();
     }
 
     public int GetBulletDamage()
@@ -36,5 +36,16 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     public void ReduceDamage()
     {
         _bulletDamage = _startBulletDamage;
+    }
+
+    private void ApplyStartBulletDamage()
+    {
+        if (!gameObject)
+        {
+            gameObject.SetActive(true);
+            _startBulletDamage = _bulletDamage;
+            gameObject.SetActive(false);
+        }
+        else _startBulletDamage = _bulletDamage;
     }
 }

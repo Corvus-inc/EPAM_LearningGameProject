@@ -5,30 +5,29 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour
 {
     [SerializeField] private Transform targetForLook;
-    [SerializeField] private HealthSystem _healthSystem;
     [SerializeField] private LayerMask _layerEnemy;
 
     [Range(0, 1000)]
     [SerializeField]
-    private int HealthPlayer;
+    private int _healthPlayer;
     [Range(1, 20)]
     [SerializeField]
     private float mooveSpeed = 5f;
     [Range(1, 5)]
     [SerializeField]
     private float boostSpeedRate;
+    
+    private HealthSystem _healthSystem;
 
-    private void Start()
-    {
-        _healthSystem = new HealthSystem(HealthPlayer);
-    }
+    public int HealthPlayer => _healthPlayer;
 
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
             _healthSystem.Damage(20);
         if (Input.GetKeyDown(KeyCode.Space)) _healthSystem.Heal(20);
-
+#endif
         CharacterMove();
         LookAtTargetforPlayer(targetForLook);
     }
@@ -76,11 +75,6 @@ public class PlayerCharacter : MonoBehaviour
         transform.LookAt(targetForLook);       
     }
     
-    public HealthSystem GetHealthSystem()
-    {
-        return _healthSystem;
-    }
-
     private bool CheckLayerMask(GameObject obj, LayerMask layers) //For this method need creating service
     {
         if (((1 << obj.layer) & layers) != 0)
@@ -89,5 +83,15 @@ public class PlayerCharacter : MonoBehaviour
         }
 
         return false;
+    }
+    
+    public HealthSystem GetHealthSystem()
+    {
+        return _healthSystem;
+    }
+
+    public void SetHealthSystem(HealthSystem healthSystem)
+    {
+        _healthSystem = healthSystem;
     }
 }

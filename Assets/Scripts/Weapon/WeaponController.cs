@@ -20,7 +20,6 @@ public class WeaponController : MonoBehaviour
     {
         _gunCurrent = Instantiate(_gunPrefab, _spawnWeapon);
 
-       
         _spawnWeapon.localScale = _gunCurrent.GetRateScale();
         //Need correctly write this calculated
         _gunCurrent.transform.localPosition = new Vector3(
@@ -61,13 +60,10 @@ public class WeaponController : MonoBehaviour
     }
 
     private void  ResetBulletToSpawn(BaseBullet bullet)
-    { 
-        //yield return new WaitForSeconds(0);
-       
+    {
         bullet.ReduceDamage();
         bullet.transform.position = _gunCurrent.GetSpawnBulletPosition();
         bullet.transform.localRotation = _gunCurrent.GetSpawnBulletLocalRotation();
-        //bullet.gameObject.SetActive(false);
     }
 
     private List<BaseBullet> CreateClip(BaseBullet bullet)

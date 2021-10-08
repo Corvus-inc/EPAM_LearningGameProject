@@ -12,12 +12,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private HealthBarEnemy _healthBarEnemy;
 
     private HealthSystem _healthSystem;
-    private SphereCollider _enemyTrigger;
+    //private SphereCollider _enemyTrigger;
     private Transform _target;
 
     void Awake()
     {
-        _enemyTrigger = GetComponent<SphereCollider>();
+        //_enemyTrigger = GetComponent<SphereCollider>();
     }
 
     private void Start()
