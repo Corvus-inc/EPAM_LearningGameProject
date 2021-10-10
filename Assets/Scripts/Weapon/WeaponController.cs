@@ -32,7 +32,7 @@ public class WeaponController : MonoBehaviour
         BulletCountInTheClip = _listBullets.Count;
     }
 
-    void Update()
+    void  FixedUpdate()
     {
         if (Input.GetMouseButtonDown(0)&& BulletCountInTheClip > 0)
         {

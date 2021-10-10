@@ -17,7 +17,7 @@ public class PlayerCharacter : MonoBehaviour
     public int PlayerClip => _playerWeapon.BulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
 
-    void Update()
+    void FixedUpdate()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -26,6 +26,17 @@ public class PlayerCharacter : MonoBehaviour
 #endif
         CharacterMove();
         LookAtTargetforPlayer(targetForLook);
+    }
+
+    private void Start()
+    {
+        _healthSystem.OnHealthStateMin += PlayerDie;
+    }
+
+    private void PlayerDie(object sender, System.EventArgs e)
+    {
+        _healthSystem.OnHealthStateMin -= PlayerDie;
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)

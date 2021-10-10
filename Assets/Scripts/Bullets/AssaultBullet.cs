@@ -13,7 +13,7 @@ public class AssaultBullet : BaseBullet
         saveParent = transform.parent;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_isFlying)
         {
