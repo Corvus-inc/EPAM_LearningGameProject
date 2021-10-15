@@ -2,17 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool gameIsPaused = false;
     public GameObject UIMenu;
+
+    private bool GameIsPaused
+    {
+        get
+        {
+            return GameManager.gameIsPaused;
+        }
+        set
+        {
+            GameManager.gameIsPaused = value;
+        }
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (gameIsPaused)
+            if (GameIsPaused)
             {
                 Resume();
             }
@@ -26,14 +38,14 @@ public class PauseMenu : MonoBehaviour
     {
         UIMenu.SetActive(true);
         Time.timeScale = 0f;
-        gameIsPaused = true;
+        GameIsPaused = true;
     }
 
     public void Resume()
     {
         UIMenu.SetActive(false);
         Time.timeScale = 1f;
-        gameIsPaused = false;
+        GameIsPaused = false;
     }
 
     public void Restart()

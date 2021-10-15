@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static bool gameIsPaused = false;
+
     private static bool gameHasEnded = false;
 
     private string _nameStartGameScene = "MainScene";

@@ -32,9 +32,9 @@ public class WeaponController : MonoBehaviour
         BulletCountInTheClip = _listBullets.Count;
     }
 
-    void  FixedUpdate()
+    void  Update()
     {
-        if (Input.GetMouseButtonDown(0)&& BulletCountInTheClip > 0)
+        if (Input.GetMouseButtonDown(0)&& BulletCountInTheClip > 0 && !GameManager.gameIsPaused)
         {
             if (_indexBullet < _gunPrefab.ClipCount - 1)
             {
