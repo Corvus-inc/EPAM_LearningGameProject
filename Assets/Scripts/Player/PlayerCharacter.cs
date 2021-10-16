@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
@@ -37,8 +38,14 @@ public class PlayerCharacter : MonoBehaviour
     {
         _healthSystem.OnHealthStateMin -= PlayerDie;
         gameObject.SetActive(false);
+        Invoke(nameof(MessageWhenDie),0);
+        GameManager.Restart();
     }
 
+    private void MessageWhenDie()
+    {
+        Debug.Log("PlayerDie. Restart.");
+    }
     private void OnCollisionEnter(Collision collision)
     {
         bool check = CheckLayerMask(collision.gameObject, _layerEnemy);

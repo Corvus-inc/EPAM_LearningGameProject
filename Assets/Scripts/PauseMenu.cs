@@ -78,7 +78,7 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartInMenu()
     {
-        _gameManager.Restart();
+        GameManager.Restart();
         GameManager.Resume();
     }
 

@@ -19,16 +19,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(_nameStartGameScene);
     }
 
-    public void EndGame()
+    public static void EndGame()
     {
-        if(gameHasEnded == false)
-        {
-            gameHasEnded = true;
-            Invoke("Restart", restartDelay);
-        }
+        if (gameHasEnded != false) return;
+        gameHasEnded = true;
+        Restart(); 
     }
 
-    public void Restart()
+    public static void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
