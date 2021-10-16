@@ -1,65 +1,97 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject UIMenu;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField][FormerlySerializedAs("UIMenu")] private GameObject uiMenu;
+    [SerializeField][FormerlySerializedAs("UIPause")] private GameObject uiPause;
 
-    private bool GameIsPaused
+    private string _nameMainMenuScene = "";
+    private bool isActiveMenuPause = false;
+    private bool isActivePause = false;
+    private static bool GameIsPaused
     {
-        get
-        {
-            return GameManager.gameIsPaused;
-        }
-        set
-        {
-            GameManager.gameIsPaused = value;
-        }
+        get => GameManager.gameIsPaused;
+        set => GameManager.gameIsPaused = value;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(!isActivePause)
+        IsActiveMenuPause();
+        if(!isActiveMenuPause)
+        IsActivePause();
+    }
+
+    
+    private void IsActiveMenuPause()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        if (GameIsPaused)
         {
-            if (GameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
+            ResumeInMenu();
+            isActiveMenuPause = false;
+        }
+        else
+        {
+            PauseInMenu();
+            isActiveMenuPause = true;
         }
     }
-    private void Pause()
+    private void IsActivePause()
     {
-        UIMenu.SetActive(true);
-        Time.timeScale = 0f;
-        GameIsPaused = true;
+        if (!Input.GetKeyDown(KeyCode.P)) return;
+        if (GameIsPaused)
+        {
+            PauseOff();
+            isActivePause = false;
+        }
+        else
+        {
+            PauseOn();
+            isActivePause = true;
+        }
+    }
+    private void PauseOn()
+    {
+        uiPause.SetActive(true);
+        GameManager.Pause();
+    }
+    private void PauseOff()
+    {
+        uiPause.SetActive(false);
+        GameManager.Resume();
+    }
+    private void PauseInMenu()
+    {
+        uiMenu.SetActive(true);
+        GameManager.Pause();
     }
 
-    public void Resume()
+    private void ResumeInMenu()
     {
-        UIMenu.SetActive(false);
-        Time.timeScale = 1f;
-        GameIsPaused = false;
+        uiMenu.SetActive(false);
+        GameManager.Resume();
     }
 
-    public void Restart()
+    public void RestartInMenu()
     {
-
+        _gameManager.Restart();
+        GameManager.Resume();
     }
 
-    public void LoadMenu()
+    public void LoadMainMenu()
     {
-
+        if (!string.IsNullOrEmpty(_nameMainMenuScene))
+        {
+            SceneManager.LoadScene(_nameMainMenuScene);
+        }
     }
 
-    public void QuitGame()
+    public void QuitGameMenu()
     {
-
+        _gameManager.QuitGame();
     }
 }

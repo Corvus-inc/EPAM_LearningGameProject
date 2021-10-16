@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private static bool gameHasEnded = false;
 
-    private string _nameStartGameScene = "MainScene";
+    private const string _nameStartGameScene = "MainScene";
 
     public float restartDelay = 1f;
 
@@ -31,5 +31,27 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
+    }
+    public static void Pause()
+    {
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+    }
+
+    public static void Resume()
+    {
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        
     }
 }
