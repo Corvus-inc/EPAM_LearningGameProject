@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField][FormerlySerializedAs("UIMenu")] private GameObject uiMenu;
     [SerializeField][FormerlySerializedAs("UIPause")] private GameObject uiPause;
 
-    private string _nameMainMenuScene = "";
+    private string _nameMainMenuScene = "MainMenuScene";
     private bool isActiveMenuPause = false;
     private bool isActivePause = false;
     private static bool GameIsPaused
@@ -79,13 +79,13 @@ public class PauseMenu : MonoBehaviour
     public void RestartInMenu()
     {
         GameManager.Restart();
-        GameManager.Resume();
     }
 
     public void LoadMainMenu()
     {
         if (!string.IsNullOrEmpty(_nameMainMenuScene))
         {
+            GameManager.Resume();
             SceneManager.LoadScene(_nameMainMenuScene);
         }
     }

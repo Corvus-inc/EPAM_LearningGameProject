@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(_nameStartGameScene);
+        Resume();
     }
 
     public static void EndGame()
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     public static void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Resume();
     }
 
     public void QuitGame()

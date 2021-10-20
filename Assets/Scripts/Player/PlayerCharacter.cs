@@ -39,7 +39,7 @@ public class PlayerCharacter : MonoBehaviour
         _healthSystem.OnHealthStateMin -= PlayerDie;
         gameObject.SetActive(false);
         Invoke(nameof(MessageWhenDie),0);
-        GameManager.Restart();
+        GameManager.EndGame();
     }
 
     private void MessageWhenDie()
