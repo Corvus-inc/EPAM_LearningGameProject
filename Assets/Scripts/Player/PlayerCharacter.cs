@@ -11,11 +11,15 @@ public class PlayerCharacter : MonoBehaviour
     [Range(0, 1000)] [SerializeField] private int _healthPlayer;
     [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
     [Range(1, 5)] [SerializeField] private float boostSpeedRate;
-    
+
+    private StatsSystem _statsSystem;
     private HealthSystem _healthSystem;
+    private float _timeBoostSpeed = 2f;
 
     public int PlayerClip => _playerWeapon.BulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
+    public float MooveSpeed => mooveSpeed;
+    public float timeBoostSpeed => _timeBoostSpeed;
 
     void FixedUpdate()
     {
@@ -31,6 +35,7 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         _healthSystem.OnHealthStateMin += PlayerDie;
+        
     }
 
     private void PlayerDie(object sender, System.EventArgs e)
@@ -100,5 +105,10 @@ public class PlayerCharacter : MonoBehaviour
     public void SetHealthSystem(HealthSystem healthSystem)
     {
         _healthSystem = healthSystem;
+    }
+    
+    public void SetStatsSystem(StatsSystem statsSystem)
+    {
+        _statsSystem = statsSystem;
     }
 }
