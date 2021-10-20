@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private WeaponController _playerWeapon;
 
     [Range(0, 1000)] [SerializeField] private int _healthPlayer;
-    [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
-    [Range(1, 5)] [SerializeField] private float boostSpeedRate;
+    [Range(1, 20)] [SerializeField] private float _mooveSpeed = 5f;
+    [Range(1, 5)] [SerializeField] private float _boostSpeedRate;
 
     private StatsSystem _statsSystem;
     private HealthSystem _healthSystem;
@@ -18,8 +19,8 @@ public class PlayerCharacter : MonoBehaviour
 
     public int PlayerClip => _playerWeapon.BulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
-    public float MooveSpeed => mooveSpeed;
-    public float timeBoostSpeed => _timeBoostSpeed;
+    public float MooveSpeed => _mooveSpeed;
+    public float TimeBoostSpeed => _timeBoostSpeed;
 
     void FixedUpdate()
     {
@@ -35,9 +36,17 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         _healthSystem.OnHealthStateMin += PlayerDie;
-        
+
+        InitPlayerStats();
     }
 
+    private void InitPlayerStats()
+    {
+        _healthPlayer = _statsSystem.Health;
+        _mooveSpeed = _statsSystem.Speed;
+        _timeBoostSpeed = _statsSystem.TimeBoostSpeedState;
+    }
+    
     private void PlayerDie(object sender, System.EventArgs e)
     {
         _healthSystem.OnHealthStateMin -= PlayerDie;
@@ -55,7 +64,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void CharacterMove()
     {
-        float currentSpeed = mooveSpeed;
+        float currentSpeed = _mooveSpeed;
 
         var boostAxis = Input.GetAxis("BoostSpeed");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -63,7 +72,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (boostAxis != 0)
         {
-            currentSpeed *= boostSpeedRate * boostAxis;
+            currentSpeed *= _boostSpeedRate * boostAxis;
         }
 
         if (verticalAxis != 0)
