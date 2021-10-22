@@ -9,18 +9,10 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private LayerMask _layerEnemy;
     [SerializeField] private WeaponController _playerWeapon;
 
-    [Range(0, 1000)] [SerializeField] private int _healthPlayer;
-    [Range(1, 20)] [SerializeField] private float _mooveSpeed = 5f;
-    [Range(1, 5)] [SerializeField] private float _boostSpeedRate;
-
     private StatsSystem _statsSystem;
     private HealthSystem _healthSystem;
-    private float _timeBoostSpeed = 2f;
 
     public int PlayerClip => _playerWeapon.BulletCountInTheClip;
-    public int HealthPlayer => _healthPlayer;
-    public float MooveSpeed => _mooveSpeed;
-    public float TimeBoostSpeed => _timeBoostSpeed;
 
     void FixedUpdate()
     {
@@ -36,16 +28,8 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         _healthSystem.OnHealthStateMin += PlayerDie;
-
-        InitPlayerStats();
     }
 
-    private void InitPlayerStats()
-    {
-        _healthPlayer = _statsSystem.Health;
-        _mooveSpeed = _statsSystem.Speed;
-        _timeBoostSpeed = _statsSystem.TimeBoostSpeedState;
-    }
     
     private void PlayerDie(object sender, System.EventArgs e)
     {
@@ -64,7 +48,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void CharacterMove()
     {
-        float currentSpeed = _mooveSpeed;
+        float currentSpeed = _statsSystem.Speed;
 
         var boostAxis = Input.GetAxis("BoostSpeed");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -72,7 +56,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (boostAxis != 0)
         {
-            currentSpeed *= _boostSpeedRate * boostAxis;
+            currentSpeed *= _statsSystem.BoostSpeedRate * boostAxis;
         }
 
         if (verticalAxis != 0)
