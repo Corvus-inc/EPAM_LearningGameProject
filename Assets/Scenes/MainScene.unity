@@ -923,6 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6bd1cae3e62364a81cf1d409bc71c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameState: {fileID: 1648993238}
   _player: {fileID: 522989009}
   _playerUIHealthBar: {fileID: 319070862}
   _playerIUClip: {fileID: 1760246822}
@@ -1259,7 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2f8f476114b8649b821e8119b29b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameManager: {fileID: 1648993238}
+  _gameState: {fileID: 1648993238}
   uiMenu: {fileID: 1279411225}
   uiPause: {fileID: 1816880327}
 --- !u!1 &1080321288
@@ -2084,7 +2085,7 @@ GameObject:
   - component: {fileID: 1648993237}
   - component: {fileID: 1648993238}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
