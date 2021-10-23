@@ -14,6 +14,7 @@ public class PlayerCharacter : MonoBehaviour
     [Range(1, 5)] [SerializeField] private float boostSpeedRate;
     
     private HealthSystem _healthSystem;
+    private GameState _gameState;
 
     public int PlayerClip => _playerWeapon.BulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
@@ -39,7 +40,7 @@ public class PlayerCharacter : MonoBehaviour
         _healthSystem.OnHealthStateMin -= PlayerDie;
         gameObject.SetActive(false);
         Invoke(nameof(MessageWhenDie),0);
-        GameManager.EndGame();
+        _gameState.EndGame();
     }
 
     private void MessageWhenDie()
@@ -107,5 +108,10 @@ public class PlayerCharacter : MonoBehaviour
     public void SetHealthSystem(HealthSystem healthSystem)
     {
         _healthSystem = healthSystem;
+    }
+
+    public void SetGameState(GameState gameState)
+    {
+        _gameState = gameState; 
     }
 }

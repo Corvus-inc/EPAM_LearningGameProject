@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameState : MonoBehaviour
 {
     public static bool gameIsPaused = false;
 
@@ -20,14 +20,14 @@ public class GameManager : MonoBehaviour
         Resume();
     }
 
-    public static void EndGame()
+    public void EndGame()
     {
         if (gameHasEnded != false) return;
         gameHasEnded = true;
         Restart(); 
     }
 
-    public static void Restart()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Resume();
@@ -42,13 +42,13 @@ public class GameManager : MonoBehaviour
 #endif
 
     }
-    public static void Pause()
+    public void Pause()
     {
         Time.timeScale = 0f;
         gameIsPaused = true;
     }
 
-    public static void Resume()
+    public void Resume()
     {
         Time.timeScale = 1f;
         gameIsPaused = false;

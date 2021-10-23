@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Starter : MonoBehaviour
 {
+    [SerializeField] private GameState _gameState;
     [SerializeField] private PlayerCharacter _player;
     [SerializeField] private HealthBar _playerUIHealthBar;
     [SerializeField] private TMP_Text _playerIUClip;
@@ -13,6 +14,7 @@ public class Starter : MonoBehaviour
 
     private void Awake()
     {
+        _player.SetGameState(_gameState);
         _palyerHealthSystem = new HealthSystem(_player.HealthPlayer);
         _player.SetHealthSystem(_palyerHealthSystem);
         _playerUIHealthBar.Setup(_palyerHealthSystem);

@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private GameState _gameState;
     [SerializeField][FormerlySerializedAs("UIMenu")] private GameObject uiMenu;
     [SerializeField][FormerlySerializedAs("UIPause")] private GameObject uiPause;
 
@@ -13,8 +13,8 @@ public class PauseMenu : MonoBehaviour
     private bool isActivePause = false;
     private static bool GameIsPaused
     {
-        get => GameManager.gameIsPaused;
-        set => GameManager.gameIsPaused = value;
+        get => GameState.gameIsPaused;
+        set => GameState.gameIsPaused = value;
     }
 
     void Update()
@@ -57,41 +57,41 @@ public class PauseMenu : MonoBehaviour
     private void PauseOn()
     {
         uiPause.SetActive(true);
-        GameManager.Pause();
+        _gameState.Pause();
     }
     private void PauseOff()
     {
         uiPause.SetActive(false);
-        GameManager.Resume();
+        _gameState.Resume();
     }
     private void PauseInMenu()
     {
         uiMenu.SetActive(true);
-        GameManager.Pause();
+        _gameState.Pause();
     }
 
     private void ResumeInMenu()
     {
         uiMenu.SetActive(false);
-        GameManager.Resume();
+        _gameState.Resume();
     }
 
     public void RestartInMenu()
     {
-        GameManager.Restart();
+        _gameState.Restart();
     }
 
     public void LoadMainMenu()
     {
         if (!string.IsNullOrEmpty(_nameMainMenuScene))
         {
-            GameManager.Resume();
+            _gameState.Resume();
             SceneManager.LoadScene(_nameMainMenuScene);
         }
     }
 
     public void QuitGameMenu()
     {
-        _gameManager.QuitGame();
+        _gameState.QuitGame();
     }
 }
