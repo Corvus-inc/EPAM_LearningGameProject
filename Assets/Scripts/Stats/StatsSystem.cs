@@ -10,7 +10,7 @@ public class StatsSystem
 
     public int Health => _health;
     public int Damage => _damage;
-    public float Speed => _damage;
+    public float Speed => _speed;
     public float TimeBoostSpeedState => _damage;
     public float BoostSpeedRate => _boostSpeedRate; 
     
