@@ -2047,7 +2047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followTarget: {fileID: 5717371555888173107}
   _followOffset: {x: 0, y: 26, z: -9}
-  smoothTime: 0.39
+  smoothTime: 0
 --- !u!114 &1453867832 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
