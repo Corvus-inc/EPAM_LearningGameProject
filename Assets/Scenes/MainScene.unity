@@ -923,10 +923,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6bd1cae3e62364a81cf1d409bc71c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: {fileID: 1648993238}
-  _player: {fileID: 522989009}
-  _playerUIHealthBar: {fileID: 319070862}
-  _playerIUClip: {fileID: 1760246822}
+  gameState: {fileID: 1648993238}
+  player: {fileID: 522989009}
+  playerUIHealthBar: {fileID: 319070862}
+  pauseMenu: {fileID: 1019104553}
+  weaponController: {fileID: 1453867832}
+  playerIuClip: {fileID: 1760246822}
 --- !u!224 &859559855 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3298189175723871882, guid: b6fe0ce57f3a89e41b989a24d659c449, type: 3}
@@ -1260,7 +1262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2f8f476114b8649b821e8119b29b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: {fileID: 1648993238}
   uiMenu: {fileID: 1279411225}
   uiPause: {fileID: 1816880327}
 --- !u!1 &1080321288
@@ -1394,6 +1395,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+      propertyPath: gunPrefab
+      value: 
+      objectReference: {fileID: 398355663236720501, guid: 23d4ae1190787d3498c8aae8b840be68, type: 3}
+    - target: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+      propertyPath: poolBullet
+      value: 
+      objectReference: {fileID: 2039839948}
+    - target: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+      propertyPath: spawnWeapon
+      value: 
+      objectReference: {fileID: 1168479881}
+    - target: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 5461865039692911500, guid: e242d33fde87ec445be7bade94fd077b, type: 3}
+    - target: {fileID: 3332885966190202316, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+      propertyPath: bulletCountInTheClip
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5095230874576720181, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1440,6 +1461,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+--- !u!4 &1168479881 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4413750851754898767, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+  m_PrefabInstance: {fileID: 1124262034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1183277703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,7 +2143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6795589eaa80241804ccd34608a129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartDelay: 1
 --- !u!1001 &1654175773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2912,6 +2937,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897012380}
   m_CullTransparentMesh: 0
+--- !u!4 &2039839948 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8899720502309055449, guid: caeafa0a50b9cf042928581a30ac3154, type: 3}
+  m_PrefabInstance: {fileID: 1124262034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2061167227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,7 +3276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5808238823369082681, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
       propertyPath: m_Name
-      value: Robot Kyle
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5808238823369082681, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
       propertyPath: m_Layer
