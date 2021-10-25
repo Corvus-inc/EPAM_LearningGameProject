@@ -24,7 +24,7 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-        _playerHealthSystem = new HealthSystem(player.HealthPlayer);
+        _playerHealthSystem = new HealthSystem(player.MaxHealthPlayer, player.CurrentHealthPlayer);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
     }
 

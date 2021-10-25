@@ -18,6 +18,12 @@ public class HealthSystem
         _health = healthMax;
         _healthMin = 0;
     }
+    public HealthSystem(int healthMax, int currentHealth)
+    {
+        _healthMax = healthMax;
+        _health = currentHealth;
+        _healthMin = 0;
+    }
 
     public int GetHealth()
     {

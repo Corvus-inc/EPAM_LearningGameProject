@@ -12,13 +12,20 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private LayerMask _layerEnemy;
     [SerializeField] private WeaponController _playerWeapon;
 
-    [Range(0, 1000)] [SerializeField] private int _healthPlayer;
-    [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
-    [Range(1, 5)] [SerializeField] private float boostSpeedRate;
-    
+    private PlayerStats _playerStats =
+        //default stats
+        new PlayerStats()
+        {
+            heath = 100,
+            maxHeath = 100,
+            speed = 20,
+            boostSpeedRate =  2,
+            countBullets = 30,
+        };
 
     public int PlayerClip => _playerWeapon.bulletCountInTheClip;
-    public int HealthPlayer => _healthPlayer;
+    public int MaxHealthPlayer => _playerStats.maxHeath;
+    public int CurrentHealthPlayer => _playerStats.heath;
 
     void FixedUpdate()
     {
@@ -59,7 +66,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void CharacterMove()
     {
-        float currentSpeed = mooveSpeed;
+        float currentSpeed = _playerStats.speed;
 
         var boostAxis = Input.GetAxis("BoostSpeed");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -67,7 +74,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (boostAxis != 0)
         {
-            currentSpeed *= boostSpeedRate * boostAxis;
+            currentSpeed *= _playerStats.boostSpeedRate * boostAxis;
         }
 
         if (verticalAxis != 0)
