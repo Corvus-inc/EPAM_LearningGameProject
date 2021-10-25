@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    public HealthSystem HealthSystem { private get; set; }
+    
     [SerializeField] private RectTransform _bar;
-
-    private HealthSystem _healthSystem;
+    
     private float _startHealthRectWidth; 
 
     void Awake()
@@ -13,15 +15,15 @@ public class HealthBar : MonoBehaviour
         _startHealthRectWidth = _bar.rect.width;
         //if(_bar)  _bar = transform.Find("Bar");
     }
-    public void Setup(HealthSystem healthSystem)
+
+    private void Start()
     {
-        _healthSystem = healthSystem;
-        healthSystem.OnHealthChanged += HealthSystem_OnOnHealthChanged;
+        HealthSystem.OnHealthChanged += HealthSystem_OnOnHealthChanged;
     }
 
     private void HealthSystem_OnOnHealthChanged(object sender, System.EventArgs e)
     {
-        SetSize(_healthSystem.GetHealthPrecent());
+        SetSize(HealthSystem.GetHealthPrecent());
     }
 
     public void SetSize(float sizeNormalized)

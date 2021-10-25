@@ -4,25 +4,22 @@ using UnityEngine.Serialization;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private GameState _gameState;
+    public GameState GameState { private get; set; } 
+    
     [SerializeField][FormerlySerializedAs("UIMenu")] private GameObject uiMenu;
     [SerializeField][FormerlySerializedAs("UIPause")] private GameObject uiPause;
 
-    private string _nameMainMenuScene = "MainMenuScene";
-    private bool isActiveMenuPause = false;
-    private bool isActivePause = false;
-    private static bool GameIsPaused
-    {
-        get => GameState.gameIsPaused;
-        set => GameState.gameIsPaused = value;
-    }
+    private const string NameMainMenuScene = "MainMenuScene";
+    private bool _isActiveMenuPause = false;
+    private bool _isActivePause = false;
+    private bool GameIsPaused => GameState.GameIsPaused;
 
     void Update()
     {
-        if(!isActivePause)
-        IsActiveMenuPause();
-        if(!isActiveMenuPause)
-        IsActivePause();
+        if(!_isActivePause)
+            IsActiveMenuPause();
+        if(!_isActiveMenuPause)
+            IsActivePause();
     }
 
     
@@ -32,12 +29,12 @@ public class PauseMenu : MonoBehaviour
         if (GameIsPaused)
         {
             ResumeInMenu();
-            isActiveMenuPause = false;
+            _isActiveMenuPause = false;
         }
         else
         {
             PauseInMenu();
-            isActiveMenuPause = true;
+            _isActiveMenuPause = true;
         }
     }
     private void IsActivePause()
@@ -46,52 +43,52 @@ public class PauseMenu : MonoBehaviour
         if (GameIsPaused)
         {
             PauseOff();
-            isActivePause = false;
+            _isActivePause = false;
         }
         else
         {
             PauseOn();
-            isActivePause = true;
+            _isActivePause = true;
         }
     }
     private void PauseOn()
     {
         uiPause.SetActive(true);
-        _gameState.Pause();
+        GameState.Pause();
     }
     private void PauseOff()
     {
         uiPause.SetActive(false);
-        _gameState.Resume();
+        GameState.Resume();
     }
     private void PauseInMenu()
     {
         uiMenu.SetActive(true);
-        _gameState.Pause();
+        GameState.Pause();
     }
 
     private void ResumeInMenu()
     {
         uiMenu.SetActive(false);
-        _gameState.Resume();
+        GameState.Resume();
     }
 
     public void RestartInMenu()
     {
-        _gameState.Restart();
+        GameState.Restart();
     }
 
     public void LoadMainMenu()
     {
-        if (!string.IsNullOrEmpty(_nameMainMenuScene))
+        if (!string.IsNullOrEmpty(NameMainMenuScene))
         {
-            _gameState.Resume();
-            SceneManager.LoadScene(_nameMainMenuScene);
+            GameState.Resume();
+            SceneManager.LoadScene(NameMainMenuScene);
         }
     }
 
     public void QuitGameMenu()
     {
-        _gameState.QuitGame();
+        GameState.QuitGame();
     }
 }

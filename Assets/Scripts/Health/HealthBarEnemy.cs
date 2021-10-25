@@ -5,12 +5,7 @@ using UnityEngine;
 public class HealthBarEnemy : HealthBar
 {
 
-    private Camera _eventCamera;
-
-    void Start()
-    {
-        _eventCamera = Camera.main;//how correctly make  ref
-    }
+    private Camera _eventCamera => Camera.main;
 
     private void LateUpdate()
     {

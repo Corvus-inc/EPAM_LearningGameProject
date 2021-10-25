@@ -6,24 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
-    public static bool gameIsPaused = false;
-
-    private static bool gameHasEnded = false;
-
-    private const string _nameStartGameScene = "MainScene";
-
-    public float restartDelay = 1f;
+    public bool GameIsPaused { get; set; }
+    private bool GameHasEnded { get; set; }
+    private const string NameStartGameScene = "MainScene";
+    private const float RestartDelay = 1f;
 
     public void StartGame()
     {
-        SceneManager.LoadScene(_nameStartGameScene);
+        SceneManager.LoadScene(NameStartGameScene);
         Resume();
     }
 
     public void EndGame()
     {
-        if (gameHasEnded != false) return;
-        gameHasEnded = true;
+        if (GameHasEnded) return;
+        GameHasEnded = true;
         Restart(); 
     }
 
@@ -45,13 +42,12 @@ public class GameState : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0f;
-        gameIsPaused = true;
+        GameIsPaused = true;
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
-        gameIsPaused = false;
-        
+        GameIsPaused = false;
     }
 }

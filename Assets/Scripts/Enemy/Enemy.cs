@@ -15,16 +15,11 @@ public class Enemy : MonoBehaviour
     //private SphereCollider _enemyTrigger;
     private Transform _target;
 
-    void Awake()
-    {
-        //_enemyTrigger = GetComponent<SphereCollider>();
-    }
-
-    private void Start()
+    private void Awake()
     {
         _healthSystem = new HealthSystem(_startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
-        _healthBarEnemy.Setup(_healthSystem);
+        _healthBarEnemy.HealthSystem = _healthSystem;
         _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
     }
 

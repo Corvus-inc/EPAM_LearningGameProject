@@ -4,63 +4,61 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private BaseWeapon _gunPrefab;
-    [SerializeField] private BaseBullet _bulletPrefab;
-    [SerializeField] private Transform _poolBullet;
-    [SerializeField] private Transform _spawnWeapon;
+    public GameState GameState { private get; set; } 
+    
+    [SerializeField] private BaseWeapon gunPrefab;
+    [SerializeField] private BaseBullet bulletPrefab;
+    [SerializeField] private Transform poolBullet;
+    [SerializeField] private Transform spawnWeapon;
 
     private BaseWeapon _gunCurrent;
     private List<BaseBullet> _listBullets;
     private int _indexBullet = 0;
 
-    public int BulletCountInTheClip;
+    public int bulletCountInTheClip;
 
     private void Awake()
     {
-        _gunCurrent = Instantiate(_gunPrefab, _spawnWeapon);
+        _gunCurrent = Instantiate(gunPrefab, spawnWeapon);
 
-        _spawnWeapon.localScale = _gunCurrent.GetRateScale();
+        spawnWeapon.localScale = _gunCurrent.GetRateScale();
         //Need correctly write this calculated
-        _gunCurrent.transform.localPosition = new Vector3(
-            _gunCurrent.transform.localPosition.x - _gunCurrent.GetPointLocalPositionWeapon().x,
-            _gunCurrent.transform.localPosition.y - _gunCurrent.GetPointLocalPositionWeapon().y,
-            _gunCurrent.transform.localPosition.z - _gunCurrent.GetPointLocalPositionWeapon().z);
+        var localPosition = _gunCurrent.transform.localPosition;
+        localPosition = new Vector3(
+            localPosition.x - _gunCurrent.GetPointLocalPositionWeapon().x,
+            localPosition.y - _gunCurrent.GetPointLocalPositionWeapon().y,
+            localPosition.z - _gunCurrent.GetPointLocalPositionWeapon().z);
+        _gunCurrent.transform.localPosition = localPosition;
 
         _gunCurrent.WeaponActive = true;
 
-        _listBullets = CreateClip(_bulletPrefab);
-        BulletCountInTheClip = _listBullets.Count;
+        _listBullets = CreateClip(bulletPrefab);
+        bulletCountInTheClip = _listBullets.Count;
     }
 
-    void  Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0)&& BulletCountInTheClip > 0 && !GameState.gameIsPaused)
+        if (!Input.GetMouseButtonDown(0) || bulletCountInTheClip <= 0 || GameState.GameIsPaused) return;
+        if (_indexBullet < gunPrefab.ClipCount - 1)
         {
-            if (_indexBullet < _gunPrefab.ClipCount - 1)
-            {
-                BulletCountInTheClip--;
-                _indexBullet++;
-            }
-            else _indexBullet = 0;
-            LetItFly(_indexBullet);
+            bulletCountInTheClip--;
+            _indexBullet++;
         }
+        else _indexBullet = 0;
+        LetItFly(_indexBullet);
     }
 
     private void LetItFly(int indexBullet)
     {
-        if (_gunCurrent.WeaponActive)
-        {
-            //Add check on Null for List
-            BaseBullet bullet = _listBullets[indexBullet];
-            
-            if (!bullet.IsFlying)
-            {   
-                _gunCurrent.AddBullet(bullet);
-                ResetBulletToSpawn(bullet);
-                _gunCurrent.Shoot();
-                StartCoroutine(bullet.DeactivatingBullet(bullet.TimeLiveBullet));
-            }
-        }
+        if (!_gunCurrent.WeaponActive) return;
+        //Add check on Null for List
+        var bullet = _listBullets[indexBullet];
+
+        if (bullet.IsFlying) return;
+        _gunCurrent.AddBullet(bullet);
+        ResetBulletToSpawn(bullet);
+        _gunCurrent.Shoot();
+        StartCoroutine(bullet.DeactivatingBullet(bullet.TimeLiveBullet));
     }
 
     private void  ResetBulletToSpawn(BaseBullet bullet)
@@ -72,10 +70,10 @@ public class WeaponController : MonoBehaviour
 
     private List<BaseBullet> CreateClip(BaseBullet bullet)
     {
-        List<BaseBullet> listBullets = new List<BaseBullet>(_gunCurrent.ClipCount);
-        for (int i = 0; i < _gunCurrent.ClipCount; i++)
+        var listBullets = new List<BaseBullet>(_gunCurrent.ClipCount);
+        for (var i = 0; i < _gunCurrent.ClipCount; i++)
         {
-            listBullets.Add(Instantiate(bullet, _poolBullet)); 
+            listBullets.Add(Instantiate(bullet, poolBullet)); 
         }
 
         return listBullets;

@@ -14,9 +14,6 @@ public class UIPlayer : MonoBehaviour
 
     private void Start()
     {
-        HealthSystem _healthSystem = Player.GetComponent<PlayerCharacter>().GetHealthSystem();//!warning
-
-        _healthBar.Setup(_healthSystem);//how to link system ref //!warning
         _healthBar.SetColour(Color.green);
     }
 }

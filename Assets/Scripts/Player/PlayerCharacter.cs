@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public GameState GameState { private get; set; }
+    public HealthSystem HealthSystem { private get; set; }
+
     [SerializeField] private Transform targetForLook;
     [SerializeField] private LayerMask _layerEnemy;
     [SerializeField] private WeaponController _playerWeapon;
@@ -13,18 +16,16 @@ public class PlayerCharacter : MonoBehaviour
     [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
     [Range(1, 5)] [SerializeField] private float boostSpeedRate;
     
-    private HealthSystem _healthSystem;
-    private GameState _gameState;
 
-    public int PlayerClip => _playerWeapon.BulletCountInTheClip;
+    public int PlayerClip => _playerWeapon.bulletCountInTheClip;
     public int HealthPlayer => _healthPlayer;
 
     void FixedUpdate()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
-            _healthSystem.Damage(20);
-        if (Input.GetKeyDown(KeyCode.Space)) _healthSystem.Heal(20);
+            HealthSystem.Damage(20);
+        if (Input.GetKeyDown(KeyCode.Space)) HealthSystem.Heal(20);
 #endif
         CharacterMove();
         LookAtTargetforPlayer(targetForLook);
@@ -32,15 +33,15 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        _healthSystem.OnHealthStateMin += PlayerDie;
+        HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
     private void PlayerDie(object sender, System.EventArgs e)
     {
-        _healthSystem.OnHealthStateMin -= PlayerDie;
+        HealthSystem.OnHealthStateMin -= PlayerDie;
         gameObject.SetActive(false);
         Invoke(nameof(MessageWhenDie),0);
-        _gameState.EndGame();
+        GameState.EndGame();
     }
 
     private void MessageWhenDie()
@@ -52,7 +53,7 @@ public class PlayerCharacter : MonoBehaviour
         bool check = CheckLayerMask(collision.gameObject, _layerEnemy);
         if (check)
         {
-            _healthSystem.Damage(20);
+            HealthSystem.Damage(20);
         }
     }
 
@@ -102,16 +103,11 @@ public class PlayerCharacter : MonoBehaviour
     
     public HealthSystem GetHealthSystem()
     {
-        return _healthSystem;
+        return HealthSystem;
     }
 
     public void SetHealthSystem(HealthSystem healthSystem)
     {
-        _healthSystem = healthSystem;
-    }
-
-    public void SetGameState(GameState gameState)
-    {
-        _gameState = gameState; 
+        HealthSystem = healthSystem;
     }
 }
