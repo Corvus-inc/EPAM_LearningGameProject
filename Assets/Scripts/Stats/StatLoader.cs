@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatLoader : MonoBehaviour
+public class StatLoader
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SavePlayerDataToPlayerPrefs(PlayerStats stats)
     {
-        
+        PlayerPrefs.SetString("PlayerData", JsonSerializationPlayerStats(stats));
+    }
+    
+    public PlayerStats LoadPlayerDataFromPlayerPrefs()
+    {
+        return JsonDeserializationPlayerStats(PlayerPrefs.GetString("PlayerData"));
+    }
+    
+    
+    private string JsonSerializationPlayerStats (PlayerStats playerStats)
+    {
+        var json = JsonUtility.ToJson(playerStats);
+        return json;
     }
 
-    // Update is called once per frame
-    void Update()
+    private PlayerStats JsonDeserializationPlayerStats(string jsonPlayerStats)
     {
-        
+        var playerStats = JsonUtility.FromJson<PlayerStats>(jsonPlayerStats);
+        return playerStats;
     }
 }

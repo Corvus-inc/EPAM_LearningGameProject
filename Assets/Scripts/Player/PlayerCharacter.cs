@@ -31,7 +31,9 @@ public class PlayerCharacter : MonoBehaviour
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
+        {
             HealthSystem.Damage(20);
+        }
         if (Input.GetKeyDown(KeyCode.Space)) HealthSystem.Heal(20);
 #endif
         CharacterMove();
