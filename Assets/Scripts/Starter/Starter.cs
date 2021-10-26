@@ -15,7 +15,6 @@ public class Starter : MonoBehaviour
     [SerializeField] private TMP_Text playerIuClip;
 
     private HealthSystem _playerHealthSystem;
-    private bool _isLoading = false;
     private StatLoader _loader;
     
     private void Awake()
@@ -26,7 +25,8 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-        _loader = new StatLoader(_isLoading);
+        _loader = new StatLoader(GameState.GameIsLoaded);
+        GameState.GameIsLoaded = false;
         player.PlayerStats = _loader.LoadablePlayerStats;
         _playerHealthSystem = new HealthSystem(player.MaxHealthPlayer, player.CurrentHealthPlayer);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
