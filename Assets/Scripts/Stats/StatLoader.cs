@@ -10,7 +10,7 @@ public class StatLoader
         maxHealth = 100,
         speed = 20,
         boostSpeedRate =  2,
-        countBullets = 30,
+        countBullets = 60,
     };
     
     public PlayerStats LoadablePlayerStats { get; private set; }

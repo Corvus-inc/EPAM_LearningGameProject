@@ -6,21 +6,21 @@ using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    private float _speed;
-    private int _countBullets;
-    private float _boostSpeedRate;
-    
-    [SerializeField] private LayerMask _layerEnemy;
-    [SerializeField] private Transform targetForLook;
-    [SerializeField] private WeaponController _playerWeapon;
-
     public StatLoader Loader{ private get; set; }
     public GameState GameState { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
+    public int CountBullets{ get; private set; }
 
-    public int PlayerClip => _playerWeapon.bulletCountInTheClip;
+    public int PlayerClip => playerWeapon.CountBulletInTheClip;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
+    
+    [SerializeField] private LayerMask layerEnemy;
+    [SerializeField] private Transform targetForLook;
+    [SerializeField] private WeaponController playerWeapon;
+
+    private float _speed;
+    private float _boostSpeedRate;
 
     void Update()
     {
@@ -39,7 +39,13 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        // instead, add event for collecting stats in loader. 
+        playerWeapon.IsEmptyClip += () =>
+        {
+            // new method
+            playerWeapon.Recharge(CountBullets);
+            CountBullets -= playerWeapon.MaxBulletInTheClip;
+            if (CountBullets < 0) CountBullets = 0;
+        }; 
         GameState.IsSaveProgress += CollectPlayerStats;
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
@@ -56,9 +62,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         Debug.Log("PlayerDie. Restart.");
     }
+    
     private void OnCollisionEnter(Collision collision)
     {
-        bool check = CheckLayerMask(collision.gameObject, _layerEnemy);
+        bool check = CheckLayerMask(collision.gameObject, layerEnemy);
         if (check)
         {
             HealthSystem.Damage(20);
@@ -91,6 +98,11 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
+    private void PlayerClipChadged()
+    {
+        
+    }
+
     private void LookAtTargetForPlayer(Transform targetForLook)
     { 
         var positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
@@ -113,7 +125,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         _speed = playerData.speed;
         _boostSpeedRate = playerData.boostSpeedRate;
-        _countBullets = playerData.countBullets;
+        CountBullets = playerData.countBullets;
         transform.position = playerData.playerPosition;
     }
     
@@ -124,7 +136,7 @@ public class PlayerCharacter : MonoBehaviour
             speed = _speed,
             maxHealth = MaxHealthPlayer,
             health = CurrentHealthPlayer,
-            countBullets = _countBullets,
+            countBullets = CountBullets,
             boostSpeedRate = _boostSpeedRate,
             playerPosition = transform.position
         };

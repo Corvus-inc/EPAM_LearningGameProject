@@ -55,6 +55,6 @@ public class Starter : MonoBehaviour
     private void Update()
     {
         //TODO: Don't check every frame, create an event that changes UI when the PlayerClip value has changed
-        playerIuClip.text  =  $"X{player.PlayerClip}"; 
+        playerIuClip.text  =  $"X{player.PlayerClip}/{player.CountBullets}"; 
     }
 }

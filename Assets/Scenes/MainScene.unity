@@ -3278,6 +3278,10 @@ PrefabInstance:
       value: 14.5
       objectReference: {fileID: 0}
     - target: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
+      propertyPath: playerWeapon
+      value: 
+      objectReference: {fileID: 1453867832}
+    - target: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
       propertyPath: _healthPlayer
       value: 200
       objectReference: {fileID: 0}
@@ -3288,6 +3292,10 @@ PrefabInstance:
     - target: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
       propertyPath: boostSpeedRate
       value: 2.04
+      objectReference: {fileID: 0}
+    - target: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
+      propertyPath: layerEnemy.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
       propertyPath: _layerEnemy.m_Bits
