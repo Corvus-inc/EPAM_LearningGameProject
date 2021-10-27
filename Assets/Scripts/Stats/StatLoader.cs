@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class StatLoader
 {
-    private PlayerStats startedPlayerStats =  new PlayerStats()
+    private readonly PlayerStats _startedPlayerStats =  new PlayerStats()
     {
-        heath = 100,
-        maxHeath = 100,
+        health = 100,
+        maxHealth = 100,
         speed = 20,
         boostSpeedRate =  2,
         countBullets = 30,
     };
     
     public PlayerStats LoadablePlayerStats { get; private set; }
+    public PlayerStats SavablePlayerStats {private get; set; }
+    
     public StatLoader(bool isLoader)
     {
-        if (!isLoader)
-        {
-            LoadablePlayerStats = startedPlayerStats;
-        }
-        else LoadablePlayerStats = LoadPlayerDataFromPlayerPrefs();
+        LoadablePlayerStats = !isLoader ? _startedPlayerStats : LoadPlayerDataFromPlayerPrefs();
     }
 
     public void SavePlayerDataToPlayerPrefs()
     {
-        PlayerPrefs.SetString("PlayerData", JsonSerializationPlayerStats(LoadablePlayerStats));
+        PlayerPrefs.SetString("PlayerData", JsonSerializationPlayerStats(SavablePlayerStats));
     }
-    
-    public PlayerStats LoadPlayerDataFromPlayerPrefs()
+
+    private PlayerStats LoadPlayerDataFromPlayerPrefs()
     {
         LoadablePlayerStats = JsonDeserializationPlayerStats(PlayerPrefs.GetString("PlayerData"));
         return LoadablePlayerStats;

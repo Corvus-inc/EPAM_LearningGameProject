@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public GameState GameState { private get; set; }
-    public HealthSystem HealthSystem { private get; set; }
-    public PlayerStats PlayerStats { private get; set; }
-
-    [SerializeField] private Transform targetForLook;
+    private float _speed;
+    private int _countBullets;
+    private float _boostSpeedRate;
+    
     [SerializeField] private LayerMask _layerEnemy;
+    [SerializeField] private Transform targetForLook;
     [SerializeField] private WeaponController _playerWeapon;
 
+    public StatLoader Loader{ private get; set; }
+    public GameState GameState { private get; set; }
+    public HealthSystem HealthSystem { private get; set; }
+
     public int PlayerClip => _playerWeapon.bulletCountInTheClip;
-    public int MaxHealthPlayer => PlayerStats.maxHeath;
-    public int CurrentHealthPlayer => PlayerStats.heath;
+    public int MaxHealthPlayer => HealthSystem.MaxHeals;
+    public int CurrentHealthPlayer => HealthSystem.Health;
 
     void FixedUpdate()
     {
@@ -27,12 +31,13 @@ public class PlayerCharacter : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) HealthSystem.Heal(20);
 #endif
         CharacterMove();
-        LookAtTargetforPlayer(targetForLook);
+        LookAtTargetForPlayer(targetForLook);
     }
 
     private void Start()
     {
-        HealthSystem.OnHealthChanged += (sender, args) => PlayerStats.heath = HealthSystem.GetHealth();
+        // instead, add event for collecting stats in loader. 
+        HealthSystem.OnHealthChanged += (sender, args) => Loader.SavablePlayerStats = CollectPlayerStats();
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
@@ -59,7 +64,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void CharacterMove()
     {
-        float currentSpeed = PlayerStats.speed;
+        float currentSpeed = _speed;
 
         var boostAxis = Input.GetAxis("BoostSpeed");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -67,7 +72,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (boostAxis != 0)
         {
-            currentSpeed *= PlayerStats.boostSpeedRate * boostAxis;
+            currentSpeed *= _boostSpeedRate * boostAxis;
         }
 
         if (verticalAxis != 0)
@@ -83,7 +88,7 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    private void LookAtTargetforPlayer(Transform targetForLook)
+    private void LookAtTargetForPlayer(Transform targetForLook)
     { 
         Vector3 positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
@@ -101,13 +106,25 @@ public class PlayerCharacter : MonoBehaviour
         return false;
     }
     
-    public HealthSystem GetHealthSystem()
+    public void InitializationPlayerStats(PlayerStats playerData)
     {
-        return HealthSystem;
+        _speed = playerData.speed;
+        _boostSpeedRate = playerData.boostSpeedRate;
+        _countBullets = playerData.countBullets;
+        transform.position = playerData.playerPosition;
     }
-
-    public void SetHealthSystem(HealthSystem healthSystem)
+    
+    private PlayerStats CollectPlayerStats()
     {
-        HealthSystem = healthSystem;
+        var ps = new PlayerStats
+        {
+            speed = _speed,
+            maxHealth = MaxHealthPlayer,
+            health = CurrentHealthPlayer,
+            countBullets = _countBullets,
+            boostSpeedRate = _boostSpeedRate,
+            playerPosition = transform.position
+        };
+        return ps;
     }
 }

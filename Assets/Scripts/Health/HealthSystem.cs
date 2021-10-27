@@ -12,6 +12,9 @@ public class HealthSystem
     private int _healthMax;
     private int _healthMin;
 
+    public int MaxHeals => _healthMax;
+    public int Health => _health;
+
     public HealthSystem(int healthMax)
     {
         _healthMax = healthMax;
@@ -23,11 +26,6 @@ public class HealthSystem
         _healthMax = healthMax;
         _health = currentHealth;
         _healthMin = 0;
-    }
-
-    public int GetHealth()
-    {
-        return _health;
     }
 
     public float GetHealthPrecent()
