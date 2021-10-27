@@ -23,25 +23,12 @@ public class StatLoader
 
     public void SavePlayerDataToPlayerPrefs()
     {
-        PlayerPrefs.SetString("PlayerData", JsonSerializationPlayerStats(SavablePlayerStats));
+        PlayerPrefs.SetString("PlayerData",LoaderSystem.JsonSerialization(SavablePlayerStats));
     }
 
     private PlayerStats LoadPlayerDataFromPlayerPrefs()
     {
-        LoadablePlayerStats = JsonDeserializationPlayerStats(PlayerPrefs.GetString("PlayerData"));
+        LoadablePlayerStats = LoaderSystem.JsonDeserialization<PlayerStats>(PlayerPrefs.GetString("PlayerData"));
         return LoadablePlayerStats;
-    }
-    
-    
-    private string JsonSerializationPlayerStats (PlayerStats playerStats)
-    {
-        var json = JsonUtility.ToJson(playerStats);
-        return json;
-    }
-
-    private PlayerStats JsonDeserializationPlayerStats(string jsonPlayerStats)
-    {
-        var playerStats = JsonUtility.FromJson<PlayerStats>(jsonPlayerStats);
-        return playerStats;
     }
 }
