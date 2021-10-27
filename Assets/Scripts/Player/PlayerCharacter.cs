@@ -21,7 +21,7 @@ public class PlayerCharacter : MonoBehaviour
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
 
-    void FixedUpdate()
+    void Update()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -30,6 +30,8 @@ public class PlayerCharacter : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space)) HealthSystem.Heal(20);
 #endif
+        // Is there something better for the player to pause too?
+        if (GameState.GameIsPaused) return;
         CharacterMove();
         LookAtTargetForPlayer(targetForLook);
     }
