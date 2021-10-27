@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         // instead, add event for collecting stats in loader. 
-        HealthSystem.OnHealthChanged += (sender, args) => Loader.SavablePlayerStats = CollectPlayerStats();
+        GameState.IsSaveProgress += CollectPlayerStats;
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
@@ -92,7 +93,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void LookAtTargetForPlayer(Transform targetForLook)
     { 
-        Vector3 positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        var positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
 
         transform.LookAt(targetForLook);       
@@ -116,7 +117,7 @@ public class PlayerCharacter : MonoBehaviour
         transform.position = playerData.playerPosition;
     }
     
-    private PlayerStats CollectPlayerStats()
+    private void CollectPlayerStats()
     {
         var ps = new PlayerStats
         {
@@ -127,6 +128,6 @@ public class PlayerCharacter : MonoBehaviour
             boostSpeedRate = _boostSpeedRate,
             playerPosition = transform.position
         };
-        return ps;
+        if (Loader != null) Loader.SavablePlayerStats = ps;
     }
 }

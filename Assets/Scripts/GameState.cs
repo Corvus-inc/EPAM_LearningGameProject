@@ -7,17 +7,23 @@ using UnityEngine.SceneManagement;
 public class GameState : MonoBehaviour
 {
     private const string NameStartGameScene = "MainScene";
-    private const float RestartDelay = 1f;
+    private const float RestartDelay = 1f; 
+    private bool GameHasEnded { get; set; }
+
+    public event Action IsSaveProgress;
     
     public static bool GameIsLoaded { get; set; }
     public bool GameIsPaused { get; private set; }
-    
-    private bool GameHasEnded { get; set; }
 
     public void LoadGame()
     {
         GameIsLoaded = true;
         StartGame();
+    }
+
+    public void SaveGame()
+    {
+        IsSaveProgress?.Invoke();
     }
     
     public void StartGame()
