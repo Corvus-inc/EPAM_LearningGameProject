@@ -15,7 +15,9 @@ public class Starter : MonoBehaviour
     [SerializeField] private TMP_Text playerIuClip;
 
     private HealthSystem _playerHealthSystem;
-
+    private PlayerStats _loaderData;
+    private StatLoader _loader;
+    
     private void Awake()
     {
         Initialize();
@@ -24,22 +26,35 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-        _playerHealthSystem = new HealthSystem(player.HealthPlayer);
+        _loader = new StatLoader(GameState.GameIsLoaded);
+        _loaderData = _loader.LoadablePlayerStats;
+        GameState.GameIsLoaded = false;
+        
+        player.InitializationPlayerStats(_loaderData);
+        
+        _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
+        
+        playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
     }
 
     private void SetDependencies()
     {
         player.GameState = gameState;
+        player.Loader = _loader;
         player.HealthSystem = _playerHealthSystem;
+        
         playerUIHealthBar.HealthSystem = _playerHealthSystem;
+        
         pauseMenu.GameState = gameState;
+        pauseMenu.Loader = _loader;
+        
         weaponController.GameState = gameState;
     }
 
     private void Update()
     {
         //TODO: Don't check every frame, create an event that changes UI when the PlayerClip value has changed
-        playerIuClip.text  =  $"X{player.PlayerClip}"; 
+        playerIuClip.text  =  $"X{player.PlayerClip}/{player.CountBullets}"; 
     }
 }

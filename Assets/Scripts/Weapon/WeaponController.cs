@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
     public GameState GameState { private get; set; } 
+    public int CountBulletInTheClip { get; private set; }
+    public int MaxBulletInTheClip{ get; private set; }
+    public event Action IsEmptyClip;
     
     [SerializeField] private BaseWeapon gunPrefab;
     [SerializeField] private BaseBullet bulletPrefab;
@@ -14,8 +18,6 @@ public class WeaponController : MonoBehaviour
     private BaseWeapon _gunCurrent;
     private List<BaseBullet> _listBullets;
     private int _indexBullet = 0;
-
-    public int bulletCountInTheClip;
 
     private void Awake()
     {
@@ -33,19 +35,31 @@ public class WeaponController : MonoBehaviour
         _gunCurrent.WeaponActive = true;
 
         _listBullets = CreateClip(bulletPrefab);
-        bulletCountInTheClip = _listBullets.Count;
+        MaxBulletInTheClip = gunPrefab.ClipCount;
+        //bag! when new load saved game, player have full clip
+        CountBulletInTheClip = _listBullets.Count;
     }
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0) || bulletCountInTheClip <= 0 || GameState.GameIsPaused) return;
+        // How not  spamming, when empty the clip?
+        OnEmptyClip();
+        
+        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused) return;
         if (_indexBullet < gunPrefab.ClipCount - 1)
         {
-            bulletCountInTheClip--;
+            CountBulletInTheClip--;
             _indexBullet++;
         }
         else _indexBullet = 0;
         LetItFly(_indexBullet);
+    }
+
+    public void Recharge(int bullets)
+    {
+        CountBulletInTheClip += bullets;
+        if (CountBulletInTheClip > MaxBulletInTheClip)
+            CountBulletInTheClip = MaxBulletInTheClip;
     }
 
     private void LetItFly(int indexBullet)
@@ -59,6 +73,13 @@ public class WeaponController : MonoBehaviour
         ResetBulletToSpawn(bullet);
         _gunCurrent.Shoot();
         StartCoroutine(bullet.DeactivatingBullet(bullet.TimeLiveBullet));
+    }
+
+    private void OnEmptyClip()
+    {
+        if (CountBulletInTheClip != 0) return;
+        IsEmptyClip?.Invoke();
+        Debug.Log("The clip is empty");
     }
 
     private void  ResetBulletToSpawn(BaseBullet bullet)
