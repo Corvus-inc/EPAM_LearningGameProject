@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Stats;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public StatLoader Loader{ private get; set; }
     public GameState GameState { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
     public int CountBullets{ get; private set; }
@@ -45,8 +45,8 @@ public class PlayerCharacter : MonoBehaviour
             playerWeapon.Recharge(CountBullets);
             CountBullets -= playerWeapon.MaxBulletInTheClip;
             if (CountBullets < 0) CountBullets = 0;
-        }; 
-        GameState.IsSaveProgress += CollectPlayerStats;
+        };
+        GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
@@ -98,7 +98,7 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    private void PlayerClipChadged()
+    private void PlayerClipChanged()
     {
         
     }
@@ -126,11 +126,13 @@ public class PlayerCharacter : MonoBehaviour
         _speed = playerData.speed;
         _boostSpeedRate = playerData.boostSpeedRate;
         CountBullets = playerData.countBullets;
-        transform.position = playerData.playerPosition;
+        var position = playerData.playerPosition;
+        transform.position = new Vector3(position[0], position[1], position[2]);
     }
     
-    private void CollectPlayerStats()
+    private PlayerStats CollectPlayerStats()
     {
+        var position = transform.position;
         var ps = new PlayerStats
         {
             speed = _speed,
@@ -138,8 +140,18 @@ public class PlayerCharacter : MonoBehaviour
             health = CurrentHealthPlayer,
             countBullets = CountBullets,
             boostSpeedRate = _boostSpeedRate,
-            playerPosition = transform.position
+            playerPosition = new []
+            {
+                position.x,
+                position.y,
+                position.z,
+            } 
         };
-        if (Loader != null) Loader.SavablePlayerStats = ps;
+        return ps;
+    }
+
+    private void SavePlayerStats(PlayerStats stats)
+    {
+        SavingSystem.Save(stats, "PlayerData");
     }
 }
