@@ -18,6 +18,7 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
+        HealthSystem_OnOnHealthChanged(HealthSystem, EventArgs.Empty);
         HealthSystem.OnHealthChanged += HealthSystem_OnOnHealthChanged;
     }
 

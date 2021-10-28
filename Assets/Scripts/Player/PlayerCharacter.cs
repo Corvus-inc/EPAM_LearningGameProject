@@ -2,37 +2,51 @@
 using System.Collections.Generic;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public StatLoader Loader{ private get; set; }
     public GameState GameState { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
+    public int CountBullets{ get; private set; }
 
-    [SerializeField] private Transform targetForLook;
-    [SerializeField] private LayerMask _layerEnemy;
-    [SerializeField] private WeaponController _playerWeapon;
-
-    [Range(0, 1000)] [SerializeField] private int _healthPlayer;
-    [Range(1, 20)] [SerializeField] private float mooveSpeed = 5f;
-    [Range(1, 5)] [SerializeField] private float boostSpeedRate;
+    public int PlayerClip => playerWeapon.CountBulletInTheClip;
+    public int MaxHealthPlayer => HealthSystem.MaxHeals;
+    public int CurrentHealthPlayer => HealthSystem.Health;
     
+    [SerializeField] private LayerMask layerEnemy;
+    [SerializeField] private Transform targetForLook;
+    [SerializeField] private WeaponController playerWeapon;
 
-    public int PlayerClip => _playerWeapon.bulletCountInTheClip;
-    public int HealthPlayer => _healthPlayer;
+    private float _speed;
+    private float _boostSpeedRate;
 
-    void FixedUpdate()
+    void Update()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
+        {
             HealthSystem.Damage(20);
+        }
         if (Input.GetKeyDown(KeyCode.Space)) HealthSystem.Heal(20);
 #endif
+        // Is there something better for the player to pause too?
+        if (GameState.GameIsPaused) return;
         CharacterMove();
-        LookAtTargetforPlayer(targetForLook);
+        LookAtTargetForPlayer(targetForLook);
     }
 
     private void Start()
     {
+        playerWeapon.IsEmptyClip += () =>
+        {
+            // new method
+            playerWeapon.Recharge(CountBullets);
+            CountBullets -= playerWeapon.MaxBulletInTheClip;
+            if (CountBullets < 0) CountBullets = 0;
+        }; 
+        GameState.IsSaveProgress += CollectPlayerStats;
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
@@ -48,9 +62,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         Debug.Log("PlayerDie. Restart.");
     }
+    
     private void OnCollisionEnter(Collision collision)
     {
-        bool check = CheckLayerMask(collision.gameObject, _layerEnemy);
+        bool check = CheckLayerMask(collision.gameObject, layerEnemy);
         if (check)
         {
             HealthSystem.Damage(20);
@@ -59,7 +74,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void CharacterMove()
     {
-        float currentSpeed = mooveSpeed;
+        float currentSpeed = _speed;
 
         var boostAxis = Input.GetAxis("BoostSpeed");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -67,7 +82,7 @@ public class PlayerCharacter : MonoBehaviour
 
         if (boostAxis != 0)
         {
-            currentSpeed *= boostSpeedRate * boostAxis;
+            currentSpeed *= _boostSpeedRate * boostAxis;
         }
 
         if (verticalAxis != 0)
@@ -83,9 +98,14 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    private void LookAtTargetforPlayer(Transform targetForLook)
+    private void PlayerClipChadged()
+    {
+        
+    }
+
+    private void LookAtTargetForPlayer(Transform targetForLook)
     { 
-        Vector3 positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        var positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
 
         transform.LookAt(targetForLook);       
@@ -101,13 +121,25 @@ public class PlayerCharacter : MonoBehaviour
         return false;
     }
     
-    public HealthSystem GetHealthSystem()
+    public void InitializationPlayerStats(PlayerStats playerData)
     {
-        return HealthSystem;
+        _speed = playerData.speed;
+        _boostSpeedRate = playerData.boostSpeedRate;
+        CountBullets = playerData.countBullets;
+        transform.position = playerData.playerPosition;
     }
-
-    public void SetHealthSystem(HealthSystem healthSystem)
+    
+    private void CollectPlayerStats()
     {
-        HealthSystem = healthSystem;
+        var ps = new PlayerStats
+        {
+            speed = _speed,
+            maxHealth = MaxHealthPlayer,
+            health = CurrentHealthPlayer,
+            countBullets = CountBullets,
+            boostSpeedRate = _boostSpeedRate,
+            playerPosition = transform.position
+        };
+        if (Loader != null) Loader.SavablePlayerStats = ps;
     }
 }
