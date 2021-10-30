@@ -11,5 +11,19 @@ public class PlayerStats
     public float speed;
     public float boostSpeedRate;
     public int countBullets;
-    public Vector3 playerPosition;
+    public float[] playerPosition;
+
+    public PlayerStats()
+    {
+    }
+
+    public PlayerStats(PlayerStats dataPlayerStats)
+    {
+        health = dataPlayerStats.health;
+        maxHealth = dataPlayerStats.maxHealth;
+        speed = dataPlayerStats.speed;
+        boostSpeedRate = dataPlayerStats.boostSpeedRate;
+        countBullets = dataPlayerStats.countBullets;
+        playerPosition = dataPlayerStats.playerPosition;
+    }
 }

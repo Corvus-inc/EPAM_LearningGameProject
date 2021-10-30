@@ -41,7 +41,6 @@ public class Starter : MonoBehaviour
     private void SetDependencies()
     {
         player.GameState = gameState;
-        player.Loader = _loader;
         player.HealthSystem = _playerHealthSystem;
         
         playerUIHealthBar.HealthSystem = _playerHealthSystem;

@@ -97,6 +97,5 @@ public class PauseMenu : MonoBehaviour
     public void SavePlayerProgress()
     {
         GameState.SaveGame();
-        Loader.SavePlayerDataToPlayerPrefs();
     }
 }
