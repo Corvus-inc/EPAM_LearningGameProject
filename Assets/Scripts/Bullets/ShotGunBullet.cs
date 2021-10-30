@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssaultBullet : BaseBullet
-{
+public class ShotGunBullet : BaseBullet
+{ 
     private void FixedUpdate()
     {
         if (_isFlying)

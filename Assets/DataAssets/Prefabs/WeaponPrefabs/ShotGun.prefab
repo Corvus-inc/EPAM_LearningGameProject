@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 9130991567612903912}
   - component: {fileID: 1604094209621417233}
   m_Layer: 0
-  m_Name: AssaultGun 1
+  m_Name: ShotGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61807e06dbddd4549ba5dde8ea43de43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunPrefab: {fileID: 398355663236720501, guid: 23d4ae1190787d3498c8aae8b840be68, type: 3}
-  bulletPrefab: {fileID: 5461865039692911500, guid: e242d33fde87ec445be7bade94fd077b, type: 3}
+  gunPrefab: {fileID: 6026153226714033991, guid: a443ff5451dec4af3a39a86f0828a419, type: 3}
+  bulletPrefab: {fileID: 4734754469146921998, guid: 8b4f25bc8833048d1b5cbe2fd0604d81, type: 3}
   poolBullet: {fileID: 4863889431804541700}
   spawnWeapon: {fileID: 379113861044086162}
 --- !u!1 &6163809109930057537

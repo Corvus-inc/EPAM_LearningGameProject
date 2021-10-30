@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssaultGun : BaseWeapon, IWeapon
+public class ShotGun : BaseWeapon
 {
     public override void Shoot()
     {
