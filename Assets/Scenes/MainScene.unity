@@ -1495,6 +1495,7 @@ GameObject:
   - component: {fileID: 1019104551}
   - component: {fileID: 1019104550}
   - component: {fileID: 1019104553}
+  - component: {fileID: 1019104554}
   m_Layer: 0
   m_Name: ScreenOverlay
   m_TagString: Untagged
@@ -1598,6 +1599,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiMenu: {fileID: 1279411225}
   uiPause: {fileID: 1816880327}
+--- !u!114 &1019104554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019104548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45311b42b0536aa4294c9f4880710a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1080321288
 GameObject:
   m_ObjectHideFlags: 0
