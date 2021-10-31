@@ -9,6 +9,7 @@ public class WeaponController : MonoBehaviour
     public int CountBulletInTheClip { get; private set; }
     public int MaxBulletInTheClip{ get; private set; }
     public event Action IsEmptyClip;
+    public event Action IsChangedClip;
     
     [SerializeField] private BaseWeapon gunPrefab;
     [SerializeField] private BaseBullet bulletPrefab;
@@ -40,6 +41,11 @@ public class WeaponController : MonoBehaviour
         CountBulletInTheClip = _listBullets.Count;
     }
 
+    private void Start()
+    {
+        IsChangedClip?.Invoke();
+    }
+
     private void Update()
     {
         // How not  spamming, when empty the clip?
@@ -49,6 +55,8 @@ public class WeaponController : MonoBehaviour
         if (_indexBullet < gunPrefab.ClipCount - 1)
         {
             CountBulletInTheClip--;
+            IsChangedClip?.Invoke();
+
             _indexBullet++;
         }
         else _indexBullet = 0;
@@ -60,6 +68,8 @@ public class WeaponController : MonoBehaviour
         CountBulletInTheClip += bullets;
         if (CountBulletInTheClip > MaxBulletInTheClip)
             CountBulletInTheClip = MaxBulletInTheClip;
+        IsChangedClip?.Invoke();
+
     }
 
     private void LetItFly(int indexBullet)

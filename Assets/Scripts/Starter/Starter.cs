@@ -36,6 +36,8 @@ public class Starter : MonoBehaviour
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
+
+        weaponController.IsChangedClip += UpdateUIPlayerClip;
     }
 
     private void SetDependencies()
@@ -51,9 +53,8 @@ public class Starter : MonoBehaviour
         weaponController.GameState = gameState;
     }
 
-    private void Update()
+    private void UpdateUIPlayerClip()
     {
-        //TODO: Don't check every frame, create an event that changes UI when the PlayerClip value has changed
         playerIuClip.text  =  $"X{player.PlayerClip}/{player.CountBullets}"; 
     }
 }
