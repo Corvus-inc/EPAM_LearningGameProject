@@ -10,9 +10,8 @@ public class Starter : MonoBehaviour
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private PauseMenu pauseMenu;
-    [SerializeField] private WeaponController weaponController;
     
-    [SerializeField] private TMP_Text playerIuClip;
+    [SerializeField] private UIPlayer playerUI;
 
     private HealthSystem _playerHealthSystem;
     private PlayerStats _loaderData;
@@ -36,25 +35,17 @@ public class Starter : MonoBehaviour
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
-
-        weaponController.IsChangedClip += UpdateUIPlayerClip;
     }
 
     private void SetDependencies()
     {
         player.GameState = gameState;
         player.HealthSystem = _playerHealthSystem;
+        player.UI = playerUI;
         
         playerUIHealthBar.HealthSystem = _playerHealthSystem;
         
         pauseMenu.GameState = gameState;
         pauseMenu.Loader = _loader;
-        
-        weaponController.GameState = gameState;
-    }
-
-    private void UpdateUIPlayerClip()
-    {
-        playerIuClip.text  =  $"X{player.PlayerClip}/{player.CountBullets}"; 
     }
 }

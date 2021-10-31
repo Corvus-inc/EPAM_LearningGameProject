@@ -13,7 +13,7 @@ public class ShotGunBullet : BaseBullet
     private PartBullet[] _partsBullet;
     private Random _rdm;
     
-    private void Start()
+    private void Awake()
     {
         gameObject.SetActive(true);
         _rdm = new Random();

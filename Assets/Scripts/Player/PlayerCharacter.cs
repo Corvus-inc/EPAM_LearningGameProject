@@ -7,23 +7,42 @@ using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public GameState GameState { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
+    public GameState GameState { private get; set; }
+    public UIPlayer UI { private get; set; }
     public int CountBullets{ get; private set; }
 
-    public int PlayerClip => playerWeapon.CountBulletInTheClip;
+    public int PlayerClip => _playerWeapon.CountBulletInTheClip;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
     
     [SerializeField] private LayerMask layerEnemy;
     [SerializeField] private Transform targetForLook;
-    [SerializeField] private WeaponController playerWeapon;
+    [SerializeField] private  List<GameObject> prefabsWeapon;
 
     private float _speed;
     private float _boostSpeedRate;
-
-    void Update()
+    private GameObject _gunEquipped;
+    private WeaponController _playerWeapon;
+    private List<GameObject> _listGun;
+    private int _countGun => _listGun.Count;
+    private int indexGun = 0;
+    
+    private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (indexGun >= _countGun)
+            {
+                indexGun = 0;
+                SetShotgun(indexGun);
+            }
+            else
+            {
+                SetShotgun(indexGun);
+            }
+            indexGun++;
+        }
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -39,13 +58,15 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        playerWeapon.IsEmptyClip += () =>
+        _listGun = new List<GameObject>();
+        foreach (var gun in prefabsWeapon)
         {
-            // new method
-            playerWeapon.Recharge(CountBullets);
-            CountBullets -= playerWeapon.MaxBulletInTheClip;
-            if (CountBullets < 0) CountBullets = 0;
-        };
+            InitWeapon(gun, true);
+            TakeOffWeapon();   
+        }
+        const int firstGun = 0;
+        SetShotgun(firstGun);
+        
         GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
@@ -121,6 +142,7 @@ public class PlayerCharacter : MonoBehaviour
         return false;
     }
     
+    //stats methods
     public void InitializationPlayerStats(PlayerStats playerData)
     {
         _speed = playerData.speed;
@@ -153,5 +175,58 @@ public class PlayerCharacter : MonoBehaviour
     private void SavePlayerStats(PlayerStats stats)
     {
         SavingSystem.Save(stats, "PlayerData");
+    }
+    
+    //equip weapons
+    private void InitWeapon(GameObject weapon, bool isNew)
+    {
+        if (isNew)
+        {
+            var newWeapon = CreateNewWeapon(weapon);
+            _listGun.Add(newWeapon);
+            _gunEquipped = newWeapon;
+        
+        }
+        else
+        {
+            _gunEquipped = weapon;
+            
+            _gunEquipped.SetActive(true);
+            _gunEquipped.transform.SetParent(transform);
+            _gunEquipped.transform.position = transform.position;
+            _gunEquipped.transform.rotation = transform.rotation;
+        }
+        
+        _playerWeapon = _gunEquipped.GetComponent<WeaponController>();
+        _playerWeapon.GameState = GameState;
+        _playerWeapon.IsEmptyClip += RechargeGun;
+        _playerWeapon.IsChangedClip += () => {UI.UpdateUIPlayerClip(PlayerClip,CountBullets);};
+        UI.UpdateUIPlayerClip(PlayerClip,CountBullets);
+    }
+    private void TakeOffWeapon()
+    {
+        _playerWeapon.ReturnAllBulletToSpawn();
+        _playerWeapon.IsEmptyClip -= RechargeGun;
+        _playerWeapon.IsChangedClip -= () => {UI.UpdateUIPlayerClip(PlayerClip,CountBullets);};
+        _gunEquipped.transform.SetParent(null);
+        _gunEquipped.SetActive(false);
+    }
+
+    private void RechargeGun()
+    {
+        _playerWeapon.Recharge(CountBullets);
+        CountBullets -= _playerWeapon.MaxBulletInTheClip;
+        if (CountBullets < 0) CountBullets = 0;
+    }
+    private GameObject CreateNewWeapon(GameObject newWeapon)
+    {
+        return Instantiate(newWeapon, transform);
+    }
+
+    private void SetShotgun(int index)
+    {
+        if(_gunEquipped) TakeOffWeapon();
+        _gunEquipped = _listGun[index];
+        InitWeapon(_gunEquipped, false); 
     }
 }

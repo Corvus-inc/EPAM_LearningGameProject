@@ -11,4 +11,5 @@ public interface IBullet
     void AddBulletDamage(int damage);
     void ActivatingBullet();
     IEnumerator DeactivatingBullet(float timeLive);
+    void DeactivatingBullet();
 }

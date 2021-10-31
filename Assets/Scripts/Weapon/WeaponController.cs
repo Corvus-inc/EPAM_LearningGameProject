@@ -106,7 +106,15 @@ public class WeaponController : MonoBehaviour
         {
             listBullets.Add(Instantiate(bullet, poolBullet)); 
         }
-
         return listBullets;
+    }
+
+    public void ReturnAllBulletToSpawn()
+    {
+        foreach (var bullet in _listBullets)
+        {
+            ResetBulletToSpawn(bullet);
+            bullet.DeactivatingBullet();
+        }
     }
 }

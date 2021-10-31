@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
             int damage = bullet.GetBulletDamage();
             _healthSystem.Damage(damage);
             StopCoroutine(bullet.DeactivatingBullet(0));
-            StartCoroutine(bullet.DeactivatingBullet(0));
+            bullet.DeactivatingBullet();
         }    
     }
 

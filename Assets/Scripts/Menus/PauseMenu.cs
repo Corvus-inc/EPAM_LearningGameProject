@@ -23,7 +23,6 @@ public class PauseMenu : MonoBehaviour
         if(!_isActiveMenuPause)
             IsActivePause();
     }
-
     
     private void IsActiveMenuPause()
     {
