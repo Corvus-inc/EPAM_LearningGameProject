@@ -25,23 +25,24 @@ public class PlayerCharacter : MonoBehaviour
     private GameObject _gunEquipped;
     private WeaponController _playerWeapon;
     private List<GameObject> _listGun;
-    private int _countGun => _listGun.Count;
-    private int indexGun = 0;
+    private int CountGun => _listGun.Count;
+    private int _indexGun = 0;
     
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (indexGun >= _countGun)
+            _playerWeapon.ReturnAllBulletToSpawn();
+            _indexGun++;
+            if (_indexGun >= CountGun)
             {
-                indexGun = 0;
-                SetShotgun(indexGun);
+                _indexGun = 0;
+                SetShotgun(_indexGun);
             }
             else
             {
-                SetShotgun(indexGun);
+                SetShotgun(_indexGun);
             }
-            indexGun++;
         }
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -58,17 +59,20 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
+        #region initListGun
         _listGun = new List<GameObject>();
         foreach (var gun in prefabsWeapon)
         {
             InitWeapon(gun, true);
             TakeOffWeapon();   
         }
-        const int firstGun = 0;
-        SetShotgun(firstGun);
-        
+        SetShotgun(_indexGun);
+        #endregion
         GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
+        
+
+        
     }
 
     private void PlayerDie(object sender, System.EventArgs e)
@@ -141,8 +145,8 @@ public class PlayerCharacter : MonoBehaviour
 
         return false;
     }
-    
-    //stats methods
+
+    #region statsmethods
     public void InitializationPlayerStats(PlayerStats playerData)
     {
         _speed = playerData.speed;
@@ -176,8 +180,9 @@ public class PlayerCharacter : MonoBehaviour
     {
         SavingSystem.Save(stats, "PlayerData");
     }
-    
-    //equip weapons
+#endregion
+
+#region equipWweapons
     private void InitWeapon(GameObject weapon, bool isNew)
     {
         if (isNew)
@@ -205,7 +210,6 @@ public class PlayerCharacter : MonoBehaviour
     }
     private void TakeOffWeapon()
     {
-        _playerWeapon.ReturnAllBulletToSpawn();
         _playerWeapon.IsEmptyClip -= RechargeGun;
         _playerWeapon.IsChangedClip -= () => {UI.UpdateUIPlayerClip(PlayerClip,CountBullets);};
         _gunEquipped.transform.SetParent(null);
@@ -228,5 +232,6 @@ public class PlayerCharacter : MonoBehaviour
         if(_gunEquipped) TakeOffWeapon();
         _gunEquipped = _listGun[index];
         InitWeapon(_gunEquipped, false); 
-    }
+    }   
+#endregion
 }

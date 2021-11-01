@@ -39,10 +39,11 @@ public class Enemy : MonoBehaviour
        if (check)
         {
             IBullet bullet = collision.gameObject.GetComponent<IBullet>();
-            int damage = bullet.GetBulletDamage();
-            _healthSystem.Damage(damage);
             StopCoroutine(bullet.DeactivatingBullet(0));
             bullet.DeactivatingBullet();
+            
+            int damage = bullet.GetBulletDamage();
+            _healthSystem.Damage(damage);
         }    
     }
 

@@ -35,15 +35,16 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     public virtual IEnumerator DeactivatingBullet(float timeLive)
     {
         yield return new WaitForSeconds(timeLive);
-        DeactivatingBullet();
+            DeactivatingBullet();
     }
 
-    public void DeactivatingBullet()
+    public virtual void DeactivatingBullet()
     {
         transform.SetParent(saveParent);
         gameObject.SetActive(false);
         _isFlying = false;
     }
+
     public virtual void AddBulletDamage(int damage)
     {
         _bulletDamage += damage;

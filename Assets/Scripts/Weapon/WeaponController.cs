@@ -48,7 +48,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        // How not  spamming, when empty the clip?
+        // How not spamming, when empty the clip?
         OnEmptyClip();
         
         if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused) return;
