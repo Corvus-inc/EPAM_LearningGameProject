@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public GameState GameState { private get; set; } 
-    public int CountBulletInTheClip { get; private set; }
+    public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
     public event Action IsEmptyClip;
     
@@ -35,9 +35,7 @@ public class WeaponController : MonoBehaviour
         _gunCurrent.WeaponActive = true;
 
         _listBullets = CreateClip(bulletPrefab);
-        MaxBulletInTheClip = gunPrefab.ClipCount;
-        //bag! when new load saved game, player have full clip
-        CountBulletInTheClip = _listBullets.Count;
+        MaxBulletInTheClip = _listBullets.Count;
     }
 
     private void Update()
