@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Starter : MonoBehaviour
 
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
+    private List<GameObject> _weapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -35,14 +37,8 @@ public class Starter : MonoBehaviour
         
         _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
 
-        List<GameObject> weapons = new List<GameObject>();
-        foreach (var weapon in _listPrefabWeapons)
-        {
-            var newWeapon = Instantiate(weapon, player.transform);
-            weapons.Add(newWeapon);
-            newWeapon.transform.SetParent(null);
-        }
-        _playerWeaponSystem = new WeaponSystem(weapons, player.transform, playerUI, player.CountBullets);
+        InitStoreWeapons();
+        _playerWeaponSystem = new WeaponSystem(_weapons, player.transform, playerUI, player.CountBullets);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
@@ -60,4 +56,17 @@ public class Starter : MonoBehaviour
         pauseMenu.Loader = _loader;
     }
 
+    private void InitStoreWeapons()
+    {
+        var storePosition = Instantiate(new GameObject("StoreWeapons")).transform;
+        storePosition.position = Vector3.down;
+        _weapons = new List<GameObject>();
+        foreach (var weapon in _listPrefabWeapons)
+        {
+            var newWeapon = Instantiate(weapon, player.transform);
+            _weapons.Add(newWeapon);
+            newWeapon.transform.SetParent(storePosition);
+            newWeapon.SetActive(false);
+        }
+    }
 }
