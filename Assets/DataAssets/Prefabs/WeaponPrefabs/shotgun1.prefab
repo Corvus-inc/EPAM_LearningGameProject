@@ -99,6 +99,7 @@ MonoBehaviour:
   clipCount: 9
   forceWeapon: 10
   _rateScale: 0.15
+  _weaponType: 1
   _spawnBullet: {fileID: 8138695898941364846}
   _pointPositionWeapon: {fileID: 6572496002285563759}
 --- !u!1 &6140339078724931079

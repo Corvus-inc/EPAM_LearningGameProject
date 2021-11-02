@@ -15,6 +15,7 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     [SerializeField] protected int forceWeapon;
 
     [SerializeField] private float _rateScale;
+    [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private Transform _pointPositionWeapon;
 

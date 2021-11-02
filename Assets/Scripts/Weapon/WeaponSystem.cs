@@ -28,7 +28,7 @@ public class WeaponSystem
     {
         UnequippedGun();
         //change equipped
-        
+        EquipWeapon(new GameObject());
     }
 
     public void  UnequippedGun()

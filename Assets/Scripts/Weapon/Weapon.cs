@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // public GameState GameState { private get; set; } 
-    public int CountBulletInTheClip { get; set; }
+    public WeaponType WeaponType { get; private set; }
+    public int CountBulletInTheClip { get; private set; }
     public int MaxBulletInTheClip{ get; private set; }
     public event Action IsEmptyClip;
     public event Action IsChangedClip;
