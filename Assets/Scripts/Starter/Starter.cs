@@ -9,12 +9,14 @@ public class Starter : MonoBehaviour
     [SerializeField] private GameState gameState;
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
+    [SerializeField] private SkillPanelUI playerSkillPanelUI;
     [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private WeaponController weaponController;
     
     [SerializeField] private TMP_Text playerIuClip;
 
     private HealthSystem _playerHealthSystem;
+    private SkillSystem _playerSkillSystem;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -36,6 +38,8 @@ public class Starter : MonoBehaviour
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
+
+        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, player.PlayerWeapon);
     }
 
     private void SetDependencies()
@@ -49,6 +53,8 @@ public class Starter : MonoBehaviour
         pauseMenu.Loader = _loader;
         
         weaponController.GameState = gameState;
+
+        playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
     }
 
     private void Update()

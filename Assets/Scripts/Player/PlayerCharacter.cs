@@ -10,8 +10,12 @@ public class PlayerCharacter : MonoBehaviour
     public GameState GameState { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
     public int CountBullets{ get; private set; }
+
+    public bool isBoostedSpeed{ private get; set; }
     
     public int PlayerClip => playerWeapon.CountBulletInTheClip;
+    ///temporary? for working with skills
+    public WeaponController PlayerWeapon => playerWeapon;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
     
@@ -80,9 +84,11 @@ public class PlayerCharacter : MonoBehaviour
         var verticalAxis = Input.GetAxis("Vertical");
         var horiontalAxis = Input.GetAxis("Horizontal");
 
-        if (boostAxis != 0)
+        if (boostAxis != 0 || isBoostedSpeed)
         {
-            currentSpeed *= _boostSpeedRate * boostAxis;
+            var axisMediator = boostAxis;
+            if (boostAxis == 0) axisMediator = 1;
+            currentSpeed *= _boostSpeedRate * axisMediator;
         }
 
         if (verticalAxis != 0)

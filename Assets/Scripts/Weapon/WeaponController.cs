@@ -60,6 +60,16 @@ public class WeaponController : MonoBehaviour
             CountBulletInTheClip = MaxBulletInTheClip;
     }
 
+    public void StartDoubleDamage(float second)
+    { 
+        StopCoroutine(_gunCurrent.DoubleDamage(0));
+        StartCoroutine(_gunCurrent.DoubleDamage(second));
+    }
+    public void StopDoubleDamage()
+    {
+        StopCoroutine(_gunCurrent.DoubleDamage(0));
+    }
+
     private void LetItFly(int indexBullet)
     {
         if (!_gunCurrent.WeaponActive) return;
