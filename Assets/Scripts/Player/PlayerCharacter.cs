@@ -179,7 +179,6 @@ public class PlayerCharacter : MonoBehaviour
     public void InitWeapon()
     {
         _playerWeapon = WeaponSystem.GetEquippedWeapon();
-        _playerWeapon.GameState = GameState;
     }
     private void SetShotgun(int index)
     {

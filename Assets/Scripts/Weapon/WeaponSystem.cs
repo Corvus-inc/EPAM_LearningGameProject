@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class WeaponSystem 
@@ -23,6 +24,13 @@ public class WeaponSystem
 
     }
 
+    public void SwitchWeapon()
+    {
+        UnequippedGun();
+        //change equipped
+        
+    }
+
     public void  UnequippedGun()
     {
         _weapon.IsEmptyClip -= RechargeGun;
@@ -34,31 +42,10 @@ public class WeaponSystem
     
     public Weapon GetEquippedWeapon()
     {
-        _gunEquipped = _listWeapons[1];
         EquipWeapon(_gunEquipped);
         var weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
-                                    //
-        weapon.GameState = _player.GameState;
         return weapon;
     }
-    private void EquipWeapon(GameObject weapon)
-         {
-             var gunEquipped = _gunEquipped;
-                 //
-             var transform = _player.transform;
-             
-             
-             gunEquipped = weapon;
-             gunEquipped.SetActive(true);
-             gunEquipped.transform.SetParent(transform);
-             gunEquipped.transform.position = transform.position;
-             gunEquipped.transform.rotation = transform.rotation;
-
-             _weapon.IsEmptyClip += RechargeGun;
-
-             _weapon.IsChangedClip += UpdateUI;
-             RechargeGun();
-         }
     public void RechargeGun()
     {
         int remains = _weapon.Recharge(_player.CountBullets);
@@ -66,6 +53,22 @@ public class WeaponSystem
         if (_player.CountBullets < 0) _player.CountBullets = 0;
         UpdateUI();
     }
+    
+    private void EquipWeapon(GameObject weapon)
+         {
+                    //
+             var transform = _player.transform;
+             
+             _gunEquipped = weapon;
+             _gunEquipped.SetActive(true);
+             _gunEquipped.transform.SetParent(transform);
+             _gunEquipped.transform.position = transform.position;
+             _gunEquipped.transform.rotation = transform.rotation;
+
+             _weapon.IsEmptyClip += RechargeGun;
+             _weapon.IsChangedClip += UpdateUI;
+             RechargeGun();
+         }
 
     private void UpdateUI()
     {
