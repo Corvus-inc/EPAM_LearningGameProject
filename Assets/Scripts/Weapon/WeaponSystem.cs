@@ -6,20 +6,19 @@ using UnityEngine;
 public class WeaponSystem 
 {
     private List<GameObject> _listWeapons;
+    private  Transform _transformTo;
     private GameObject _gunEquipped ;
-    private Weapon _weapon ;
+    private int _userCountBullets;//ref?;
+    private Weapon _weapon;
     private UIPlayer _ui;
-    
-    private PlayerCharacter _player;
-    private  Transform playerTransform;
 
-    public WeaponSystem(List<GameObject> listWeapons, PlayerCharacter playerCharacter, UIPlayer UI)
+    public WeaponSystem(List<GameObject> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
     {
-        _listWeapons = listWeapons;
-        _player = playerCharacter;
         _ui = UI;
-        playerTransform = _player.transform;
+        _listWeapons = listWeapons;
+        _transformTo = transformTo;
         _gunEquipped = listWeapons[1];
+        _userCountBullets = userCountBullets;
         _weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
 
     }
@@ -48,16 +47,16 @@ public class WeaponSystem
     }
     public void RechargeGun()
     {
-        int remains = _weapon.Recharge(_player.CountBullets);
-        _player.CountBullets = remains;
-        if (_player.CountBullets < 0) _player.CountBullets = 0;
+        int remains = _weapon.Recharge(_userCountBullets);
+        _userCountBullets = remains;
+        if (_userCountBullets < 0) _userCountBullets = 0;
         UpdateUI();
     }
     
     private void EquipWeapon(GameObject weapon)
          {
                     //
-             var transform = _player.transform;
+             var transform = _transformTo;
              
              _gunEquipped = weapon;
              _gunEquipped.SetActive(true);
@@ -74,7 +73,7 @@ public class WeaponSystem
     {
         _ui.UpdateUIPlayerClip(_weapon.CountBulletInTheClip,
                         //
-            _player.CountBullets);
+            _userCountBullets);
     }
     
 }

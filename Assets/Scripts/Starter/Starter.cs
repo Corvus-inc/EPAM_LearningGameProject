@@ -42,7 +42,7 @@ public class Starter : MonoBehaviour
             weapons.Add(newWeapon);
             newWeapon.transform.SetParent(null);
         }
-        _playerWeaponSystem = new WeaponSystem(weapons, player, playerUI);
+        _playerWeaponSystem = new WeaponSystem(weapons, player.transform, playerUI, player.CountBullets);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
