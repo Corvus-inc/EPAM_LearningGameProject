@@ -13,6 +13,8 @@ public class PlayerCharacter : MonoBehaviour
     public int CountBullets{ get; private set; }
 
     public int PlayerClip => _playerWeapon.CountBulletInTheClip;
+    
+    public int PlayerClip => playerWeapon.CountBulletInTheClip;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
     
@@ -154,6 +156,8 @@ public class PlayerCharacter : MonoBehaviour
         CountBullets = playerData.countBullets;
         var position = playerData.playerPosition;
         transform.position = new Vector3(position[0], position[1], position[2]);
+        playerWeapon.CountBulletInTheClip = playerData.countClip;
+        //if have many weapon need save lastWeapon
     }
     
     private PlayerStats CollectPlayerStats()
@@ -171,7 +175,8 @@ public class PlayerCharacter : MonoBehaviour
                 position.x,
                 position.y,
                 position.z,
-            } 
+            },
+            countClip = playerWeapon.CountBulletInTheClip
         };
         return ps;
     }
