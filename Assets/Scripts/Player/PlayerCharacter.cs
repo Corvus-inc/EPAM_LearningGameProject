@@ -13,8 +13,6 @@ public class PlayerCharacter : MonoBehaviour
     public int CountBullets{ get; private set; }
 
     public int PlayerClip => _playerWeapon.CountBulletInTheClip;
-    
-    public int PlayerClip => playerWeapon.CountBulletInTheClip;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
     public int CurrentHealthPlayer => HealthSystem.Health;
     
@@ -29,6 +27,8 @@ public class PlayerCharacter : MonoBehaviour
     private List<GameObject> _listGun;
     private int CountGun => _listGun.Count;
     private int _indexGun = 0;
+    // temporarily
+    private int _countBulletInTheClip;
     
     private void Update()
     {
@@ -72,9 +72,8 @@ public class PlayerCharacter : MonoBehaviour
         #endregion
         GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
-        
-
-        
+        //temporarily
+        _playerWeapon.CountBulletInTheClip = _countBulletInTheClip;
     }
 
     private void PlayerDie(object sender, System.EventArgs e)
@@ -156,7 +155,8 @@ public class PlayerCharacter : MonoBehaviour
         CountBullets = playerData.countBullets;
         var position = playerData.playerPosition;
         transform.position = new Vector3(position[0], position[1], position[2]);
-        playerWeapon.CountBulletInTheClip = playerData.countClip;
+        // temporarily
+        _countBulletInTheClip = playerData.countClip;
         //if have many weapon need save lastWeapon
     }
     
@@ -176,7 +176,8 @@ public class PlayerCharacter : MonoBehaviour
                 position.y,
                 position.z,
             },
-            countClip = playerWeapon.CountBulletInTheClip
+            // temporarily
+            countClip = _playerWeapon.CountBulletInTheClip
         };
         return ps;
     }

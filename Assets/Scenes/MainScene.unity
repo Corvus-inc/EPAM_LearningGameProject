@@ -1193,6 +1193,9 @@ MonoBehaviour:
   player: {fileID: 522989009}
   playerUIHealthBar: {fileID: 319070862}
   pauseMenu: {fileID: 1019104553}
+  prefabsWeapon:
+  - {fileID: 3117524531343680957, guid: 420550c489caf4ac18f0e047d28881f0, type: 3}
+  - {fileID: 3102868453210313815, guid: 913288c0118d1458aa42510a23e2616a, type: 3}
   playerUI: {fileID: 1019104554}
 --- !u!224 &859559855 stripped
 RectTransform:
