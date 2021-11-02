@@ -6,28 +6,34 @@ using UnityEngine;
 public class WeaponSystem 
 {
     private List<GameObject> _listWeapons;
-    private  Transform _transformTo;
+    private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
-    private int _userCountBullets;//ref?;
     private Weapon _weapon;
-    private UIPlayer _ui;
+    private int _userCountBullets;
+    private readonly UIPlayer _ui;
+    private int _countIndexWeapon;
+    private int _indexWeapon;
 
     public WeaponSystem(List<GameObject> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
     {
+        _indexWeapon = 1;
+        _countIndexWeapon = listWeapons.Count;
+        
         _ui = UI;
         _listWeapons = listWeapons;
         _transformTo = transformTo;
-        _gunEquipped = listWeapons[1];
+        _gunEquipped = listWeapons[_indexWeapon];
         _userCountBullets = userCountBullets;
         _weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
 
     }
 
-    public void SwitchWeapon()
+    public Weapon SwitchWeapon()
     {
         UnequippedGun();
-        //change equipped
-        EquipWeapon(new GameObject());
+        _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
+        _gunEquipped = _listWeapons[_indexWeapon];
+        return GetEquippedWeapon();
     }
 
     public void  UnequippedGun()
@@ -42,8 +48,7 @@ public class WeaponSystem
     public Weapon GetEquippedWeapon()
     {
         EquipWeapon(_gunEquipped);
-        var weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
-        return weapon;
+        return _weapon;
     }
     public void RechargeGun()
     {
@@ -53,17 +58,15 @@ public class WeaponSystem
         UpdateUI();
     }
     
-    private void EquipWeapon(GameObject weapon)
+    private void EquipWeapon(GameObject weaponObject)
          {
-                    //
-             var transform = _transformTo;
-             
-             _gunEquipped = weapon;
+             _gunEquipped = weaponObject;
              _gunEquipped.SetActive(true);
-             _gunEquipped.transform.SetParent(transform);
-             _gunEquipped.transform.position = transform.position;
-             _gunEquipped.transform.rotation = transform.rotation;
-
+             _gunEquipped.transform.SetParent(_transformTo);
+             _gunEquipped.transform.position = _transformTo.position;
+             _gunEquipped.transform.rotation = _transformTo.rotation;
+             
+             _weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
              _weapon.IsEmptyClip += RechargeGun;
              _weapon.IsChangedClip += UpdateUI;
              RechargeGun();

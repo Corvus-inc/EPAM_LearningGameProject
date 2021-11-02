@@ -34,8 +34,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            //Move to Weapon system
             _playerWeapon.ReturnAllBulletToSpawn();
-            WeaponSystem.UnequippedGun();
+            _playerWeapon = WeaponSystem.SwitchWeapon();
+            
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -180,10 +182,5 @@ public class PlayerCharacter : MonoBehaviour
     {
         _playerWeapon = WeaponSystem.GetEquippedWeapon();
     }
-    private void SetShotgun(int index)
-    {
-        _gunEquipped = _listGun[index];
-        InitWeapon();
-    }   
 #endregion
 }

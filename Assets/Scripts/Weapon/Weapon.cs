@@ -12,9 +12,9 @@ public class Weapon : MonoBehaviour
     public event Action IsChangedClip;
     
     [SerializeField] private BaseWeapon gunPrefab;
-    [SerializeField] private BaseBullet bulletPrefab;
     [SerializeField] private Transform poolBullet;
     [SerializeField] private Transform spawnWeapon;
+    [SerializeField] private BaseBullet bulletPrefab;
 
     private BaseWeapon _gunCurrent;
     private List<BaseBullet> _listBullets;
@@ -42,22 +42,15 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         IsChangedClip?.Invoke();
+        //when delete this observe
+        IsChangedClip += OnEmptyClip;
     }
 
     private void Update()
     {
-        // How not spamming, when empty the clip?
-        OnEmptyClip();
-        
         if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused) return;
-        if (_indexBullet < gunPrefab.ClipCount - 1)
-        {
-            CountBulletInTheClip--;
-            IsChangedClip?.Invoke();
 
-            _indexBullet++;
-        }
-        else _indexBullet = 0;
+        NextIndexBullet();
         LetItFly(_indexBullet);
     }
 
@@ -123,6 +116,25 @@ public class Weapon : MonoBehaviour
         {
             ResetBulletToSpawn(bullet);
             bullet.DeactivatingBullet();
+        }
+    }
+    
+    private void NextIndexBullet()
+    {
+        void DownClip()
+        {
+            CountBulletInTheClip--;
+            IsChangedClip?.Invoke();
+        }
+        if (_indexBullet < gunPrefab.ClipCount - 1)
+        {
+            DownClip();
+            _indexBullet++;
+        }
+        else
+        {
+            DownClip();
+            _indexBullet = 0;
         }
     }
 }
