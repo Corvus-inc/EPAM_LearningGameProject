@@ -7,10 +7,10 @@ using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public WeaponSystem WeaponSystem { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
-    public GameState GameState { private get; set; }
-    public UIPlayer UI { private get; set; }
-    public int CountBullets{ get; private set; }
+    public GameState GameState { get; set; }
+    public int CountBullets{ get; set; }
 
     public int PlayerClip => _playerWeapon.CountBulletInTheClip;
     public int MaxHealthPlayer => HealthSystem.MaxHeals;
@@ -22,8 +22,8 @@ public class PlayerCharacter : MonoBehaviour
 
     private float _speed;
     private float _boostSpeedRate;
-    private GameObject _gunEquipped;
-    private WeaponController _playerWeapon;
+    public GameObject _gunEquipped{ get; private set; }
+    private Weapon _playerWeapon;
     private List<GameObject> _listGun;
     private int CountGun => _listGun.Count;
     private int _indexGun = 0;
@@ -35,17 +35,18 @@ public class PlayerCharacter : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _playerWeapon.ReturnAllBulletToSpawn();
-            _indexGun++;
-            if (_indexGun >= CountGun)
-            {
-                _indexGun = 0;
-                SetShotgun(_indexGun);
-            }
-            else
-            {
-                SetShotgun(_indexGun);
-            }
+            WeaponSystem.UnequippedGun();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            InitWeapon();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            WeaponSystem.RechargeGun();
+        }
+        
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -61,19 +62,10 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        #region initListGun
-        _listGun = new List<GameObject>();
-        foreach (var gun in prefabsWeapon)
-        {
-            InitWeapon(gun, true);
-            TakeOffWeapon();   
-        }
-        SetShotgun(_indexGun);
-        #endregion
+        InitWeapon();
+        
         GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
-        //temporarily
-        _playerWeapon.CountBulletInTheClip = _countBulletInTheClip;
     }
 
     private void PlayerDie(object sender, System.EventArgs e)
@@ -123,12 +115,7 @@ public class PlayerCharacter : MonoBehaviour
             transform.Translate(toTranslate, Space.World);
         }
     }
-
-    private void PlayerClipChanged()
-    {
-        
-    }
-
+    
     private void LookAtTargetForPlayer(Transform targetForLook)
     { 
         var positionsForLook = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
@@ -156,7 +143,7 @@ public class PlayerCharacter : MonoBehaviour
         var position = playerData.playerPosition;
         transform.position = new Vector3(position[0], position[1], position[2]);
         // temporarily
-        _countBulletInTheClip = playerData.countClip;
+        _countBulletInTheClip = playerData.countClip[_indexGun];
         //if have many weapon need save lastWeapon
     }
     
@@ -177,7 +164,7 @@ public class PlayerCharacter : MonoBehaviour
                 position.z,
             },
             // temporarily
-            countClip = _playerWeapon.CountBulletInTheClip
+            countClip = new []{_listGun[0].GetComponent<Weapon>().CountBulletInTheClip,_listGun[1].GetComponent<Weapon>().CountBulletInTheClip}
         };
         return ps;
     }
@@ -189,55 +176,15 @@ public class PlayerCharacter : MonoBehaviour
 #endregion
 
 #region equipWweapons
-    private void InitWeapon(GameObject weapon, bool isNew)
+    public void InitWeapon()
     {
-        if (isNew)
-        {
-            var newWeapon = CreateNewWeapon(weapon);
-            _listGun.Add(newWeapon);
-            _gunEquipped = newWeapon;
-        
-        }
-        else
-        {
-            _gunEquipped = weapon;
-            
-            _gunEquipped.SetActive(true);
-            _gunEquipped.transform.SetParent(transform);
-            _gunEquipped.transform.position = transform.position;
-            _gunEquipped.transform.rotation = transform.rotation;
-        }
-        
-        _playerWeapon = _gunEquipped.GetComponent<WeaponController>();
+        _playerWeapon = WeaponSystem.GetEquippedWeapon();
         _playerWeapon.GameState = GameState;
-        _playerWeapon.IsEmptyClip += RechargeGun;
-        _playerWeapon.IsChangedClip += () => {UI.UpdateUIPlayerClip(PlayerClip,CountBullets);};
-        UI.UpdateUIPlayerClip(PlayerClip,CountBullets);
     }
-    private void TakeOffWeapon()
-    {
-        _playerWeapon.IsEmptyClip -= RechargeGun;
-        _playerWeapon.IsChangedClip -= () => {UI.UpdateUIPlayerClip(PlayerClip,CountBullets);};
-        _gunEquipped.transform.SetParent(null);
-        _gunEquipped.SetActive(false);
-    }
-
-    private void RechargeGun()
-    {
-        _playerWeapon.Recharge(CountBullets);
-        CountBullets -= _playerWeapon.MaxBulletInTheClip;
-        if (CountBullets < 0) CountBullets = 0;
-    }
-    private GameObject CreateNewWeapon(GameObject newWeapon)
-    {
-        return Instantiate(newWeapon, transform);
-    }
-
     private void SetShotgun(int index)
     {
-        if(_gunEquipped) TakeOffWeapon();
         _gunEquipped = _listGun[index];
-        InitWeapon(_gunEquipped, false); 
+        InitWeapon();
     }   
 #endregion
 }

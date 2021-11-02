@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     public GameState GameState { private get; set; } 
     public int CountBulletInTheClip { get; set; }
@@ -61,13 +61,23 @@ public class WeaponController : MonoBehaviour
         LetItFly(_indexBullet);
     }
 
-    public void Recharge(int bullets)
+    public int Recharge(int bullets)
     {
-        CountBulletInTheClip += bullets;
-        if (CountBulletInTheClip > MaxBulletInTheClip)
-            CountBulletInTheClip = MaxBulletInTheClip;
-        IsChangedClip?.Invoke();
+        int remains;
+        if (bullets != 0)
+        {
+            var countAddBullets = MaxBulletInTheClip - CountBulletInTheClip;
+            CountBulletInTheClip += bullets <= countAddBullets ? bullets : countAddBullets;
+            if (CountBulletInTheClip > MaxBulletInTheClip)
+            {
+                CountBulletInTheClip = MaxBulletInTheClip;
+            }
 
+            IsChangedClip?.Invoke();
+            remains = bullets >= countAddBullets ? bullets - countAddBullets : 0;
+        }
+        else remains = 0;
+        return remains;
     }
 
     private void LetItFly(int indexBullet)

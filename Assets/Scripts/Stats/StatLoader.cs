@@ -11,7 +11,7 @@ public class StatLoader
         boostSpeedRate =  2,
         countBullets = 60,
         playerPosition = new float[3]{0,0,0},
-        countClip = 0
+        countClip =new [] {0,0}
     };
     public PlayerStats LoadablePlayerStats { get;}
     
