@@ -13,7 +13,7 @@ public class GameState : MonoBehaviour
     public event Action IsSaveProgress;
     
     public static bool GameIsLoaded { get; set; }
-    public bool GameIsPaused { get; private set; }
+    public static bool GameIsPaused { get; private set; }
 
     public void LoadGame()
     {

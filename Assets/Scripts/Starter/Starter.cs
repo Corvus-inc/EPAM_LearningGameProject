@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -10,11 +11,13 @@ public class Starter : MonoBehaviour
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private PauseMenu pauseMenu;
-    [SerializeField] private WeaponController weaponController;
+    [SerializeField] private List<GameObject> _listPrefabWeapons;
     
-    [SerializeField] private TMP_Text playerIuClip;
+    [SerializeField] private UIPlayer playerUI;
 
+    private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
+    private List<GameObject> _weapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -33,6 +36,9 @@ public class Starter : MonoBehaviour
         player.InitializationPlayerStats(_loaderData);
         
         _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
+
+        InitStoreWeapons();
+        _playerWeaponSystem = new WeaponSystem(_weapons, player.transform, playerUI, player.CountBullets);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
@@ -42,18 +48,25 @@ public class Starter : MonoBehaviour
     {
         player.GameState = gameState;
         player.HealthSystem = _playerHealthSystem;
+        player.WeaponSystem = _playerWeaponSystem;
         
         playerUIHealthBar.HealthSystem = _playerHealthSystem;
         
         pauseMenu.GameState = gameState;
         pauseMenu.Loader = _loader;
-        
-        weaponController.GameState = gameState;
     }
 
-    private void Update()
+    private void InitStoreWeapons()
     {
-        //TODO: Don't check every frame, create an event that changes UI when the PlayerClip value has changed
-        playerIuClip.text  =  $"X{player.PlayerClip}/{player.CountBullets}"; 
+        var storePosition = Instantiate(new GameObject("StoreWeapons")).transform;
+        storePosition.position = Vector3.down;
+        _weapons = new List<GameObject>();
+        foreach (var weapon in _listPrefabWeapons)
+        {
+            var newWeapon = Instantiate(weapon, player.transform);
+            _weapons.Add(newWeapon);
+            newWeapon.transform.SetParent(storePosition);
+            newWeapon.SetActive(false);
+        }
     }
 }

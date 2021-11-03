@@ -1,19 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
 
 public class UIPlayer : MonoBehaviour
 {
-    [SerializeField] private GameObject Player;//!warning
-
-    [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private RawImage IconWeapon;
-    [SerializeField] private TMP_Text Clip;
-
-    private void Start()
+    [SerializeField] private TMP_Text clipUI;
+    public void UpdateUIPlayerClip(int PlayerClip,int CountBullets)
     {
-        _healthBar.SetColour(Color.green);
+         clipUI.text  =  $"X{PlayerClip}/{CountBullets}"; 
     }
 }

@@ -12,7 +12,7 @@ public class PlayerStats
     public float boostSpeedRate;
     public int countBullets;
     public float[] playerPosition;
-    public int countClip;
+    public int[] countClip;
 
     public PlayerStats()
     {
