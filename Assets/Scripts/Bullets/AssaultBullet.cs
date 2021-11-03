@@ -4,37 +4,11 @@ using UnityEngine;
 
 public class AssaultBullet : BaseBullet
 {
-    //To Base
-    private Transform saveParent;
-
-    private void Awake()
-    {
-        //To Base
-        saveParent = transform.parent;
-    }
-
     private void FixedUpdate()
     {
         if (_isFlying)
         {
             transform.Translate(Vector3.up * Time.deltaTime * _speedBullet);
         }
-    }
-
-    public override void ActivatingBullet()
-    {
-        gameObject.SetActive(true);
-        transform.parent = null;
-        _isFlying = true;
-    }
-
-    //To Base
-    public override IEnumerator DeactivatingBullet(float timeLive)
-    {
-        
-        yield return new WaitForSeconds(timeLive);
-        transform.SetParent(saveParent);
-        gameObject.SetActive(false);
-        _isFlying = false;
     }
 }
