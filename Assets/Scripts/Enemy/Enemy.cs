@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public Transform healthBarHolder { get; set; }
+    
     [Range(0,1000)] [SerializeField] private int _startHealthEnemy;
     [Range(0,10)] [SerializeField] private float _speedEnemy;
 
@@ -21,6 +24,12 @@ public class Enemy : MonoBehaviour
         _healthSystem.OnHealthStateMin += EnemyDie;
         _healthBarEnemy.HealthSystem = _healthSystem;
         _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
+        
+    }
+
+    private void Start()
+    {
+        _healthBarEnemy.transform.SetParent(healthBarHolder);
     }
 
     void Update()
@@ -30,6 +39,13 @@ public class Enemy : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime* _speedEnemy);
             transform.LookAt(_target);
         }
+
+        UpdateHealthBarPosition();
+    }
+
+    private void UpdateHealthBarPosition()
+    {
+        _healthBarEnemy.transform.position = transform.position;
     }
 
     private void OnCollisionEnter(Collision collision)
