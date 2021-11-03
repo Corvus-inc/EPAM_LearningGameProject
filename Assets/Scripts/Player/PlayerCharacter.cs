@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Stats;
 using UnityEditor.VersionControl;
@@ -10,7 +11,7 @@ public class PlayerCharacter : MonoBehaviour
     public WeaponSystem WeaponSystem { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
 
-    public bool isBoostedSpeed{ private get; set; }
+    public bool IsBoostedSpeed{ private get; set; }
     
     ///temporary? for working with skills
     public Weapon PlayerWeapon { get; private set; }
@@ -27,8 +28,6 @@ public class PlayerCharacter : MonoBehaviour
 
     private float _speed;
     private float _boostSpeedRate;
-    private List<GameObject> _listGun;
-    private int _indexGun = 0;
     
     private void Update()
     {
@@ -100,7 +99,7 @@ public class PlayerCharacter : MonoBehaviour
         var verticalAxis = Input.GetAxis("Vertical");
         var horiontalAxis = Input.GetAxis("Horizontal");
 
-        if (boostAxis != 0 || isBoostedSpeed)
+        if (boostAxis != 0 || IsBoostedSpeed)
         {
             var axisMediator = boostAxis;
             if (boostAxis == 0) axisMediator = 1;
@@ -168,7 +167,7 @@ public class PlayerCharacter : MonoBehaviour
                 position.z,
             },
             // temporarily
-            countClip = new []{_listGun[0].GetComponent<Weapon>().CountBulletInTheClip,_listGun[1].GetComponent<Weapon>().CountBulletInTheClip}
+            // countClip = new []{WeaponSystem.ListGun[0].GetComponent<Weapon>().CountBulletInTheClip, WeaponSystem.ListGun[1].GetComponent<Weapon>().CountBulletInTheClip}
         };
         return ps;
     }

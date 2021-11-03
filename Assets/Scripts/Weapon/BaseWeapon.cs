@@ -52,7 +52,6 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     protected void DamageToBullet(IBullet bullet)
     {
         bullet.AddBulletDamage(forceWeapon);
-        bullet.GetBulletDamage();
     }
 
     public IEnumerator DoubleDamage (float second)

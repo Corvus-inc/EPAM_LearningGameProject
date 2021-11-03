@@ -105,7 +105,6 @@ public class Weapon : MonoBehaviour
 
     private void  ResetBulletToSpawn(BaseBullet bullet)
     {
-        bullet.ReduceDamage();
         bullet.transform.position = _gunCurrent.GetSpawnBulletPosition();
         bullet.transform.localRotation = _gunCurrent.GetSpawnBulletLocalRotation();
     }

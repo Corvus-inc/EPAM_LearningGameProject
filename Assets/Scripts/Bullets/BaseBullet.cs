@@ -40,6 +40,7 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
 
     public virtual void DeactivatingBullet()
     {
+        ReduceDamage();
         transform.SetParent(saveParent);
         gameObject.SetActive(false);
         _isFlying = false;

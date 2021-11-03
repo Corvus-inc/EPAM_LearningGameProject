@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Starter : MonoBehaviour
@@ -43,8 +40,8 @@ public class Starter : MonoBehaviour
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
-
-        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, player.PlayerWeapon);
+        
+        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
     }
 
     private void SetDependencies()
