@@ -6,7 +6,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public WeaponType WeaponType { get; private set; }
-    public int CountBulletInTheClip { get; private set; }
+    public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
     public event Action IsEmptyClip;
     public event Action IsChangedClip;

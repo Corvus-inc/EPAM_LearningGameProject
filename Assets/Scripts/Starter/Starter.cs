@@ -10,10 +10,10 @@ public class Starter : MonoBehaviour
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private SkillPanelUI playerSkillPanelUI;
+    [SerializeField] private UIPlayer playerUI;
     [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private List<GameObject> _listPrefabWeapons;
     
-    [SerializeField] private UIPlayer playerUI;
 
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
@@ -58,8 +58,6 @@ public class Starter : MonoBehaviour
         pauseMenu.GameState = gameState;
         pauseMenu.Loader = _loader;
         
-        weaponController.GameState = gameState;
-
         playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
     }
 

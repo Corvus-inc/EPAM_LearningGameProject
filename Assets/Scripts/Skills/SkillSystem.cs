@@ -11,10 +11,10 @@ public class SkillSystem
     
     private HealthSystem _healthSystem;
     private PlayerCharacter _player;
-    private WeaponController _weapon;
+    private Weapon _weapon;
     private bool BoostON;
 
-    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, WeaponController weapon)
+    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, Weapon weapon)
     {
         _healthSystem = healthSystem;
         _player = player;
