@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletDamage: 7
-  _lifeTimeBullet: 10
+  _lifeTimeBullet: 2
   _speedBullet: 10
   prefabPartBullet: {fileID: 5798891901501810141}
   countParts: 33

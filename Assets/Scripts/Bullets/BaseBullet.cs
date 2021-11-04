@@ -15,19 +15,24 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
     
     protected bool _isFlying = false;
 
-    private int _startBulletDamage;
-    private Transform saveParent;
+    protected int _startBulletDamage;
+    protected Transform saveParent;
     
     private void Awake()
     {
         saveParent = transform.parent;
         ApplyStartBulletDamage();
     }
-    
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     public virtual void ActivatingBullet()
     {
         gameObject.SetActive(true);
-        IsActiveBullet?.Invoke();
+        OnActiveBullet();
         transform.parent = null;
         _isFlying = true;
     }
@@ -61,14 +66,12 @@ public abstract class BaseBullet : MonoBehaviour, IBullet
         _bulletDamage = _startBulletDamage;
     }
 
-    private void ApplyStartBulletDamage()
+    protected void OnActiveBullet()
     {
-        if (!gameObject)
-        {
-            gameObject.SetActive(true);
-            _startBulletDamage = _bulletDamage;
-            gameObject.SetActive(false);
-        }
-        else _startBulletDamage = _bulletDamage;
+        IsActiveBullet?.Invoke();
+    }
+    protected void ApplyStartBulletDamage()
+    {
+         _startBulletDamage = _bulletDamage;
     }
 }
