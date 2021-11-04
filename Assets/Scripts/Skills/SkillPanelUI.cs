@@ -17,7 +17,7 @@ public class SkillPanelUI : MonoBehaviour
     private void Awake()
     {
         // InitIcons();
-        InitMasks();
+        GettingMasks();
     }
 
     private void Start()
@@ -26,12 +26,29 @@ public class SkillPanelUI : MonoBehaviour
         skillButtons[1].onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
         skillButtons[2].onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
 
-        PlayerSkillSystem.IsHeal += () => _currentMasks[0].gameObject.SetActive(true);  
-        PlayerSkillSystem.IsBoostSpeed += () => _currentMasks[1].gameObject.SetActive(true);  
-        PlayerSkillSystem.IsIncreaseDamage += () => _currentMasks[2].gameObject.SetActive(true);  
-       
+        PlayerSkillSystem.IsHeal += AddTimeForMask0;
+        PlayerSkillSystem.IsBoostSpeed += AddTimeForMask1;
+        PlayerSkillSystem.IsIncreaseDamage += AddTimeForMask2;
+
+
     }
 
+    private void AddTimeForMask0(float time_mSec)
+    {
+        _currentMasks[0].TimeForMasked = time_mSec/1000;
+        _currentMasks[0].gameObject.SetActive(true);
+    }
+    private void AddTimeForMask1(float time_mSec)
+    {
+        _currentMasks[1].TimeForMasked = time_mSec/1000;
+        _currentMasks[1].gameObject.SetActive(true);
+    }
+    private void AddTimeForMask2(float time_mSec)
+    {
+        _currentMasks[2].TimeForMasked = time_mSec/1000;
+        _currentMasks[2].gameObject.SetActive(true);
+    }
+    
     // private void InitIcons()
     // {
     //     _iconsMask = new Image[skills.Count];
@@ -43,7 +60,7 @@ public class SkillPanelUI : MonoBehaviour
     //     }
     // } 
     
-    private void InitMasks()
+    private void GettingMasks()
     {
         _currentMasks = new ButtonMask[skills.Count];
         for (var i = 0; i < _currentMasks.Length; i++)
@@ -51,7 +68,7 @@ public class SkillPanelUI : MonoBehaviour
             _currentMasks[i] = skills[i].IconMask.gameObject.GetComponent<ButtonMask>();
             // _currentMasks[i].IconMask = _iconsMask[i];
             
-            _currentMasks[i].TimeForMasked = 5;
+            // _currentMasks[i].TimeForMasked = 5;
         }
     }
 }
