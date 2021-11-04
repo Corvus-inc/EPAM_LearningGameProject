@@ -8,7 +8,7 @@ public class ButtonMask : MonoBehaviour
 {
     public float TimeForMasked { private get; set; }
 
-    public Image IconMask {private get; set; }
+    [SerializeField] private Image IconMask;
 
     // Start is called before the first frame update
     void Start()

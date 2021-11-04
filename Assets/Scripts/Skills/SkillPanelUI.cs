@@ -11,12 +11,12 @@ public class SkillPanelUI : MonoBehaviour
     [SerializeField] private List<Button> skillButtons;
     [SerializeField] private List<SkillUI> skills;
     
-    private Image[] _iconsMask;
+    // private Image[] _iconsMask;
     private ButtonMask[] _currentMasks;
 
     private void Awake()
     {
-        InitIcons();
+        // InitIcons();
         InitMasks();
     }
 
@@ -32,24 +32,24 @@ public class SkillPanelUI : MonoBehaviour
        
     }
 
-    private void InitIcons()
-    {
-        _iconsMask = new Image[skills.Count];
-        for (var i = 0; i < _iconsMask.Length; i++)
-        {
-            _iconsMask[i] = skills[i].IconMask;
-            _iconsMask[i].fillAmount = 0;
-
-        }
-    } 
+    // private void InitIcons()
+    // {
+    //     _iconsMask = new Image[skills.Count];
+    //     for (var i = 0; i < _iconsMask.Length; i++)
+    //     {
+    //         _iconsMask[i] = skills[i].IconMask;
+    //         _iconsMask[i].fillAmount = 0;
+    //
+    //     }
+    // } 
     
     private void InitMasks()
     {
-        _currentMasks = new ButtonMask[_iconsMask.Length];
+        _currentMasks = new ButtonMask[skills.Count];
         for (var i = 0; i < _currentMasks.Length; i++)
         {
-            _currentMasks[i] = _iconsMask[i].gameObject.GetComponent<ButtonMask>();
-            _currentMasks[i].IconMask = _iconsMask[i];
+            _currentMasks[i] = skills[i].IconMask.gameObject.GetComponent<ButtonMask>();
+            // _currentMasks[i].IconMask = _iconsMask[i];
             
             _currentMasks[i].TimeForMasked = 5;
         }

@@ -16,8 +16,7 @@ public class SkillSystem
     private Func<Weapon> _getWeapon;
     private Weapon _currentWeapon;
     
-    
-    private float mSecForRun = 2000;
+    private float _mSecForRun = 2000;
     private bool _timerContinues;
 
     public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, Func<Weapon>  getWeapon)
@@ -38,8 +37,10 @@ public class SkillSystem
 
     public void BoostSpeedSkill()
     { 
-        TimerSkillManager(() =>{_player.IsBoostedSpeed = true;},
-            ()=> {_player.IsBoostedSpeed = false;});
+        TimerSkillManager(
+            () =>{_player.IsBoostedSpeed = true;},
+            ()=> {_player.IsBoostedSpeed = false;}
+            );
         IsBoostSpeed.Invoke();
     }
 
@@ -61,7 +62,7 @@ public class SkillSystem
             start.Invoke();
             // _player.IsBoostedSpeed = true;
             
-            aTimer = new Timer(mSecForRun);
+            aTimer = new Timer(_mSecForRun);
             aTimer.Elapsed += TimerComplete;
             aTimer.Enabled = true;
             void TimerComplete(object sender, ElapsedEventArgs elapsedEventArgs)
