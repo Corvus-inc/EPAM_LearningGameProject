@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Timers;
 using UnityEngine;
 
 public class SkillSystem
@@ -8,13 +10,15 @@ public class SkillSystem
     public event Action IsHeal;
     public event Action IsBoostSpeed;
     public event Action IsIncreaseDamage;
-    
+
     private HealthSystem _healthSystem;
     private PlayerCharacter _player;
     private Func<Weapon> _getWeapon;
     private Weapon _currentWeapon;
     
-    private bool BoostON;
+    
+    private float mSecForRun = 2000;
+    private bool _timerContinues;
 
     public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, Func<Weapon>  getWeapon)
     {
@@ -26,22 +30,16 @@ public class SkillSystem
 
     public void HealSkill()
     {
-        _healthSystem.Heal(20);
+        const int valueHeal = 20;
+        _healthSystem.Heal(valueHeal);
+        
         IsHeal.Invoke();
     }
 
     public void BoostSpeedSkill()
-    {
-        if (!BoostON)  
-        { 
-            BoostON = true;
-            _player.IsBoostedSpeed = true;
-        }
-        else
-        {
-            BoostON = false;
-            _player.IsBoostedSpeed = false;
-        }
+    { 
+        TimerSkillManager(() =>{_player.IsBoostedSpeed = true;},
+            ()=> {_player.IsBoostedSpeed = false;});
         IsBoostSpeed.Invoke();
     }
 
@@ -50,5 +48,32 @@ public class SkillSystem
         _currentWeapon = _getWeapon.Invoke();
         _currentWeapon.StartDoubleDamage(20);
         IsIncreaseDamage.Invoke();
+    }
+
+    private void TimerSkillManager(Action start, Action finish)
+    {
+        if (!_timerContinues)
+        {
+            Timer aTimer;
+            //only one timer
+            _timerContinues = true;
+
+            start.Invoke();
+            // _player.IsBoostedSpeed = true;
+            
+            aTimer = new Timer(mSecForRun);
+            aTimer.Elapsed += TimerComplete;
+            aTimer.Enabled = true;
+            void TimerComplete(object sender, ElapsedEventArgs elapsedEventArgs)
+            {
+                _timerContinues = false;
+
+                finish.Invoke();
+                // _player.IsBoostedSpeed = false;
+            
+                aTimer.Stop();
+                aTimer.Dispose();
+            }
+        }
     }
 }
