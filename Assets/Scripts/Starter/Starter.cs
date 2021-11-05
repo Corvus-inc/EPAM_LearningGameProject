@@ -15,7 +15,7 @@ public class Starter : MonoBehaviour
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
     private SkillSystem _playerSkillSystem;
-    private List<Weapon> _weapons;
+    private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -36,10 +36,12 @@ public class Starter : MonoBehaviour
         player.InitializationPlayerStats(_loaderData);
         
         _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
-
-        var creator = new WeaponCreator();
-        _weapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
-        _playerWeaponSystem = new WeaponSystem(_weapons, player.transform, playerUI, player.CountBullets);
+        
+        //How Created weapons?
+        var creator = new GameObject().AddComponent<WeaponCreator>().GetComponent<WeaponCreator>();
+        _playerWeapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
+        Destroy(creator.gameObject); 
+        _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loaderData.startedWeapon);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));

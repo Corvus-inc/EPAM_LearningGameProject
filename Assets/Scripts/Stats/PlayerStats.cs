@@ -13,6 +13,7 @@ public class PlayerStats
     public int countBullets;
     public float[] playerPosition;
     public int[] countClip;
+    public int startedWeapon;
 
     public PlayerStats()
     {
@@ -27,5 +28,6 @@ public class PlayerStats
         countBullets = dataPlayerStats.countBullets;
         playerPosition = dataPlayerStats.playerPosition;
         countClip = dataPlayerStats.countClip;
+        startedWeapon = dataPlayerStats.startedWeapon;
     }
 }

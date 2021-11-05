@@ -15,9 +15,9 @@ public class WeaponSystem
     private int _countIndexWeapon;
     private int _indexWeapon;
 
-    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
+    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, int startedWeapon)
     {
-        _indexWeapon = 0;
+        _indexWeapon = startedWeapon;
         _countIndexWeapon = listWeapons.Count;
         
         _ui = UI;
