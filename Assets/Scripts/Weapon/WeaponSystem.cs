@@ -17,9 +17,6 @@ public class WeaponSystem
 
     public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
     {
-        
-
-        
         _indexWeapon = 0;
         _countIndexWeapon = listWeapons.Count;
         
@@ -29,7 +26,6 @@ public class WeaponSystem
         _gunEquipped = listWeapons[_indexWeapon].gameObject;
         _userCountBullets = userCountBullets;
         CurrentWeapon = listWeapons[_indexWeapon];
-
     }
 
     public Weapon GetCurrentWeapon()

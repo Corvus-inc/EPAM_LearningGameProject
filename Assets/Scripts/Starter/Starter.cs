@@ -37,7 +37,8 @@ public class Starter : MonoBehaviour
         
         _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
 
-        InitStoreWeapons();
+        var creator = new WeaponCreator();
+        _weapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
         _playerWeaponSystem = new WeaponSystem(_weapons, player.transform, playerUI, player.CountBullets);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
@@ -60,20 +61,5 @@ public class Starter : MonoBehaviour
         pauseMenu.Loader = _loader;
         
         playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
-    }
-    
-    
-    public void InitStoreWeapons()
-    {
-        var storePosition = new GameObject("StoreWeapons").transform;
-        storePosition.position = Vector3.down;
-        _weapons = new List<Weapon>();
-        foreach (var weapon in _listPrefabWeapons)
-        {
-            var newWeapon = Instantiate(weapon, player.transform).GetComponent<Weapon>();
-            _weapons.Add(newWeapon);
-            newWeapon.transform.SetParent(storePosition);
-            newWeapon.gameObject.SetActive(false);
-        }
     }
 }
