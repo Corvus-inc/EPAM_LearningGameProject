@@ -22,25 +22,34 @@ public class StatLoader
         startedWeapon = 0
     };
     public PlayerStats LoadablePlayerStats { get; private set; }
-    public PlayerStats SavingPlayerStats { get; private set; }
+    private PlayerStats SavingPlayerStats { get; set; }
     
     //How transfer only delegate - gameState.IsSaveProgress
     public StatLoader(bool isLoader, GameState gameState)
     {
-        HealthPlayerData = new HealthPlayerData();
         var startedData = new PlayerStats(_started);
         LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
         gameState.IsSaveProgress += SavePlayerStats;
+        HealthPlayerData = LoadHealthPlayerData();
+    }
+    public PlayerData LoadPlayerData()
+    {
+        PlayerData = new PlayerData();
+        PlayerData.Speed = LoadablePlayerStats.speed;
+        PlayerData.BoostSpeedRate = LoadablePlayerStats.boostSpeedRate;
+        PlayerData.CountBullet = LoadablePlayerStats.countBullets;
+        PlayerData.Position = LoadablePlayerStats.playerPosition;
+        return PlayerData;
     }
 
-    public void SavePlayerStats()
+    private void SavePlayerStats()
     {
         OnSavePlayerData?.Invoke();
         OnSaveHealthPlayerData?.Invoke();
 
         var savingPlayerData = new PlayerStats();
         savingPlayerData.health = HealthPlayerData.Health;
-        savingPlayerData.maxHealth = 100;
+        savingPlayerData.maxHealth = _started.health;
         savingPlayerData.speed = PlayerData.Speed;
         savingPlayerData.boostSpeedRate = _started.boostSpeedRate;
         savingPlayerData.countBullets = PlayerData.CountBullet;
@@ -52,14 +61,13 @@ public class StatLoader
         SavingSystem.Save(SavingPlayerStats,"PlayerData");
     }
 
-    public PlayerData LoadPlayerData()
+
+    private HealthPlayerData LoadHealthPlayerData()
     {
-        PlayerData = new PlayerData();
-        PlayerData.Speed = LoadablePlayerStats.speed;
-        PlayerData.BoostSpeedRate = LoadablePlayerStats.boostSpeedRate;
-        PlayerData.CountBullet = LoadablePlayerStats.countBullets;
-        PlayerData.Position = LoadablePlayerStats.playerPosition;
-        return PlayerData;
+        HealthPlayerData = new HealthPlayerData();
+        HealthPlayerData.MaxHealth = LoadablePlayerStats.maxHealth;
+        HealthPlayerData.Health = LoadablePlayerStats.health;
+        return HealthPlayerData;
     }
 }
 
@@ -78,5 +86,6 @@ public class WeaponPlayerData
 }
 public class HealthPlayerData
 {
+    public int MaxHealth { get; set; }
     public int Health { get; set; }
 }

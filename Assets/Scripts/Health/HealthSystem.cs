@@ -23,13 +23,13 @@ public class HealthSystem
         _health = healthMax;
         _healthMin = 0;
     }
-    public HealthSystem(int healthMax, int currentHealth, StatLoader statLoader)
+    public HealthSystem(StatLoader statLoader)
     {
         StatLoader = statLoader;
         StatLoader.OnSaveHealthPlayerData += SaveHealth;
 
-        _healthMax = healthMax;
-        _health = currentHealth;
+        _healthMax = StatLoader.HealthPlayerData.MaxHealth;
+        _health = StatLoader.HealthPlayerData.Health;
         _healthMin = 0;
     }
 
