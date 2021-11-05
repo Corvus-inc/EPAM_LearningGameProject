@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public static bool ShootIsLocked { get; set;} 
     public WeaponType WeaponType { get; private set; }
-    public int CountBulletInTheClip { get; private set; }
+    public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
     public event Action IsEmptyClip;
     public event Action IsChangedClip;
@@ -48,7 +49,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused) return;
+        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused || ShootIsLocked) return;
 
         NextIndexBullet();
         LetItFly(_indexBullet);
@@ -73,6 +74,16 @@ public class Weapon : MonoBehaviour
         return remains;
     }
 
+    public void StartDoubleDamage(float second)
+    { 
+        StopCoroutine(_gunCurrent.DoubleDamage(0));
+        StartCoroutine(_gunCurrent.DoubleDamage(second));
+    }
+    public void StopDoubleDamage()
+    {
+        StopCoroutine(_gunCurrent.DoubleDamage(0));
+    }
+
     private void LetItFly(int indexBullet)
     {
         if (!_gunCurrent.WeaponActive) return;
@@ -95,7 +106,6 @@ public class Weapon : MonoBehaviour
 
     private void  ResetBulletToSpawn(BaseBullet bullet)
     {
-        bullet.ReduceDamage();
         bullet.transform.position = _gunCurrent.GetSpawnBulletPosition();
         bullet.transform.localRotation = _gunCurrent.GetSpawnBulletLocalRotation();
     }

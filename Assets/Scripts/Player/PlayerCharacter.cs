@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Stats;
 using UnityEditor.VersionControl;
@@ -9,12 +10,17 @@ public class PlayerCharacter : MonoBehaviour
 {
     public WeaponSystem WeaponSystem { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
-    public GameState GameState { get; set; }
-    public int CountBullets{ get; set; }
 
-    public int PlayerClip => _playerWeapon.CountBulletInTheClip;
-    public int MaxHealthPlayer => HealthSystem.MaxHeals;
-    public int CurrentHealthPlayer => HealthSystem.Health;
+    public bool IsBoostedSpeed{ private get; set; }
+    
+    ///temporary? for working with skills
+    public Weapon PlayerWeapon { get; private set; }
+
+    public GameState GameState { get; set; }
+    public int CountBullets{ get; private set; }
+
+    private int MaxHealthPlayer => HealthSystem.MaxHeals;
+    private int CurrentHealthPlayer => HealthSystem.Health;
     
     [SerializeField] private LayerMask layerEnemy;
     [SerializeField] private Transform targetForLook;
@@ -22,26 +28,19 @@ public class PlayerCharacter : MonoBehaviour
 
     private float _speed;
     private float _boostSpeedRate;
-    public GameObject _gunEquipped{ get; private set; }
-    private Weapon _playerWeapon;
-    private List<GameObject> _listGun;
-    private int CountGun => _listGun.Count;
-    private int _indexGun = 0;
-    // temporarily
-    private int _countBulletInTheClip;
     
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             //Move to Weapon system
-            _playerWeapon.ReturnAllBulletToSpawn();
-            _playerWeapon = WeaponSystem.SwitchWeapon();
+            PlayerWeapon.ReturnAllBulletToSpawn();
+            PlayerWeapon = WeaponSystem.SwitchWeapon();
             
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            InitWeapon();
+            PlayerWeapon = WeaponSystem.GetEquippedWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -64,7 +63,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        InitWeapon();
+        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
         
         GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
         HealthSystem.OnHealthStateMin += PlayerDie;
@@ -100,9 +99,11 @@ public class PlayerCharacter : MonoBehaviour
         var verticalAxis = Input.GetAxis("Vertical");
         var horiontalAxis = Input.GetAxis("Horizontal");
 
-        if (boostAxis != 0)
+        if (boostAxis != 0 || IsBoostedSpeed)
         {
-            currentSpeed *= _boostSpeedRate * boostAxis;
+            var axisMediator = boostAxis;
+            if (boostAxis == 0) axisMediator = 1;
+            currentSpeed *= _boostSpeedRate * axisMediator;
         }
 
         if (verticalAxis != 0)
@@ -135,8 +136,8 @@ public class PlayerCharacter : MonoBehaviour
 
         return false;
     }
-
-    #region statsmethods
+        
+#region statsmethods
     public void InitializationPlayerStats(PlayerStats playerData)
     {
         _speed = playerData.speed;
@@ -145,7 +146,7 @@ public class PlayerCharacter : MonoBehaviour
         var position = playerData.playerPosition;
         transform.position = new Vector3(position[0], position[1], position[2]);
         // temporarily
-        _countBulletInTheClip = playerData.countClip[_indexGun];
+        // WeaponSystem.ListWeapon[_indexGun] = playerData.countClip[_indexGun];
         //if have many weapon need save lastWeapon
     }
     
@@ -166,7 +167,7 @@ public class PlayerCharacter : MonoBehaviour
                 position.z,
             },
             // temporarily
-            countClip = new []{_listGun[0].GetComponent<Weapon>().CountBulletInTheClip,_listGun[1].GetComponent<Weapon>().CountBulletInTheClip}
+            // countClip = new []{WeaponSystem.ListGun[0].GetComponent<Weapon>().CountBulletInTheClip, WeaponSystem.ListGun[1].GetComponent<Weapon>().CountBulletInTheClip}
         };
         return ps;
     }
@@ -174,13 +175,6 @@ public class PlayerCharacter : MonoBehaviour
     private void SavePlayerStats(PlayerStats stats)
     {
         SavingSystem.Save(stats, "PlayerData");
-    }
-#endregion
-
-#region equipWweapons
-    public void InitWeapon()
-    {
-        _playerWeapon = WeaponSystem.GetEquippedWeapon();
     }
 #endregion
 }
