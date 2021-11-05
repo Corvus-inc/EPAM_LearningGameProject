@@ -6,11 +6,11 @@ using UnityEngine;
 public class WeaponSystem
 {
     public Weapon CurrentWeapon { get; private set; }
+    public int UserCountBullets{ get; private set; }
     
     private List<Weapon> _listWeapons;
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
-    private int _userCountBullets;
     private readonly UIPlayer _ui;
     private int _countIndexWeapon;
     private int _indexWeapon;
@@ -24,7 +24,7 @@ public class WeaponSystem
         _listWeapons = listWeapons;
         _transformTo = transformTo;
         _gunEquipped = listWeapons[_indexWeapon].gameObject;
-        _userCountBullets = userCountBullets;
+        UserCountBullets = userCountBullets;
         CurrentWeapon = listWeapons[_indexWeapon];
     }
 
@@ -56,9 +56,9 @@ public class WeaponSystem
     }
     public void RechargeGun()
     {
-        int remains = CurrentWeapon.Recharge(_userCountBullets);
-        _userCountBullets = remains;
-        if (_userCountBullets < 0) _userCountBullets = 0;
+        int remains = CurrentWeapon.Recharge(UserCountBullets);
+        UserCountBullets = remains;
+        if (UserCountBullets < 0) UserCountBullets = 0;
         UpdateUI();
     }
     
@@ -73,12 +73,12 @@ public class WeaponSystem
              CurrentWeapon = GetCurrentWeapon();
              CurrentWeapon.IsEmptyClip += RechargeGun;
              CurrentWeapon.IsChangedClip += UpdateUI;
-             RechargeGun();
+             RechargeGun(); 
          }
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, _userCountBullets);
+        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets);
     }
     
 }

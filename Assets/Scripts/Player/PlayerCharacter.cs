@@ -8,15 +8,13 @@ using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public StatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
     public HealthSystem HealthSystem { private get; set; }
-
     public bool IsBoostedSpeed{ private get; set; }
-    
     ///temporary? for working with skills
     public Weapon PlayerWeapon { get; private set; }
-
-    public GameState GameState { get; set; }
+    public GameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
     private int MaxHealthPlayer => HealthSystem.MaxHeals;
@@ -28,7 +26,15 @@ public class PlayerCharacter : MonoBehaviour
 
     private float _speed;
     private float _boostSpeedRate;
-    
+
+    private void Start()
+    {
+        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+
+        StatLoader.OnSavePlayer += SavePlayer;
+        HealthSystem.OnHealthStateMin += PlayerDie;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -61,14 +67,29 @@ public class PlayerCharacter : MonoBehaviour
         LookAtTargetForPlayer(targetForLook);
     }
 
-    private void Start()
+    public void LoadPlayer(PlayerData loadPlayerData)
     {
-        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
-        
-        GameState.IsSaveProgress += () => SavePlayerStats(CollectPlayerStats());
-        HealthSystem.OnHealthStateMin += PlayerDie;
+        _speed = loadPlayerData.speed;
+        _boostSpeedRate = loadPlayerData.boostSpeedRate;
+        CountBullets = loadPlayerData.countBullet;
+        var position = loadPlayerData.position;
+        transform.position = new Vector3(position[0], position[1], position[2]);
     }
 
+    private void SavePlayer()
+    {
+        StatLoader.PlayerData.speed = _speed;
+        var position = transform.position;
+        StatLoader.PlayerData.position =  new []
+        {
+            position.x,
+            position.y,
+            position.z,
+        };
+        //move to weapon system or create inventory or all
+        StatLoader.PlayerData.countBullet = WeaponSystem.UserCountBullets;
+    }
+    
     private void PlayerDie(object sender, System.EventArgs e)
     {
         HealthSystem.OnHealthStateMin -= PlayerDie;
@@ -136,45 +157,4 @@ public class PlayerCharacter : MonoBehaviour
 
         return false;
     }
-        
-#region statsmethods
-    public void InitializationPlayerStats(PlayerStats playerData)
-    {
-        _speed = playerData.speed;
-        _boostSpeedRate = playerData.boostSpeedRate;
-        CountBullets = playerData.countBullets;
-        var position = playerData.playerPosition;
-        transform.position = new Vector3(position[0], position[1], position[2]);
-        // temporarily
-        // WeaponSystem.ListWeapon[_indexGun] = playerData.countClip[_indexGun];
-        //if have many weapon need save lastWeapon
-    }
-    
-    private PlayerStats CollectPlayerStats()
-    {
-        var position = transform.position;
-        var ps = new PlayerStats
-        {
-            speed = _speed,
-            maxHealth = MaxHealthPlayer,
-            health = CurrentHealthPlayer,
-            countBullets = CountBullets,
-            boostSpeedRate = _boostSpeedRate,
-            playerPosition = new []
-            {
-                position.x,
-                position.y,
-                position.z,
-            },
-            // temporarily
-            // countClip = new []{WeaponSystem.ListGun[0].GetComponent<Weapon>().CountBulletInTheClip, WeaponSystem.ListGun[1].GetComponent<Weapon>().CountBulletInTheClip}
-        };
-        return ps;
-    }
-
-    private void SavePlayerStats(PlayerStats stats)
-    {
-        SavingSystem.Save(stats, "PlayerData");
-    }
-#endregion
 }

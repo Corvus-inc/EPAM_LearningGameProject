@@ -28,27 +28,26 @@ public class Starter : MonoBehaviour
     private void Initialize()
     {
         //1 The loader loading start data or loadable data do it in beginning the Initialize.
-        _loader = new StatLoader(GameState.GameIsLoaded);
+        _loader = new StatLoader(GameState.GameIsLoaded, gameState);
         _loaderData = _loader.LoadablePlayerStats;
         GameState.GameIsLoaded = false;
-        //2 The loader assign data for all systems in the end the Initializing
         
-        player.InitializationPlayerStats(_loaderData);
-        
+        player.StatLoader = _loader;
+        player.LoadPlayer(_loader.LoadPlayerData());
+
         _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
         
         //How Created weapons?
         var creator = new GameObject().AddComponent<WeaponCreator>().GetComponent<WeaponCreator>();
         _playerWeapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
         Destroy(creator.gameObject); 
+        
         _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loaderData.startedWeapon);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
-        
-        _loader.SetDataForPlayer(player);
     }
 
     private void SetDependencies()
