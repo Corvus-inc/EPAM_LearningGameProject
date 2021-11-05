@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillPanelUI : MonoBehaviour
+public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHandler
 {
     public SkillSystem PlayerSkillSystem { private get; set; }
-    
+
     [SerializeField] private List<Button> skillButtons;
     [SerializeField] private List<SkillUI> skills;
     
@@ -29,10 +30,37 @@ public class SkillPanelUI : MonoBehaviour
         PlayerSkillSystem.IsHeal += AddTimeForMask0;
         PlayerSkillSystem.IsBoostSpeed += AddTimeForMask1;
         PlayerSkillSystem.IsIncreaseDamage += AddTimeForMask2;
-
-
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayerSkillSystem.HealSkill();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PlayerSkillSystem.BoostSpeedSkill();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerSkillSystem.IncreasesDamageSkill();
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Enter");
+        Weapon.ShootIsLocked = true;
+        
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Exit");
+        Weapon.ShootIsLocked = false;
+    }
+
+    //for created types
     private void AddTimeForMask0(float time_mSec)
     {
         _currentMasks[0].TimeForMasked = time_mSec/1000;

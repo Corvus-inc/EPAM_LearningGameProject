@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Timers;
 using UnityEngine;
 
@@ -11,6 +8,7 @@ public class SkillSystem
     public event Action<float> IsBoostSpeed;
     public event Action<float> IsIncreaseDamage;
 
+    
     private HealthSystem _healthSystem;
     private PlayerCharacter _player;
     private Func<Weapon> _getWeapon;

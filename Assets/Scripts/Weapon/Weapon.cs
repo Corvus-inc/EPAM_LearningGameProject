@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public static bool ShootIsLocked { get; set;} 
     public WeaponType WeaponType { get; private set; }
     public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
@@ -48,7 +49,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused) return;
+        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused || ShootIsLocked) return;
 
         NextIndexBullet();
         LetItFly(_indexBullet);
