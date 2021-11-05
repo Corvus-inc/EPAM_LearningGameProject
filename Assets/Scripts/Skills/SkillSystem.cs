@@ -15,11 +15,15 @@ public class SkillSystem
     private PlayerCharacter _player;
     private Func<Weapon> _getWeapon;
     private Weapon _currentWeapon;
-    private bool _timerContinues;
 
+    //Characteristics for skill object
     private const float _mSecForHealSkill = 1000;
     private const float _mSecForBoostSkill = 2000;
     private const float _mSecForDamageSkill = 5000;
+
+    private bool _continuesHealSkill;
+    private bool _continuesBoostSkill;
+    private bool _continuesDamageSkill;
 
     public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, Func<Weapon>  getWeapon)
     {
@@ -39,8 +43,10 @@ public class SkillSystem
             },
             () =>
             {
+                _continuesHealSkill = false;
                 Debug.Log("Heal Recharged!");
-            }
+            },
+            ref _continuesHealSkill
             );
         IsHeal.Invoke(_mSecForHealSkill);
     }
@@ -55,8 +61,10 @@ public class SkillSystem
             () =>
             {
                 _player.IsBoostedSpeed = false;
+                _continuesBoostSkill = false;
                 Debug.Log("Speed Recharged!");
-            }
+            },
+            ref _continuesBoostSkill
             );
         IsBoostSpeed.Invoke(_mSecForBoostSkill);
     }
@@ -71,18 +79,20 @@ public class SkillSystem
             }, 
             () =>
             {
+                _continuesDamageSkill = false;
                 Debug.Log("Damage Recharged!");
-            }
+            },
+            ref _continuesDamageSkill
             );
         IsIncreaseDamage.Invoke(_mSecForDamageSkill);
     }
 
-    private void TimerSkillManager(Action start, Action finish)
+    private void TimerSkillManager(Action start, Action finish,ref bool timerContinues)
     {
-        if (_timerContinues) return;
+        if (timerContinues) return;
         Timer aTimer;
         //only one timer
-        _timerContinues = true;
+        timerContinues = true;
 
         start.Invoke();
         // _player.IsBoostedSpeed = true;
@@ -92,10 +102,7 @@ public class SkillSystem
         aTimer.Enabled = true;
         void TimerComplete(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            _timerContinues = false;
-
             finish.Invoke();
-            // _player.IsBoostedSpeed = false;
             
             aTimer.Stop();
             aTimer.Dispose();

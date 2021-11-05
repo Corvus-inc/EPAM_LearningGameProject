@@ -3096,11 +3096,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4063277087605174143, guid: 49e5638b2f7354e60a0bb591371dd8cf, type: 3}
       propertyPath: m_Spacing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4063277087605174143, guid: 49e5638b2f7354e60a0bb591371dd8cf, type: 3}
       propertyPath: m_ChildAlignment
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4172145264409447254, guid: 49e5638b2f7354e60a0bb591371dd8cf, type: 3}
       propertyPath: m_Name
@@ -3152,7 +3152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7522110643916369822, guid: 49e5638b2f7354e60a0bb591371dd8cf, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 218
+      value: 216
       objectReference: {fileID: 0}
     - target: {fileID: 7522110643916369822, guid: 49e5638b2f7354e60a0bb591371dd8cf, type: 3}
       propertyPath: m_SizeDelta.y
