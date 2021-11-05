@@ -35,7 +35,7 @@ public class Starter : MonoBehaviour
         player.StatLoader = _loader;
         player.LoadPlayer(_loader.LoadPlayerData());
 
-        _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
+        _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health, _loader);
         
         //How Created weapons?
         var creator = new GameObject().AddComponent<WeaponCreator>().GetComponent<WeaponCreator>();

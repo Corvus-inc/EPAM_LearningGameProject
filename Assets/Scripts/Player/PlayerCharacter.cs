@@ -31,7 +31,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         PlayerWeapon = WeaponSystem.GetEquippedWeapon();
 
-        StatLoader.OnSavePlayer += SavePlayer;
+        StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
     }
 
@@ -69,25 +69,25 @@ public class PlayerCharacter : MonoBehaviour
 
     public void LoadPlayer(PlayerData loadPlayerData)
     {
-        _speed = loadPlayerData.speed;
-        _boostSpeedRate = loadPlayerData.boostSpeedRate;
-        CountBullets = loadPlayerData.countBullet;
-        var position = loadPlayerData.position;
+        _speed = loadPlayerData.Speed;
+        _boostSpeedRate = loadPlayerData.BoostSpeedRate;
+        CountBullets = loadPlayerData.CountBullet;
+        var position = loadPlayerData.Position;
         transform.position = new Vector3(position[0], position[1], position[2]);
     }
 
-    private void SavePlayer()
+    private void SavePlayerData()
     {
-        StatLoader.PlayerData.speed = _speed;
+        StatLoader.PlayerData.Speed = _speed;
         var position = transform.position;
-        StatLoader.PlayerData.position =  new []
+        StatLoader.PlayerData.Position =  new []
         {
             position.x,
             position.y,
             position.z,
         };
         //move to weapon system or create inventory or all
-        StatLoader.PlayerData.countBullet = WeaponSystem.UserCountBullets;
+        StatLoader.PlayerData.CountBullet = WeaponSystem.UserCountBullets;
     }
     
     private void PlayerDie(object sender, System.EventArgs e)

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class HealthSystem
 {
+    public StatLoader StatLoader { private get; set; }
+    
     public event EventHandler OnHealthChanged;
     public event EventHandler OnHealthStateMin;
 
@@ -21,8 +23,11 @@ public class HealthSystem
         _health = healthMax;
         _healthMin = 0;
     }
-    public HealthSystem(int healthMax, int currentHealth)
+    public HealthSystem(int healthMax, int currentHealth, StatLoader statLoader)
     {
+        StatLoader = statLoader;
+        StatLoader.OnSaveHealthPlayerData += SaveHealth;
+
         _healthMax = healthMax;
         _health = currentHealth;
         _healthMin = 0;
@@ -52,5 +57,10 @@ public class HealthSystem
         if (_health > _healthMax) _health = _healthMax;
 
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
+    }
+
+    private void SaveHealth()
+    {
+        StatLoader.HealthPlayerData.Health = _health;
     }
 }
