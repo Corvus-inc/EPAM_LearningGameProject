@@ -20,4 +20,28 @@ public class StatLoader
         var startedData = new PlayerStats(_started);
         LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
     }
+
+    public void SetDataForPlayer(PlayerCharacter pc)
+    {
+        // _speed = LoadablePlayerStats.speed;
+        // _boostSpeedRate = LoadablePlayerStats.boostSpeedRate;
+        // CountBullets = LoadablePlayerStats.countBullets;
+        // var position = LoadablePlayerStats.playerPosition;
+        // transform.position = new Vector3(position[0], position[1], position[2]);
+    }
+    
+    public void SetDataForWeapons()
+    {
+        
+    }
+    
+    public void SetDataForSkills()
+    {
+        
+    }
+    
+    public void SetDataForEnemy()
+    {
+        
+    }
 }

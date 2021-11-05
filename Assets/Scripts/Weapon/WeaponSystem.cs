@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-public class WeaponSystem 
+public class WeaponSystem
 {
     public Weapon CurrentWeapon { get; private set; }
     
-    private List<GameObject> _listWeapons;
+    private List<Weapon> _listWeapons;
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
     private int _userCountBullets;
@@ -15,17 +15,20 @@ public class WeaponSystem
     private int _countIndexWeapon;
     private int _indexWeapon;
 
-    public WeaponSystem(List<GameObject> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
+    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
     {
+        
+
+        
         _indexWeapon = 0;
         _countIndexWeapon = listWeapons.Count;
         
         _ui = UI;
         _listWeapons = listWeapons;
         _transformTo = transformTo;
-        _gunEquipped = listWeapons[_indexWeapon];
+        _gunEquipped = listWeapons[_indexWeapon].gameObject;
         _userCountBullets = userCountBullets;
-        CurrentWeapon = GetCurrentWeapon();
+        CurrentWeapon = listWeapons[_indexWeapon];
 
     }
 
@@ -37,7 +40,7 @@ public class WeaponSystem
     {
         UnequippedGun();
         _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
-        _gunEquipped = _listWeapons[_indexWeapon];
+        _gunEquipped = _listWeapons[_indexWeapon].gameObject;
         return GetEquippedWeapon();
     }
 

@@ -15,7 +15,7 @@ public class Starter : MonoBehaviour
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
     private SkillSystem _playerSkillSystem;
-    private List<GameObject> _weapons;
+    private List<Weapon> _weapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -27,9 +27,11 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
+        //1 The loader loading start data or loadable data do it in beginning the Initialize.
         _loader = new StatLoader(GameState.GameIsLoaded);
         _loaderData = _loader.LoadablePlayerStats;
         GameState.GameIsLoaded = false;
+        //2 The loader assign data for all systems in the end the Initializing
         
         player.InitializationPlayerStats(_loaderData);
         
@@ -42,6 +44,8 @@ public class Starter : MonoBehaviour
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
+        
+        _loader.SetDataForPlayer(player);
     }
 
     private void SetDependencies()
@@ -57,18 +61,19 @@ public class Starter : MonoBehaviour
         
         playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
     }
-
-    private void InitStoreWeapons()
+    
+    
+    public void InitStoreWeapons()
     {
-        var storePosition = Instantiate(new GameObject("StoreWeapons")).transform;
+        var storePosition = new GameObject("StoreWeapons").transform;
         storePosition.position = Vector3.down;
-        _weapons = new List<GameObject>();
+        _weapons = new List<Weapon>();
         foreach (var weapon in _listPrefabWeapons)
         {
-            var newWeapon = Instantiate(weapon, player.transform);
+            var newWeapon = Instantiate(weapon, player.transform).GetComponent<Weapon>();
             _weapons.Add(newWeapon);
             newWeapon.transform.SetParent(storePosition);
-            newWeapon.SetActive(false);
+            newWeapon.gameObject.SetActive(false);
         }
     }
 }
