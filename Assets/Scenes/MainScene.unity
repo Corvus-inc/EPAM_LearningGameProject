@@ -1559,6 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clipUI: {fileID: 1760246822}
+  iconUI: {fileID: 918482479}
 --- !u!1 &1080321288
 GameObject:
   m_ObjectHideFlags: 0

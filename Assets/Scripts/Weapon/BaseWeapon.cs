@@ -5,12 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {   
     public int ClipCount => clipCount;
     public int ForceWeapon => forceWeapon;
     public bool WeaponActive { get; set; }
+
+    public RawImage Icon => icon;
+
+    [SerializeField] protected RawImage icon;
     
     [SerializeField] protected int clipCount;
     [SerializeField] protected int forceWeapon;

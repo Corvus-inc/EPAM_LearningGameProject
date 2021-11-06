@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Weapon : MonoBehaviour
     public WeaponType WeaponType { get; private set; }
     public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
+    public RawImage CurrentIcon { get; set; }
+
     public event Action IsEmptyClip;
     public event Action IsChangedClip;
     
@@ -38,6 +41,8 @@ public class Weapon : MonoBehaviour
 
         _listBullets = CreateClip(bulletPrefab);
         MaxBulletInTheClip = _listBullets.Count;
+        
+        CurrentIcon = _gunCurrent.Icon;
     }
 
     private void Start()

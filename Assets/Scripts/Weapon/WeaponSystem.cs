@@ -110,7 +110,8 @@ public class WeaponSystem
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets);
+        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
+        
     }
     
 }

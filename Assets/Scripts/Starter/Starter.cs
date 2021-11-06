@@ -31,7 +31,9 @@ public class Starter : MonoBehaviour
         //1 The loader loading start data or loadable data do it in beginning the Initialize.
         _loader = new StatLoader(GameState.GameIsLoaded, gameState);
         GameState.GameIsLoaded = false;
-        
+
+        #region Player init
+
         player.StatLoader = _loader;
         player.LoadPlayer(_loader.LoadPlayerData());
 
@@ -48,6 +50,8 @@ public class Starter : MonoBehaviour
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
+
+        #endregion
     }
 
     private void SetDependencies()
