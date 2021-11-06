@@ -23,7 +23,7 @@ public class WeaponSystem
         // on destroy
         StatLoader.OnSavePlayerData += SaveWeaponPlayerData;
         
-        _indexWeapon = statLoader.WeaponPlayerData.index;
+        _indexWeapon = statLoader.WeaponPlayerData.Index;
         _countIndexWeapon = statLoader.WeaponPlayerData.WeaponSavingStatsList.Count;
         
         _ui = UI;
@@ -42,7 +42,7 @@ public class WeaponSystem
 
     private void SaveWeaponPlayerData()
     {
-        StatLoader.WeaponPlayerData.index = _indexWeapon;
+        StatLoader.WeaponPlayerData.Index = _indexWeapon;
         
         var weaponSavingStatsList = new List<WeaponSavingStats>();
         for (int i = 0; i < _listWeapons.Count; i++)
