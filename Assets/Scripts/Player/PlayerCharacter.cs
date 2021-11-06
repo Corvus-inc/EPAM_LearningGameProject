@@ -30,7 +30,7 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         PlayerWeapon = WeaponSystem.GetEquippedWeapon();
-
+        //on destroy
         StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
     }

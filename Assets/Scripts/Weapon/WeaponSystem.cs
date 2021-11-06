@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WeaponSystem
 {
+    public StatLoader StatLoader { private get; set; }
     public Weapon CurrentWeapon { get; private set; }
     public int UserCountBullets{ get; private set; }
     
@@ -15,9 +16,13 @@ public class WeaponSystem
     private int _countIndexWeapon;
     private int _indexWeapon;
 
-    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, int startedWeapon)
+    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
     {
-        _indexWeapon = startedWeapon;
+        StatLoader = statLoader;
+        // on destroy
+        StatLoader.OnSavePlayerData += SaveWeaponPlayerData;
+        
+        _indexWeapon = statLoader.WeaponPlayerData.index;
         _countIndexWeapon = listWeapons.Count;
         
         _ui = UI;
@@ -26,6 +31,11 @@ public class WeaponSystem
         _gunEquipped = listWeapons[_indexWeapon].gameObject;
         UserCountBullets = userCountBullets;
         CurrentWeapon = listWeapons[_indexWeapon];
+    }
+
+    private void SaveWeaponPlayerData()
+    {
+        StatLoader.WeaponPlayerData.index = _indexWeapon;
     }
 
     public Weapon GetCurrentWeapon()

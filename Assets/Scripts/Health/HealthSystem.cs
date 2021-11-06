@@ -26,14 +26,15 @@ public class HealthSystem
     public HealthSystem(StatLoader statLoader)
     {
         StatLoader = statLoader;
-        StatLoader.OnSaveHealthPlayerData += SaveHealth;
+        //When player Die the subscription can multiply- on destroy
+        StatLoader.OnSavePlayerData += SaveHealth;
 
         _healthMax = StatLoader.HealthPlayerData.MaxHealth;
         _health = StatLoader.HealthPlayerData.Health;
         _healthMin = 0;
     }
 
-    public float GetHealthPrecent()
+    public float GetHealthPercent()
     {
         return (float)_health / _healthMax;
     }

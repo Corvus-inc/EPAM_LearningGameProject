@@ -29,7 +29,6 @@ public class Starter : MonoBehaviour
     {
         //1 The loader loading start data or loadable data do it in beginning the Initialize.
         _loader = new StatLoader(GameState.GameIsLoaded, gameState);
-        _loaderData = _loader.LoadablePlayerStats;
         GameState.GameIsLoaded = false;
         
         player.StatLoader = _loader;
@@ -42,7 +41,7 @@ public class Starter : MonoBehaviour
         _playerWeapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
         Destroy(creator.gameObject); 
         
-        _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loaderData.startedWeapon);
+        _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loader);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));

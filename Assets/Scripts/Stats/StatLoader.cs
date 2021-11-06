@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class StatLoader
 {
-    public PlayerData PlayerData { get; set; }
+    public PlayerData PlayerData { get; private set; }
+    public HealthPlayerData HealthPlayerData { get; private set; }
+    public WeaponPlayerData WeaponPlayerData{ get; private set; }
+    
     public event Action OnSavePlayerData;
-    public HealthPlayerData HealthPlayerData { get; set; }
-    public event Action OnSaveHealthPlayerData;
 
 
     private readonly PlayerStats _started =  new PlayerStats()
@@ -30,7 +31,9 @@ public class StatLoader
         var startedData = new PlayerStats(_started);
         LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
         gameState.IsSaveProgress += SavePlayerStats;
+        
         HealthPlayerData = LoadHealthPlayerData();
+        WeaponPlayerData = LoadWeaponPlayerData();
     }
     public PlayerData LoadPlayerData()
     {
@@ -45,7 +48,6 @@ public class StatLoader
     private void SavePlayerStats()
     {
         OnSavePlayerData?.Invoke();
-        OnSaveHealthPlayerData?.Invoke();
 
         var savingPlayerData = new PlayerStats();
         savingPlayerData.health = HealthPlayerData.Health;
@@ -55,7 +57,7 @@ public class StatLoader
         savingPlayerData.countBullets = PlayerData.CountBullet;
         savingPlayerData.playerPosition = PlayerData.Position;
         savingPlayerData.countClip = new[] {0, 0};
-        savingPlayerData.startedWeapon = 0;
+        savingPlayerData.startedWeapon = WeaponPlayerData.index;
         
         SavingPlayerStats = savingPlayerData;
         SavingSystem.Save(SavingPlayerStats,"PlayerData");
@@ -68,6 +70,13 @@ public class StatLoader
         HealthPlayerData.MaxHealth = LoadablePlayerStats.maxHealth;
         HealthPlayerData.Health = LoadablePlayerStats.health;
         return HealthPlayerData;
+    }
+
+    private WeaponPlayerData LoadWeaponPlayerData()
+    {
+        WeaponPlayerData = new WeaponPlayerData();
+        WeaponPlayerData.index = LoadablePlayerStats.startedWeapon;
+        return WeaponPlayerData;
     }
 }
 
