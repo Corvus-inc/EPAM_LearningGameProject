@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Stats;
 using UnityEngine;
 
+namespace LoaderSystem
+{
 public class StatLoader
 {
     public PlayerData PlayerData { get; private set; }
@@ -103,4 +104,6 @@ public class HealthPlayerData
 {
     public int MaxHealth { get; set; }
     public int Health { get; set; }
+}
+    
 }
