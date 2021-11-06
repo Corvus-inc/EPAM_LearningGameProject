@@ -13,7 +13,7 @@ public class WeaponSystem
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
     private readonly UIPlayer _ui;
-    private int _countIndexWeapon;
+    private readonly int _countIndexWeapon;
     private int _indexWeapon;
 
     public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
@@ -23,7 +23,7 @@ public class WeaponSystem
         StatLoader.OnSavePlayerData += SaveWeaponPlayerData;
         
         _indexWeapon = statLoader.WeaponPlayerData.index;
-        _countIndexWeapon = listWeapons.Count;
+        _countIndexWeapon = statLoader.WeaponPlayerData.WeaponSavingStatsList.Count;
         
         _ui = UI;
         _listWeapons = listWeapons;
@@ -31,11 +31,32 @@ public class WeaponSystem
         _gunEquipped = listWeapons[_indexWeapon].gameObject;
         UserCountBullets = userCountBullets;
         CurrentWeapon = listWeapons[_indexWeapon];
+
+        for (var i = 0; i < _listWeapons.Count; i++ )
+        {
+            var clip = StatLoader.WeaponPlayerData.WeaponSavingStatsList[i].ClipCount;
+            _listWeapons[i].CountBulletInTheClip = clip;
+        }
     }
 
     private void SaveWeaponPlayerData()
     {
         StatLoader.WeaponPlayerData.index = _indexWeapon;
+        
+        var weaponSavingStatsList = new List<WeaponSavingStats>();
+        for (int i = 0; i < _listWeapons.Count; i++)
+        {
+            {
+                var weaponSavingStats = new WeaponSavingStats()
+                {
+                    ClipCount = _listWeapons[i].CountBulletInTheClip,
+                    ID = i
+                };
+                weaponSavingStatsList.Add(weaponSavingStats);
+            }
+        }
+        StatLoader.WeaponPlayerData.WeaponSavingStatsList = weaponSavingStatsList;
+
     }
 
     public Weapon GetCurrentWeapon()

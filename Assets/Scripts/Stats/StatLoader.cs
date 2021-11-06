@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Stats;
 using UnityEngine;
 
@@ -13,14 +15,18 @@ public class StatLoader
 
     private readonly PlayerStats _started =  new PlayerStats()
     {
-        health = 100,
-        maxHealth = 100,
-        speed = 20,
-        boostSpeedRate =  2,
-        countBullets = 60,
-        playerPosition = new float[3]{0,0,0},
-        countClip =new [] {0,0},
-        startedWeapon = 0
+        Health = 100,
+        MAXHealth = 100,
+        Speed = 20,
+        BoostSpeedRate =  2,
+        CountBullets = 100,
+        PlayerPosition = new float[3]{0,0,0},
+        StartedWeapon = 0,
+        WeaponSavingStatsArray = new []
+        {
+            new WeaponSavingStats(){ID = 0, ClipCount = 4},
+            new WeaponSavingStats(){ID = 1, ClipCount = 5}
+        }
     };
     public PlayerStats LoadablePlayerStats { get; private set; }
     private PlayerStats SavingPlayerStats { get; set; }
@@ -38,10 +44,10 @@ public class StatLoader
     public PlayerData LoadPlayerData()
     {
         PlayerData = new PlayerData();
-        PlayerData.Speed = LoadablePlayerStats.speed;
-        PlayerData.BoostSpeedRate = LoadablePlayerStats.boostSpeedRate;
-        PlayerData.CountBullet = LoadablePlayerStats.countBullets;
-        PlayerData.Position = LoadablePlayerStats.playerPosition;
+        PlayerData.Speed = LoadablePlayerStats.Speed;
+        PlayerData.BoostSpeedRate = LoadablePlayerStats.BoostSpeedRate;
+        PlayerData.CountBullet = LoadablePlayerStats.CountBullets;
+        PlayerData.Position = LoadablePlayerStats.PlayerPosition;
         return PlayerData;
     }
 
@@ -50,15 +56,15 @@ public class StatLoader
         OnSavePlayerData?.Invoke();
 
         var savingPlayerData = new PlayerStats();
-        savingPlayerData.health = HealthPlayerData.Health;
-        savingPlayerData.maxHealth = _started.health;
-        savingPlayerData.speed = PlayerData.Speed;
-        savingPlayerData.boostSpeedRate = _started.boostSpeedRate;
-        savingPlayerData.countBullets = PlayerData.CountBullet;
-        savingPlayerData.playerPosition = PlayerData.Position;
-        savingPlayerData.countClip = new[] {0, 0};
-        savingPlayerData.startedWeapon = WeaponPlayerData.index;
-        
+        savingPlayerData.Health = HealthPlayerData.Health;
+        savingPlayerData.MAXHealth = _started.Health;
+        savingPlayerData.Speed = PlayerData.Speed;
+        savingPlayerData.BoostSpeedRate = _started.BoostSpeedRate;
+        savingPlayerData.CountBullets = PlayerData.CountBullet;
+        savingPlayerData.PlayerPosition = PlayerData.Position;
+        savingPlayerData.StartedWeapon = WeaponPlayerData.index;
+        savingPlayerData.WeaponSavingStatsArray = WeaponPlayerData.WeaponSavingStatsList.ToArray();
+            
         SavingPlayerStats = savingPlayerData;
         SavingSystem.Save(SavingPlayerStats,"PlayerData");
     }
@@ -67,15 +73,16 @@ public class StatLoader
     private HealthPlayerData LoadHealthPlayerData()
     {
         HealthPlayerData = new HealthPlayerData();
-        HealthPlayerData.MaxHealth = LoadablePlayerStats.maxHealth;
-        HealthPlayerData.Health = LoadablePlayerStats.health;
+        HealthPlayerData.MaxHealth = LoadablePlayerStats.MAXHealth;
+        HealthPlayerData.Health = LoadablePlayerStats.Health;
         return HealthPlayerData;
     }
 
     private WeaponPlayerData LoadWeaponPlayerData()
     {
         WeaponPlayerData = new WeaponPlayerData();
-        WeaponPlayerData.index = LoadablePlayerStats.startedWeapon;
+        WeaponPlayerData.index = LoadablePlayerStats.StartedWeapon;
+        WeaponPlayerData.WeaponSavingStatsList = LoadablePlayerStats.WeaponSavingStatsArray.ToList();
         return WeaponPlayerData;
     }
 }
@@ -90,8 +97,7 @@ public class PlayerData
 public class WeaponPlayerData
 {
     public int index { get; set; }
-    // public int countBullet { get; set; }
-    // public float[] position { get; set; }
+    public List<WeaponSavingStats> WeaponSavingStatsList { get; set; }
 }
 public class HealthPlayerData
 {

@@ -6,14 +6,14 @@ using UnityEngine;
 [Serializable]
 public class PlayerStats
 {
-    public int health;
-    public int maxHealth;
-    public float speed;
-    public float boostSpeedRate;
-    public int countBullets;
-    public float[] playerPosition;
-    public int[] countClip;
-    public int startedWeapon;
+    public int Health{ get; set; }
+    public int MAXHealth{ get; set; }
+    public float Speed{ get; set; }
+    public float BoostSpeedRate{ get; set; }
+    public int CountBullets{ get; set; }
+    public float[] PlayerPosition{ get; set; }
+    public int StartedWeapon{ get; set; }
+    public WeaponSavingStats[] WeaponSavingStatsArray { get; set; }
 
     public PlayerStats()
     {
@@ -21,13 +21,13 @@ public class PlayerStats
 
     public PlayerStats(PlayerStats dataPlayerStats)
     {
-        health = dataPlayerStats.health;
-        maxHealth = dataPlayerStats.maxHealth;
-        speed = dataPlayerStats.speed;
-        boostSpeedRate = dataPlayerStats.boostSpeedRate;
-        countBullets = dataPlayerStats.countBullets;
-        playerPosition = dataPlayerStats.playerPosition;
-        countClip = dataPlayerStats.countClip;
-        startedWeapon = dataPlayerStats.startedWeapon;
+        Health = dataPlayerStats.Health;
+        MAXHealth = dataPlayerStats.MAXHealth;
+        Speed = dataPlayerStats.Speed;
+        BoostSpeedRate = dataPlayerStats.BoostSpeedRate;
+        CountBullets = dataPlayerStats.CountBullets;
+        PlayerPosition = dataPlayerStats.PlayerPosition;
+        StartedWeapon = dataPlayerStats.StartedWeapon;
+        WeaponSavingStatsArray = dataPlayerStats.WeaponSavingStatsArray;
     }
 }
