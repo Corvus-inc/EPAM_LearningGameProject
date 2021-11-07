@@ -35,6 +35,7 @@ public class WeaponSystem
     }
     public Weapon SwitchWeapon()
     {
+        CurrentWeapon.ReturnAllBulletToSpawn();
         UnequippedGun();
         _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
         _gunEquipped = _listWeapons[_indexWeapon];
