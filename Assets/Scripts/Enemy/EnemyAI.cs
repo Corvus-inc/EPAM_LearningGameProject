@@ -7,12 +7,13 @@ using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private Transform moveTargetPosition;
+    private Transform moveTargetPosition;
 
     private NavMeshAgent _navMeshAgent;
     private Vector3 _startingPosition;
     private Vector3 _roamPosition;
     private float _nextShootTime;
+    private float _scale;
     private State _state;
 
     private enum State
@@ -24,6 +25,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        _scale = gameObject.transform.localScale.x;
         moveTargetPosition = GameObject.Find("Player")?.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _state = State.Roaming;
@@ -42,7 +44,7 @@ public class EnemyAI : MonoBehaviour
             default:
             case State.Roaming:
                 MoveTo(_roamPosition);
-                var reachedPositionDistance = 1f;
+                var reachedPositionDistance = 1f*_scale;
                 if (Vector3.Distance(transform.position, _roamPosition) < reachedPositionDistance)
                 {
                     _roamPosition = GetRoamingPosition();
@@ -52,19 +54,19 @@ public class EnemyAI : MonoBehaviour
                 break;
             case State.ChaseTarget:
                 MoveTo(moveTargetPosition.position);
-                float attackRange = 3f;
+                float attackRange = 3f*_scale;
                 if (Vector3.Distance(transform.position, moveTargetPosition.position) < attackRange)
                 {
                     if (Time.time > _nextShootTime)
                     {
                         MoveTo(transform.position);
                         Debug.Log("Attack");
-                        float fireRate = .1f;
+                        float fireRate = 1f;
                         _nextShootTime = Time.time + fireRate;
                     }
                 }
 
-                float stopChaseDistance = 8f;
+                float stopChaseDistance = 10f*_scale;
                 if (Vector3.Distance(transform.position, moveTargetPosition.position) > stopChaseDistance)
                 {
                     _state = State.GoingBackToStart;
@@ -72,7 +74,7 @@ public class EnemyAI : MonoBehaviour
                 break;
             case State.GoingBackToStart:
                 MoveTo(_startingPosition);
-                reachedPositionDistance = 1f;
+                reachedPositionDistance = 1f*_scale;
                 if (Vector3.Distance(transform.position, _startingPosition) < reachedPositionDistance)
                 {
                     _state = State.Roaming;
@@ -83,12 +85,12 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 GetRoamingPosition()
     {
-        return _startingPosition + GameUtils.Utils.GetRandomDir() * Random.Range(5f, 10f);
+        return _startingPosition + GameUtils.Utils.GetRandomDir() * Random.Range(20f, 30f);
     }
 
     private void FindTarget()
     {
-        float targetRange = 5f;
+        float targetRange = 10f*_scale;
         if (Vector3.Distance(transform.position, moveTargetPosition.position) < targetRange)
         {
             _state = State.ChaseTarget;
