@@ -49,10 +49,9 @@ public class Starter : MonoBehaviour
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
-        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
+         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
 
         #endregion
-        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
     }
 
     private void SetDependencies()
