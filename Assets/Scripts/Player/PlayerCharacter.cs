@@ -39,10 +39,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            //Move to Weapon system
-            PlayerWeapon.ReturnAllBulletToSpawn();
             PlayerWeapon = WeaponSystem.SwitchWeapon();
-            
         }
         if (Input.GetKeyDown(KeyCode.E))
         {

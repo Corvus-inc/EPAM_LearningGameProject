@@ -11,7 +11,7 @@ public class SkillSystem
     
     private HealthSystem _healthSystem;
     private PlayerCharacter _player;
-    private Func<Weapon> _getWeapon;
+    private WeaponSystem _weaponSystem;
     private Weapon _currentWeapon;
 
     //Characteristics for skill object
@@ -23,12 +23,12 @@ public class SkillSystem
     private bool _continuesBoostSkill;
     private bool _continuesDamageSkill;
 
-    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, Func<Weapon>  getWeapon)
+    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, WeaponSystem weaponSystem)
     {
         _healthSystem = healthSystem;
         _player = player;
-        _getWeapon = getWeapon;
-        _currentWeapon = getWeapon.Invoke();
+        _weaponSystem = weaponSystem;
+        _currentWeapon = _weaponSystem.GetCurrentWeapon();
     }
 
     public void HealSkill()
@@ -46,7 +46,7 @@ public class SkillSystem
             },
             ref _continuesHealSkill
             );
-        IsHeal.Invoke(_mSecForHealSkill);
+        IsHeal?.Invoke(_mSecForHealSkill);
     }
 
     public void BoostSpeedSkill()
@@ -64,7 +64,7 @@ public class SkillSystem
             },
             ref _continuesBoostSkill
             );
-        IsBoostSpeed.Invoke(_mSecForBoostSkill);
+        IsBoostSpeed?.Invoke(_mSecForBoostSkill);
     }
 
     public void IncreasesDamageSkill()
@@ -72,7 +72,7 @@ public class SkillSystem
         TimerSkillManager(
             ()=>
             {
-                _currentWeapon = _getWeapon.Invoke();
+                _currentWeapon = _weaponSystem.GetCurrentWeapon();
                 _currentWeapon.StartDoubleDamage(20);
             }, 
             () =>
@@ -82,7 +82,7 @@ public class SkillSystem
             },
             ref _continuesDamageSkill
             );
-        IsIncreaseDamage.Invoke(_mSecForDamageSkill);
+        IsIncreaseDamage?.Invoke(_mSecForDamageSkill);
     }
 
     private void TimerSkillManager(Action start, Action finish,ref bool timerContinues)

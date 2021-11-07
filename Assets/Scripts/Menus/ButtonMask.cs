@@ -21,6 +21,7 @@ public class ButtonMask : MonoBehaviour
     }
     private void UpdateCoolDown(float timeCoolDown)
     {
+        if (Math.Abs(IconMask.fillAmount - 1) < float.Epsilon) return;
         IconMask.fillAmount = Mathf.MoveTowards(IconMask.fillAmount, 1f, Time.deltaTime/timeCoolDown);
     }
 

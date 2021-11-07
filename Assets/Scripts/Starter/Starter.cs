@@ -52,6 +52,7 @@ public class Starter : MonoBehaviour
         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem.GetCurrentWeapon);
 
         #endregion
+        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
     }
 
     private void SetDependencies()

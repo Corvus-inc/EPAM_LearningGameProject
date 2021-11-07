@@ -19,7 +19,7 @@ public class ShotGunBullet : BaseBullet
         //create parts
         _rdm = new Random();
         _partsBullet = new PartBullet[countParts];
-        IsActiveBullet += CollectAllParts;
+        IsActiveBullet += SetPositionAndRotationForBullets;
         
         for(var i = 0; i < _partsBullet.Length; i++)
         {
@@ -36,7 +36,7 @@ public class ShotGunBullet : BaseBullet
     {
         foreach (var bullet in _partsBullet)
         {
-            bullet?.ActivatingBullet();
+            bullet.ActivatingBullet();
         }
     }
 
@@ -45,7 +45,7 @@ public class ShotGunBullet : BaseBullet
         _bulletDamage *= damage;
     }
 
-    private void CollectAllParts()
+    private void SetPositionAndRotationForBullets()
     {
         foreach (var part in _partsBullet)
         {
