@@ -34,22 +34,22 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       bool check = CheckLayerMask(collision.gameObject, _layerBullet);
+       bool check = GameUtils.Utils.CheckLayerMask(collision.gameObject, _layerBullet);
         
        if (check)
-        {
-            IBullet bullet = collision.gameObject.GetComponent<IBullet>();
-            int damage = bullet.GetBulletDamage();
-            _healthSystem.Damage(damage);
+       {
+           IBullet bullet = collision.gameObject.GetComponent<IBullet>();
+           int damage = bullet.GetBulletDamage();
+           _healthSystem.Damage(damage);
             
-            StopCoroutine(bullet.DeactivatingBullet(0));
-            bullet.DeactivatingBullet();
-        }    
+           StopCoroutine(bullet.DeactivatingBullet(0));
+           bullet.DeactivatingBullet();
+       }    
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (CheckLayerMask(other.gameObject, _layerPlayer))
+        if (GameUtils.Utils.CheckLayerMask(other.gameObject, _layerPlayer))
         {
             _target = other.transform;
             //enemyTrigger.enabled = false;
@@ -58,16 +58,6 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-    }
-
-    private bool CheckLayerMask(GameObject obj, LayerMask layers)
-    {
-        if (((1 << obj.layer) & layers) != 0)
-        {
-            return true;
-        }
-
-        return false;
     }
      private void EnemyDie(object sender, System.EventArgs e)
     {

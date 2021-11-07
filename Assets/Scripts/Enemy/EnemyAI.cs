@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        moveTargetPosition = GameObject.Find("Player")?.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _state = State.Roaming;
     }
@@ -82,7 +83,7 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 GetRoamingPosition()
     {
-        return _startingPosition + GetRandomDir() * Random.Range(5f, 10f);
+        return _startingPosition + GameUtils.Utils.GetRandomDir() * Random.Range(5f, 10f);
     }
 
     private void FindTarget()
@@ -97,11 +98,5 @@ public class EnemyAI : MonoBehaviour
     private void MoveTo(Vector3 position)
     {
         _navMeshAgent.destination = position;
-    }
-
-    //is cool the tool.move into head class
-    private static Vector3 GetRandomDir()
-    {
-        return new Vector3(UnityEngine.Random.Range(-1f, 1f), 0, UnityEngine.Random.Range(-1f, 1f)).normalized;
     }
 }

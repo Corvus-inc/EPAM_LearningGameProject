@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc57d48f19224cc89e30ace7135f8c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTargetPosition: {fileID: 1613080751}
+  moveTargetPosition: {fileID: 0}
 --- !u!195 &342146557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -512,7 +512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1613080751}
   m_Layer: 0
-  m_Name: Position
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
