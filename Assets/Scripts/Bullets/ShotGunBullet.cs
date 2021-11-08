@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using Random = System.Random;
 
@@ -8,32 +6,37 @@ public class ShotGunBullet : BaseBullet
 {
     [SerializeField] private PartBullet prefabPartBullet;
     [SerializeField] private int countParts;
-    [SerializeField] [Range(0,0.5f)] private float _spreadForce = 0.5f;
+    [SerializeField] [Range(0,0.5f)] private float spreadForce = 0.5f;
 
     private PartBullet[] _partsBullet;
     private Random _rdm;
     
-    private void Start()
+    private void Awake()
     {
-        gameObject.SetActive(true);
+        //base
+        saveParent = transform.parent;
+        ApplyStartBulletDamage();
+        //create parts
         _rdm = new Random();
-        IsActiveBullet += CollectAllParts;
-        
         _partsBullet = new PartBullet[countParts];
+        IsActiveBullet += SetPositionAndRotationForBullets;
+        
         for(var i = 0; i < _partsBullet.Length; i++)
         {
             _partsBullet[i] = Instantiate(prefabPartBullet, transform);
         }
+    }
+
+    private void Start()
+    {
         gameObject.SetActive(false);
     }
 
-    private void FixedUpdate()
+    private void OnEnable()
     {
-        //Create event for activating parts
-        if (!_isFlying) return;
-        foreach (var part in _partsBullet)
+        foreach (var bullet in _partsBullet)
         {
-            part.gameObject.SetActive(true);
+            bullet.ActivatingBullet();
         }
     }
 
@@ -41,13 +44,15 @@ public class ShotGunBullet : BaseBullet
     {
         _bulletDamage *= damage;
     }
-    
-    private void CollectAllParts()
+
+    private void SetPositionAndRotationForBullets()
     {
         foreach (var part in _partsBullet)
         {
-            part.transform.position = transform.position;
-            part.transform.rotation = transform.rotation;
+            var transform1 = part.transform;
+            var transform2 = transform;
+            transform1.position = transform2.position;
+            transform1.rotation = transform2.rotation;
             SetStatsForPart(part);
         }
     }
@@ -64,6 +69,6 @@ public class ShotGunBullet : BaseBullet
     {
         const int countRandomDirections = 50;
         var rdmDirection = _rdm.Next(-countRandomDirections, countRandomDirections);
-        part.direction += new Vector3(rdmDirection*_spreadForce/countRandomDirections,0,0);
+        part.direction += new Vector3(rdmDirection*spreadForce/countRandomDirections,0,0);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,15 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     protected void DamageToBullet(IBullet bullet)
     {
         bullet.AddBulletDamage(forceWeapon);
-        bullet.GetBulletDamage();
+    }
+
+    public IEnumerator DoubleDamage (float second)
+    {
+        var saveForce = forceWeapon;
+        forceWeapon *= 2;
+        yield return new WaitForSeconds(second);
+        forceWeapon = saveForce;
+
     }
 }
 

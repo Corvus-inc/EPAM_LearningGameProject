@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class WeaponSystem 
 {
+    public Weapon CurrentWeapon { get; private set; }
+    
     private List<GameObject> _listWeapons;
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
-    private Weapon _weapon;
     private int _userCountBullets;
     private readonly UIPlayer _ui;
     private int _countIndexWeapon;
@@ -16,7 +17,7 @@ public class WeaponSystem
 
     public WeaponSystem(List<GameObject> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
     {
-        _indexWeapon = 1;
+        _indexWeapon = 0;
         _countIndexWeapon = listWeapons.Count;
         
         _ui = UI;
@@ -24,12 +25,17 @@ public class WeaponSystem
         _transformTo = transformTo;
         _gunEquipped = listWeapons[_indexWeapon];
         _userCountBullets = userCountBullets;
-        _weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
+        CurrentWeapon = GetCurrentWeapon();
 
     }
 
+    public Weapon GetCurrentWeapon()
+    {
+      return _gunEquipped.gameObject.GetComponent<Weapon>();
+    }
     public Weapon SwitchWeapon()
     {
+        CurrentWeapon.ReturnAllBulletToSpawn();
         UnequippedGun();
         _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
         _gunEquipped = _listWeapons[_indexWeapon];
@@ -38,8 +44,8 @@ public class WeaponSystem
 
     public void  UnequippedGun()
     {
-        _weapon.IsEmptyClip -= RechargeGun;
-        _weapon.IsChangedClip -= UpdateUI;
+        CurrentWeapon.IsEmptyClip -= RechargeGun;
+        CurrentWeapon.IsChangedClip -= UpdateUI;
         UpdateUI();
         _gunEquipped.transform.SetParent(null);
         _gunEquipped.SetActive(false);
@@ -48,11 +54,11 @@ public class WeaponSystem
     public Weapon GetEquippedWeapon()
     {
         EquipWeapon(_gunEquipped);
-        return _weapon;
+        return CurrentWeapon;
     }
     public void RechargeGun()
     {
-        int remains = _weapon.Recharge(_userCountBullets);
+        int remains = CurrentWeapon.Recharge(_userCountBullets);
         _userCountBullets = remains;
         if (_userCountBullets < 0) _userCountBullets = 0;
         UpdateUI();
@@ -65,18 +71,16 @@ public class WeaponSystem
              _gunEquipped.transform.SetParent(_transformTo);
              _gunEquipped.transform.position = _transformTo.position;
              _gunEquipped.transform.rotation = _transformTo.rotation;
-             
-             _weapon = _gunEquipped.gameObject.GetComponent<Weapon>();
-             _weapon.IsEmptyClip += RechargeGun;
-             _weapon.IsChangedClip += UpdateUI;
+
+             CurrentWeapon = GetCurrentWeapon();
+             CurrentWeapon.IsEmptyClip += RechargeGun;
+             CurrentWeapon.IsChangedClip += UpdateUI;
              RechargeGun();
          }
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(_weapon.CountBulletInTheClip,
-                        //
-            _userCountBullets);
+        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, _userCountBullets);
     }
     
 }
