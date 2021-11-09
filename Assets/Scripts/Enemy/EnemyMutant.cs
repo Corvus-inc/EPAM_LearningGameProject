@@ -23,6 +23,7 @@ public class EnemyMutant : MonoBehaviour
         _currentWeapon = newWeapon.gameObject;
         _enemyWeapon = _currentWeapon.GetComponent<Weapon>();
         
+        
         _healthSystem = new HealthSystem(startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
         healthBarEnemy.HealthSystem = _healthSystem;
@@ -43,8 +44,9 @@ public class EnemyMutant : MonoBehaviour
         }    
     }
 
-    public void Attack(Vector3 targetPosition)
+    public void Attack(Transform targetPosition)
     {
+        _enemyWeapon.AimLookAt(targetPosition.position + Vector3.up*5);
         _enemyWeapon.UsageWeapon();
     }
 

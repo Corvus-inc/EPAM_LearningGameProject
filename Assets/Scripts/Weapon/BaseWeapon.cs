@@ -14,7 +14,8 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     public bool WeaponActive { get; set; }
 
     public RawImage Icon => icon;
-
+    public Transform SpawnBullet => _spawnBullet;
+    
     [SerializeField] protected RawImage icon;
     
     [SerializeField] protected int clipCount;
@@ -24,7 +25,7 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private Transform _pointPositionWeapon;
-
+    
     protected IBullet bullet;
 
     public void AddBullet(IBullet bullet)
@@ -65,7 +66,6 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
         forceWeapon *= 2;
         yield return new WaitForSeconds(second);
         forceWeapon = saveForce;
-
     }
 }
 

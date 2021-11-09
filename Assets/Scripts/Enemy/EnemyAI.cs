@@ -64,7 +64,7 @@ public class EnemyAI : MonoBehaviour
                     {
                         MoveTo(transform.position);
                         Debug.Log("Attack");
-                        _mutant.Attack(moveTargetPosition.position);
+                        _mutant.Attack(moveTargetPosition);
                         float fireRate = 1f;
                         _nextShootTime = Time.time + fireRate;
                     }

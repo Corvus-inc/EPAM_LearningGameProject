@@ -58,6 +58,11 @@ public class Weapon : MonoBehaviour
         NextIndexBullet();
         LetItFly(_indexBullet);
     }
+
+    public void AimLookAt(Vector3 target)
+    {
+        _gunCurrent.SpawnBullet.LookAt(target);
+    }
     public int Recharge(int bullets)
     {
         int remains;
@@ -150,4 +155,6 @@ public class Weapon : MonoBehaviour
             _indexBullet = 0;
         }
     }
+    
+    
 }

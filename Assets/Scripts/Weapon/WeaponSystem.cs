@@ -24,6 +24,7 @@ public class WeaponSystem
         CurrentWeapon.CountBulletInTheClip = CurrentWeapon.MaxBulletInTheClip;
         _transformTo = transformTo;
         UserCountBullets = userCountBullets;
+        EquipWeapon(_gunEquipped);
     }
     public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
     {
@@ -118,7 +119,7 @@ public class WeaponSystem
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
+        _ui?.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
         
     }
     

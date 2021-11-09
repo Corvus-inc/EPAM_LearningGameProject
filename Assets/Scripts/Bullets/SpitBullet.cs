@@ -8,7 +8,7 @@ public class SpitBullet : BaseBullet
     {
         if (_isFlying)
         {
-            transform.Translate(Vector3.up * Time.deltaTime * _speedBullet);
+            transform.Translate(Vector3.forward * Time.deltaTime * _speedBullet);
         }
     }
 }
