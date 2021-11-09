@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LoaderSystem;
 using UnityEngine;
 
 public class Starter : MonoBehaviour
@@ -15,7 +16,7 @@ public class Starter : MonoBehaviour
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
     private SkillSystem _playerSkillSystem;
-    private List<GameObject> _weapons;
+    private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -27,21 +28,30 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-        _loader = new StatLoader(GameState.GameIsLoaded);
-        _loaderData = _loader.LoadablePlayerStats;
+        //1 The loader loading start data or loadable data do it in beginning the Initialize.
+        _loader = new StatLoader(GameState.GameIsLoaded, gameState);
         GameState.GameIsLoaded = false;
-        
-        player.InitializationPlayerStats(_loaderData);
-        
-        _playerHealthSystem = new HealthSystem(_loaderData.maxHealth, _loaderData.health);
 
-        InitStoreWeapons();
-        _playerWeaponSystem = new WeaponSystem(_weapons, player.transform, playerUI, player.CountBullets);
+        #region Player init
+
+        player.StatLoader = _loader;
+        player.LoadPlayer(_loader.LoadPlayerData());
+
+        _playerHealthSystem = new HealthSystem(_loader);
+        
+        //How Created weapons?
+        var creator = new GameObject().AddComponent<WeaponCreator>().GetComponent<WeaponCreator>();
+        _playerWeapons = creator.InitStoreWeapons(_listPrefabWeapons, player.transform);
+        Destroy(creator.gameObject); 
+        
+        _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loader);
         
         playerUIHealthBar.SetSize(_playerHealthSystem.Health);
         playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
-        _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
+         _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
+
+        #endregion
     }
 
     private void SetDependencies()
@@ -56,19 +66,5 @@ public class Starter : MonoBehaviour
         pauseMenu.Loader = _loader;
         
         playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
-    }
-
-    private void InitStoreWeapons()
-    {
-        var storePosition = Instantiate(new GameObject("StoreWeapons")).transform;
-        storePosition.position = Vector3.down;
-        _weapons = new List<GameObject>();
-        foreach (var weapon in _listPrefabWeapons)
-        {
-            var newWeapon = Instantiate(weapon, player.transform);
-            _weapons.Add(newWeapon);
-            newWeapon.transform.SetParent(storePosition);
-            newWeapon.SetActive(false);
-        }
     }
 }

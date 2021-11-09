@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
 
     private void HealthSystem_OnOnHealthChanged(object sender, System.EventArgs e)
     {
-        SetSize(HealthSystem.GetHealthPrecent());
+        SetSize(HealthSystem.GetHealthPercent());
     }
 
     public void SetSize(float sizeNormalized)

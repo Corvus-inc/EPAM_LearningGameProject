@@ -1,8 +1,8 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using System.IO;
 
-namespace Stats
+namespace LoaderSystem
 {
     public static class SavingSystem
     {

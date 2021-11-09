@@ -1,31 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LoaderSystem;
 using UnityEngine;
 
-public class WeaponSystem 
+public class WeaponSystem
 {
+    public StatLoader StatLoader { private get; set; }
     public Weapon CurrentWeapon { get; private set; }
+    public int UserCountBullets{ get; private set; }
     
-    private List<GameObject> _listWeapons;
+    private List<Weapon> _listWeapons;
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
-    private int _userCountBullets;
     private readonly UIPlayer _ui;
-    private int _countIndexWeapon;
+    private readonly int _countIndexWeapon;
     private int _indexWeapon;
 
-    public WeaponSystem(List<GameObject> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets)
+    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
     {
-        _indexWeapon = 0;
-        _countIndexWeapon = listWeapons.Count;
+        StatLoader = statLoader;
+        // on destroy
+        StatLoader.OnSavePlayerData += SaveWeaponPlayerData;
+        
+        _indexWeapon = statLoader.WeaponPlayerData.Index;
+        _countIndexWeapon = statLoader.WeaponPlayerData.WeaponSavingStatsList.Count;
         
         _ui = UI;
         _listWeapons = listWeapons;
         _transformTo = transformTo;
-        _gunEquipped = listWeapons[_indexWeapon];
-        _userCountBullets = userCountBullets;
-        CurrentWeapon = GetCurrentWeapon();
+        _gunEquipped = listWeapons[_indexWeapon].gameObject;
+        UserCountBullets = userCountBullets;
+        CurrentWeapon = listWeapons[_indexWeapon];
+
+        for (var i = 0; i < _listWeapons.Count; i++ )
+        {
+            var clip = StatLoader.WeaponPlayerData.WeaponSavingStatsList[i].ClipCount;
+            _listWeapons[i].CountBulletInTheClip = clip;
+        }
+    }
+
+    private void SaveWeaponPlayerData()
+    {
+        StatLoader.WeaponPlayerData.Index = _indexWeapon;
+        
+        var weaponSavingStatsList = new List<WeaponSavingStats>();
+        for (int i = 0; i < _listWeapons.Count; i++)
+        {
+            {
+                var weaponSavingStats = new WeaponSavingStats()
+                {
+                    ClipCount = _listWeapons[i].CountBulletInTheClip,
+                    ID = i
+                };
+                weaponSavingStatsList.Add(weaponSavingStats);
+            }
+        }
+        StatLoader.WeaponPlayerData.WeaponSavingStatsList = weaponSavingStatsList;
 
     }
 
@@ -38,7 +69,7 @@ public class WeaponSystem
         CurrentWeapon.ReturnAllBulletToSpawn();
         UnequippedGun();
         _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
-        _gunEquipped = _listWeapons[_indexWeapon];
+        _gunEquipped = _listWeapons[_indexWeapon].gameObject;
         return GetEquippedWeapon();
     }
 
@@ -58,9 +89,9 @@ public class WeaponSystem
     }
     public void RechargeGun()
     {
-        int remains = CurrentWeapon.Recharge(_userCountBullets);
-        _userCountBullets = remains;
-        if (_userCountBullets < 0) _userCountBullets = 0;
+        int remains = CurrentWeapon.Recharge(UserCountBullets);
+        UserCountBullets = remains;
+        if (UserCountBullets < 0) UserCountBullets = 0;
         UpdateUI();
     }
     
@@ -75,12 +106,13 @@ public class WeaponSystem
              CurrentWeapon = GetCurrentWeapon();
              CurrentWeapon.IsEmptyClip += RechargeGun;
              CurrentWeapon.IsChangedClip += UpdateUI;
-             RechargeGun();
+             RechargeGun(); 
          }
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, _userCountBullets);
+        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
+        
     }
     
 }

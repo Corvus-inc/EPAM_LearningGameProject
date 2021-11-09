@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using LoaderSystem;
 using UnityEngine;
 
 public class HealthSystem
 {
+    public StatLoader StatLoader { private get; set; }
+    
     public event EventHandler OnHealthChanged;
     public event EventHandler OnHealthStateMin;
 
@@ -21,14 +24,18 @@ public class HealthSystem
         _health = healthMax;
         _healthMin = 0;
     }
-    public HealthSystem(int healthMax, int currentHealth)
+    public HealthSystem(StatLoader statLoader)
     {
-        _healthMax = healthMax;
-        _health = currentHealth;
+        StatLoader = statLoader;
+        //When player Die the subscription can multiply- on destroy
+        StatLoader.OnSavePlayerData += SaveHealth;
+
+        _healthMax = StatLoader.HealthPlayerData.MaxHealth;
+        _health = StatLoader.HealthPlayerData.Health;
         _healthMin = 0;
     }
 
-    public float GetHealthPrecent()
+    public float GetHealthPercent()
     {
         return (float)_health / _healthMax;
     }
@@ -52,5 +59,10 @@ public class HealthSystem
         if (_health > _healthMax) _health = _healthMax;
 
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
+    }
+
+    private void SaveHealth()
+    {
+        StatLoader.HealthPlayerData.Health = _health;
     }
 }
