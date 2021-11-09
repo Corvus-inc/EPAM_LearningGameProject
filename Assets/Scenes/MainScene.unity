@@ -1505,12 +1505,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 717201669}
     m_Modifications:
     - target: {fileID: -4769620631862777375, guid: b763b5541ef47421fb3af7538089b574, type: 3}
+      propertyPath: spit
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -4769620631862777375, guid: b763b5541ef47421fb3af7538089b574, type: 3}
+      propertyPath: prefabWeapon
+      value: 
+      objectReference: {fileID: 413371911583523119, guid: 149828609a8384f248a926d460f490f0, type: 3}
+    - target: {fileID: -4769620631862777375, guid: b763b5541ef47421fb3af7538089b574, type: 3}
       propertyPath: startHealthEnemy
-      value: 404
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: -4769620631862777375, guid: b763b5541ef47421fb3af7538089b574, type: 3}
       propertyPath: layerBullet.m_Bits
       value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451464705846484321, guid: b763b5541ef47421fb3af7538089b574, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.408
       objectReference: {fileID: 0}
     - target: {fileID: 8682919656145987472, guid: b763b5541ef47421fb3af7538089b574, type: 3}
       propertyPath: m_RootOrder

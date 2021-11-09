@@ -37,6 +37,12 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
+        {
+            PlayerWeapon.UsageWeapon();
+        }
+        
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             //Move to Weapon system

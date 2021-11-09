@@ -9,6 +9,8 @@ public class EnemyAI : MonoBehaviour
 {
     private Transform moveTargetPosition;
 
+    private EnemyMutant _mutant;
+    
     private NavMeshAgent _navMeshAgent;
     private Vector3 _startingPosition;
     private Vector3 _roamPosition;
@@ -25,6 +27,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        _mutant = GetComponent<EnemyMutant>();
         _scale = gameObject.transform.localScale.x;
         moveTargetPosition = GameObject.Find("Player")?.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -61,6 +64,7 @@ public class EnemyAI : MonoBehaviour
                     {
                         MoveTo(transform.position);
                         Debug.Log("Attack");
+                        _mutant.Attack(moveTargetPosition.position);
                         float fireRate = 1f;
                         _nextShootTime = Time.time + fireRate;
                     }

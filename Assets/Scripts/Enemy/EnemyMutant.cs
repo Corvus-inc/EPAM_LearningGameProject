@@ -6,18 +6,26 @@ using UnityEngine;
 public class EnemyMutant : MonoBehaviour
 {
     [Range(0,1000)] [SerializeField] private int startHealthEnemy;
-    
+
+    [SerializeField] private GameObject prefabWeapon;
     [SerializeField] private LayerMask layerBullet;
     [SerializeField] private HealthBarEnemy healthBarEnemy;
     
     private HealthSystem _healthSystem;
+    private WeaponSystem _weaponSystem;
+    private GameObject _currentWeapon;
+    private Weapon _enemyWeapon;
 
     private void Awake()
     {
+        var newWeapon = Instantiate(prefabWeapon, transform).GetComponent<Weapon>();
+        _weaponSystem = new WeaponSystem(newWeapon.gameObject, transform, 1000);
+        _currentWeapon = newWeapon.gameObject;
+        _enemyWeapon = _currentWeapon.GetComponent<Weapon>();
+        
         _healthSystem = new HealthSystem(startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
         healthBarEnemy.HealthSystem = _healthSystem;
-        // healthBarEnemy.SetColour(Color.green);
     }
     
     private void OnCollisionEnter(Collision collision)
@@ -35,8 +43,14 @@ public class EnemyMutant : MonoBehaviour
         }    
     }
 
+    public void Attack(Vector3 targetPosition)
+    {
+        _enemyWeapon.UsageWeapon();
+    }
+
     private void EnemyDie(object sender, EventArgs e)
     {
         _healthSystem.OnHealthStateMin -= EnemyDie;
-        Destroy(gameObject);    }
+        Destroy(gameObject);    
+    }
 }
