@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealthEnemy: 200
+  prefabWeapon: {fileID: 4840551003053670843, guid: ec86799d4045f47ccb5797f948fc3d19, type: 3}
   layerBullet:
     serializedVersion: 2
     m_Bits: 1024
