@@ -17,6 +17,15 @@ public class WeaponSystem
     private readonly int _countIndexWeapon;
     private int _indexWeapon;
 
+    public WeaponSystem(GameObject currentWeapon, Transform transformTo, int userCountBullets)
+    {
+        _gunEquipped = currentWeapon;
+        CurrentWeapon = _gunEquipped.GetComponent<Weapon>();
+        CurrentWeapon.CountBulletInTheClip = CurrentWeapon.MaxBulletInTheClip;
+        _transformTo = transformTo;
+        UserCountBullets = userCountBullets;
+        EquipWeapon(_gunEquipped);
+    }
     public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
     {
         StatLoader = statLoader;
@@ -111,7 +120,7 @@ public class WeaponSystem
 
     private void UpdateUI()
     {
-        _ui.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
+        _ui?.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
         
     }
     

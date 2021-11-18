@@ -51,15 +51,18 @@ public class Weapon : MonoBehaviour
         //when delete this observe
         IsChangedClip += OnEmptyClip;
     }
-
-    private void Update()
+    
+    public void UsageWeapon()
     {
-        if (!Input.GetMouseButtonDown(0) || CountBulletInTheClip <= 0 || GameState.GameIsPaused || ShootIsLocked) return;
-
+        if (ShootIsLocked || CountBulletInTheClip <= 0 ) return;
         NextIndexBullet();
         LetItFly(_indexBullet);
     }
 
+    public void AimLookAt(Vector3 target)
+    {
+        _gunCurrent.SpawnBullet.LookAt(target);
+    }
     public int Recharge(int bullets)
     {
         int remains;
@@ -152,4 +155,6 @@ public class Weapon : MonoBehaviour
             _indexBullet = 0;
         }
     }
+    
+    
 }

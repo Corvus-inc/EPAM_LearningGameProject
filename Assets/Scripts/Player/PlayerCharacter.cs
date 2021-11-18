@@ -37,6 +37,12 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
+        {
+            PlayerWeapon.UsageWeapon();
+        }
+        
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayerWeapon = WeaponSystem.SwitchWeapon();
@@ -102,7 +108,7 @@ public class PlayerCharacter : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        bool check = CheckLayerMask(collision.gameObject, layerEnemy);
+        bool check = GameUtils.Utils.CheckLayerMask(collision.gameObject, layerEnemy);
         if (check)
         {
             HealthSystem.Damage(20);
@@ -143,15 +149,5 @@ public class PlayerCharacter : MonoBehaviour
         targetForLook.position = new Vector3(positionsForLook.x, transform.position.y, positionsForLook.y);
 
         transform.LookAt(targetForLook);       
-    }
-    
-    private bool CheckLayerMask(GameObject obj, LayerMask layers) //For this method need creating service
-    {
-        if (((1 << obj.layer) & layers) != 0)
-        {
-            return true;
-        }
-
-        return false;
     }
 }
