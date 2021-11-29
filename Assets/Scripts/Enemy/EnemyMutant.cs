@@ -14,14 +14,14 @@ public class EnemyMutant : MonoBehaviour
     private HealthSystem _healthSystem;
     private WeaponSystem _weaponSystem;
     private GameObject _currentWeapon;
-    private Weapon _enemyWeapon;
+    private WeaponHolder _enemyWeaponHolder;
 
     private void Awake()
     {
-        var newWeapon = Instantiate(prefabWeapon, transform).GetComponent<Weapon>();
+        var newWeapon = Instantiate(prefabWeapon, transform).GetComponent<WeaponHolder>();
         _weaponSystem = new WeaponSystem(newWeapon.gameObject, transform, 1000);
         _currentWeapon = newWeapon.gameObject;
-        _enemyWeapon = _currentWeapon.GetComponent<Weapon>();
+        _enemyWeaponHolder = _currentWeapon.GetComponent<WeaponHolder>();
         
         
         _healthSystem = new HealthSystem(startHealthEnemy);
@@ -46,8 +46,8 @@ public class EnemyMutant : MonoBehaviour
 
     public void Attack(Transform targetPosition)
     {
-        _enemyWeapon.AimLookAt(targetPosition.position + Vector3.up*5);
-        _enemyWeapon.UsageWeapon();
+        _enemyWeaponHolder.AimLookAt(targetPosition.position + Vector3.up*5);
+        _enemyWeaponHolder.UsageWeapon();
     }
 
     private void EnemyDie(object sender, EventArgs e)

@@ -12,7 +12,7 @@ public class SkillSystem
     private HealthSystem _healthSystem;
     private PlayerCharacter _player;
     private WeaponSystem _weaponSystem;
-    private Weapon _currentWeapon;
+    private WeaponHolder _currentWeaponHolder;
 
     //Characteristics for skill object
     private const float _mSecForHealSkill = 1000;
@@ -28,7 +28,7 @@ public class SkillSystem
         _healthSystem = healthSystem;
         _player = player;
         _weaponSystem = weaponSystem;
-        _currentWeapon = _weaponSystem.GetCurrentWeapon();
+        _currentWeaponHolder = _weaponSystem.GetCurrentWeapon();
     }
 
     public void HealSkill()
@@ -72,8 +72,8 @@ public class SkillSystem
         TimerSkillManager(
             ()=>
             {
-                _currentWeapon = _weaponSystem.GetCurrentWeapon();
-                _currentWeapon.StartDoubleDamage(20);
+                _currentWeaponHolder = _weaponSystem.GetCurrentWeapon();
+                _currentWeaponHolder.StartDoubleDamage(20);
             }, 
             () =>
             {

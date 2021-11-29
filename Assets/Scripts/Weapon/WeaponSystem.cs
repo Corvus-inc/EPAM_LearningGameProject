@@ -7,10 +7,10 @@ using UnityEngine;
 public class WeaponSystem
 {
     public StatLoader StatLoader { private get; set; }
-    public Weapon CurrentWeapon { get; private set; }
+    public WeaponHolder CurrentWeaponHolder { get; private set; }
     public int UserCountBullets{ get; private set; }
     
-    private List<Weapon> _listWeapons;
+    private List<WeaponHolder> _listWeapons;
     private readonly Transform _transformTo;
     private GameObject _gunEquipped ;
     private readonly UIPlayer _ui;
@@ -20,13 +20,13 @@ public class WeaponSystem
     public WeaponSystem(GameObject currentWeapon, Transform transformTo, int userCountBullets)
     {
         _gunEquipped = currentWeapon;
-        CurrentWeapon = _gunEquipped.GetComponent<Weapon>();
-        CurrentWeapon.CountBulletInTheClip = CurrentWeapon.MaxBulletInTheClip;
+        CurrentWeaponHolder = _gunEquipped.GetComponent<WeaponHolder>();
+        CurrentWeaponHolder.CountBulletInTheClip = CurrentWeaponHolder.MaxBulletInTheClip;
         _transformTo = transformTo;
         UserCountBullets = userCountBullets;
         EquipWeapon(_gunEquipped);
     }
-    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
+    public WeaponSystem(List<WeaponHolder> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
     {
         StatLoader = statLoader;
         // on destroy
@@ -40,7 +40,7 @@ public class WeaponSystem
         _transformTo = transformTo;
         _gunEquipped = listWeapons[_indexWeapon].gameObject;
         UserCountBullets = userCountBullets;
-        CurrentWeapon = listWeapons[_indexWeapon];
+        CurrentWeaponHolder = listWeapons[_indexWeapon];
 
         for (var i = 0; i < _listWeapons.Count; i++ )
         {
@@ -69,13 +69,13 @@ public class WeaponSystem
 
     }
 
-    public Weapon GetCurrentWeapon()
+    public WeaponHolder GetCurrentWeapon()
     {
-      return _gunEquipped.gameObject.GetComponent<Weapon>();
+      return _gunEquipped.gameObject.GetComponent<WeaponHolder>();
     }
-    public Weapon SwitchWeapon()
+    public WeaponHolder SwitchWeapon()
     {
-        CurrentWeapon.ReturnAllBulletToSpawn();
+        CurrentWeaponHolder.ReturnAllBulletToSpawn();
         UnequippedGun();
         _indexWeapon = _indexWeapon < _countIndexWeapon-1 ? ++_indexWeapon : 0;
         _gunEquipped = _listWeapons[_indexWeapon].gameObject;
@@ -84,21 +84,21 @@ public class WeaponSystem
 
     public void  UnequippedGun()
     {
-        CurrentWeapon.IsEmptyClip -= RechargeGun;
-        CurrentWeapon.IsChangedClip -= UpdateUI;
+        CurrentWeaponHolder.IsEmptyClip -= RechargeGun;
+        CurrentWeaponHolder.IsChangedClip -= UpdateUI;
         UpdateUI();
         _gunEquipped.transform.SetParent(null);
         _gunEquipped.SetActive(false);
     }
     
-    public Weapon GetEquippedWeapon()
+    public WeaponHolder GetEquippedWeapon()
     {
         EquipWeapon(_gunEquipped);
-        return CurrentWeapon;
+        return CurrentWeaponHolder;
     }
     public void RechargeGun()
     {
-        int remains = CurrentWeapon.Recharge(UserCountBullets);
+        int remains = CurrentWeaponHolder.Recharge(UserCountBullets);
         UserCountBullets = remains;
         if (UserCountBullets < 0) UserCountBullets = 0;
         UpdateUI();
@@ -112,15 +112,15 @@ public class WeaponSystem
              _gunEquipped.transform.position = _transformTo.position;
              _gunEquipped.transform.rotation = _transformTo.rotation;
 
-             CurrentWeapon = GetCurrentWeapon();
-             CurrentWeapon.IsEmptyClip += RechargeGun;
-             CurrentWeapon.IsChangedClip += UpdateUI;
+             CurrentWeaponHolder = GetCurrentWeapon();
+             CurrentWeaponHolder.IsEmptyClip += RechargeGun;
+             CurrentWeaponHolder.IsChangedClip += UpdateUI;
              RechargeGun(); 
          }
 
     private void UpdateUI()
     {
-        _ui?.UpdateUIPlayerClip(CurrentWeapon.CountBulletInTheClip, UserCountBullets, CurrentWeapon.CurrentIcon);
+        _ui?.UpdateUIPlayerClip(CurrentWeaponHolder.CountBulletInTheClip, UserCountBullets, CurrentWeaponHolder.CurrentIcon);
         
     }
     

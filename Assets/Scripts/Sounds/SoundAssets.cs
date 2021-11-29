@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SoundAssets : MonoBehaviour
+namespace Sounds
 {
-    [SerializeField] private SoundAudioClip[] soundAudioClipArray;
-
-    public SoundAudioClip[] SoundAudioClipArray => soundAudioClipArray;
-    public static SoundAssets I
+    public class SoundAssets : MonoBehaviour
     {
-        get
+        [SerializeField] private SoundAudioClip[] soundAudioClipArray;
+
+        public SoundAudioClip[] SoundAudioClipArray => soundAudioClipArray;
+        public static SoundAssets I
         {
-            if (_i != null) _i = Instantiate(Resources.Load<SoundAssets>("SoundAssets"));
-            return _i;
+            get
+            {
+                if (_i == null) _i = Instantiate(Resources.Load<SoundAssets>("SoundAssets"));
+                return _i;
+            }
         }
+        private static SoundAssets _i;
     }
-    private static SoundAssets _i;
 }

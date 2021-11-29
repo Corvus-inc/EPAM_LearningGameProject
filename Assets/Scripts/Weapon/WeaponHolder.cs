@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Weapon : MonoBehaviour
+public class WeaponHolder : MonoBehaviour
 {
     public static bool ShootIsLocked { get; set;} 
     public WeaponType WeaponType { get; private set; }
@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
 
     public event Action IsEmptyClip;
     public event Action IsChangedClip;
+    //move to base
     
     [SerializeField] private BaseWeapon gunPrefab;
     [SerializeField] private Transform poolBullet;

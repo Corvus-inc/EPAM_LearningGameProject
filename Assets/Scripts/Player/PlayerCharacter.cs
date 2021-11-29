@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using LoaderSystem;
+using Sounds;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -13,7 +14,7 @@ public class PlayerCharacter : MonoBehaviour
     public HealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
-    public Weapon PlayerWeapon { get; private set; }
+    public WeaponHolder PlayerWeaponHolder { get; private set; }
     public GameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
@@ -26,10 +27,11 @@ public class PlayerCharacter : MonoBehaviour
 
     private float _speed;
     private float _boostSpeedRate;
+    private bool _isMoving;
 
     private void Start()
     {
-        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+        PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         //on destroy
         StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
@@ -39,17 +41,17 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
-            PlayerWeapon.UsageWeapon();
+            PlayerWeaponHolder.UsageWeapon();
         }
         
         
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerWeapon = WeaponSystem.SwitchWeapon();
+            PlayerWeaponHolder = WeaponSystem.SwitchWeapon();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+            PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -130,17 +132,25 @@ public class PlayerCharacter : MonoBehaviour
             currentSpeed *= _boostSpeedRate * axisMediator;
         }
 
-        if (verticalAxis != 0)
+        if (verticalAxis != 0 || horiontalAxis != 0)
         {
-            Vector3 toTranslate = Vector3.forward * verticalAxis * Time.deltaTime * currentSpeed;
-            transform.Translate(toTranslate, Space.World);
-        }
+            _isMoving = true;
+            SoundManager.PlaySound(Sound.PlayerMove);
+            
+            if (verticalAxis != 0 ) 
+            {
+                Vector3 toTranslate = Vector3.forward * verticalAxis * Time.deltaTime * currentSpeed;
+                transform.Translate(toTranslate, Space.World);
+            }
 
-        if (horiontalAxis != 0)
-        {
-            Vector3 toTranslate = Vector3.right * horiontalAxis * Time.deltaTime * currentSpeed;
-            transform.Translate(toTranslate, Space.World);
+            if (horiontalAxis != 0)
+            {
+                Vector3 toTranslate = Vector3.right * horiontalAxis * Time.deltaTime * currentSpeed;
+                transform.Translate(toTranslate, Space.World);
+            }
         }
+        else _isMoving = false;
+
     }
     
     private void LookAtTargetForPlayer(Transform targetForLook)

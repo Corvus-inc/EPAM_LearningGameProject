@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LoaderSystem;
+using Sounds;
 using UnityEngine;
 
 public class Starter : MonoBehaviour
@@ -16,7 +17,7 @@ public class Starter : MonoBehaviour
     private WeaponSystem _playerWeaponSystem;
     private HealthSystem _playerHealthSystem;
     private SkillSystem _playerSkillSystem;
-    private List<Weapon> _playerWeapons;
+    private List<WeaponHolder> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
     
@@ -52,6 +53,7 @@ public class Starter : MonoBehaviour
          _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
 
         #endregion
+        SoundManager.Initialize();
     }
 
     private void SetDependencies()
