@@ -4829,14 +4829,22 @@ PrefabInstance:
     - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
       propertyPath: enemy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7496082630642398528, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
     - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
       propertyPath: _enemy
       value: 
       objectReference: {fileID: 7496082630642398528, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
     - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
+      propertyPath: coolDown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
       propertyPath: _coolDown
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
+      propertyPath: enemyCounter
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5680851009646741537, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
       propertyPath: _enemyCounter

@@ -9,6 +9,7 @@ namespace Sounds
         private static GameObject _oneShotGameObject;
         private static AudioSource _oneShotAudioSource;
         private static Dictionary<Sound, float> _soundTimerDictionary;
+        private static AudioSource _backgroundMusicAudioSource;
 
         public static void Initialize()
         {
@@ -18,6 +19,14 @@ namespace Sounds
             };
         }
 
+        public static void PlayBackgroundMusic(Sound background)
+        {
+            var back = new GameObject("Back");
+            _backgroundMusicAudioSource = back.AddComponent<AudioSource>();
+            _backgroundMusicAudioSource.clip = GetAudioClip(Sound.Background);
+            _backgroundMusicAudioSource.Play();
+            _backgroundMusicAudioSource.loop = true;
+        }
         public static void PlaySound(Sound sound, bool loop)
         {
             

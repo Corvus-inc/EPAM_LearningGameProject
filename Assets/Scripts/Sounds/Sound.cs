@@ -5,5 +5,6 @@
         ShotgunShoot,
         AssaultShoot,
         EnemyHit,
-        EnemyDie
+        EnemyDie,
+        Background
     }

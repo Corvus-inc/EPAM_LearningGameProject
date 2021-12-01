@@ -54,6 +54,7 @@ public class Starter : MonoBehaviour
 
         #endregion
         SoundManager.Initialize();
+        SoundManager.PlayBackgroundMusic(Sound.Background);
     }
 
     private void SetDependencies()
