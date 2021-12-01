@@ -114,6 +114,7 @@ public class PlayerCharacter : MonoBehaviour
         if (check)
         {
             HealthSystem.Damage(20);
+            SoundManager.PlaySound(Sound.PlayerHit);
         }
     }
 

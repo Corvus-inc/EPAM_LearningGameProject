@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using Sounds;
 using UnityEngine;
 
 public class EnemyMutant : MonoBehaviour
@@ -38,6 +37,7 @@ public class EnemyMutant : MonoBehaviour
             IBullet bullet = collision.gameObject.GetComponent<IBullet>();
             int damage = bullet.GetBulletDamage();
             _healthSystem.Damage(damage);
+            SoundManager.PlaySound(Sound.EnemyHit);
             
             StopCoroutine(bullet.DeactivatingBullet(0));
             bullet.DeactivatingBullet();

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Sounds;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,7 +11,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private HealthBarEnemy _healthBarEnemy;
 
     private HealthSystem _healthSystem;
-    //private SphereCollider _enemyTrigger;
     private Transform _target;
 
     private void Awake()
@@ -20,7 +18,7 @@ public class Enemy : MonoBehaviour
         _healthSystem = new HealthSystem(_startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
         _healthBarEnemy.HealthSystem = _healthSystem;
-        _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
+        _healthBarEnemy.SetColour(Color.red);
     }
 
     void Update()
@@ -41,6 +39,7 @@ public class Enemy : MonoBehaviour
            IBullet bullet = collision.gameObject.GetComponent<IBullet>();
            int damage = bullet.GetBulletDamage();
            _healthSystem.Damage(damage);
+           SoundManager.PlaySound(Sound.EnemyHit);
             
            StopCoroutine(bullet.DeactivatingBullet(0));
            bullet.DeactivatingBullet();
@@ -52,12 +51,8 @@ public class Enemy : MonoBehaviour
         if (GameUtils.Utils.CheckLayerMask(other.gameObject, _layerPlayer))
         {
             _target = other.transform;
-            //enemyTrigger.enabled = false;
             enabled = true;
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
     }
      private void EnemyDie(object sender, System.EventArgs e)
     {
