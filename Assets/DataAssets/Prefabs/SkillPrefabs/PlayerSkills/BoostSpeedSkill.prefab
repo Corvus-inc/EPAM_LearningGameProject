@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4227425385d196a438319b20be7d8318, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da28ed10239922f4782ad7f14f868d97, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -173,7 +173,7 @@ MonoBehaviour:
   type: 1
   button: {fileID: 609895329726490046}
   icon: {fileID: 1020871915378024756}
-  iconMask: {fileID: 8151655271924353298}
+  mask: {fileID: 7253460198355975064}
 --- !u!1 &7705183434418330896
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -410,14 +410,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7176183685824003445, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
   m_PrefabInstance: {fileID: 2955187545140604408}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8151655271924353298 stripped
+--- !u!114 &7253460198355975064 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6350796949888591082, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
+  m_CorrespondingSourceObject: {fileID: -3626636897088792992, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
   m_PrefabInstance: {fileID: 2955187545140604408}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 72714ed8c53c747e4b2c3dc6b091314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

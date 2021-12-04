@@ -8,10 +8,10 @@ public class SkillUI : MonoBehaviour
     [SerializeField] private Skill type;
     [SerializeField] private Button button;
     [SerializeField] private Image icon;
-    [SerializeField] private Image iconMask;
+    [SerializeField] private ButtonMask mask;
 
     public Skill Type => type;
     public Button Button => button;
     public Image Icon => icon;
-    public Image IconMask => iconMask;
+    public ButtonMask Mask => mask;
 }
