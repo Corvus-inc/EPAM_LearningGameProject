@@ -5,30 +5,42 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHandler
+public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public ISkillSystem PlayerSkillSystem { private get; set; }
 
-    [SerializeField] private List<Button> skillButtons;
     [SerializeField] private List<SkillUI> skills;
-    
-    private ButtonMask[] _currentMasks;
 
-    private void Awake()
-    {
-        // InitIcons();
-        GettingMasks();
-    }
+    private List <Button> skillButtons;
+    private ButtonMask _currentMask;
 
     private void Start()
-    { 
-        skillButtons[0].onClick.AddListener(PlayerSkillSystem.HealSkill); 
-        skillButtons[1].onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
-        skillButtons[2].onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
-
-        PlayerSkillSystem.IsHeal += AddTimeForMask0;
-        PlayerSkillSystem.IsBoostSpeed += AddTimeForMask1;
-        PlayerSkillSystem.IsIncreaseDamage += AddTimeForMask2;
+    {
+        #region Init skills UI
+        
+        foreach (var skill in skills)
+        {
+            _currentMask = skill.IconMask.gameObject.GetComponent<ButtonMask>();
+            
+            switch (skill.Type)
+            {
+                case Skill.Heal:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.HealSkill);
+                    PlayerSkillSystem.IsHeal += AddTimeForMask;
+                    break;
+                case Skill.BoostSpeed:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
+                    PlayerSkillSystem.IsHeal += AddTimeForMask;
+                    break;
+                case Skill.IncreaseDamage:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
+                    PlayerSkillSystem.IsHeal += AddTimeForMask;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        #endregion
     }
 
     private void Update()
@@ -37,10 +49,12 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHa
         {
             PlayerSkillSystem.HealSkill();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             PlayerSkillSystem.BoostSpeedSkill();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             PlayerSkillSystem.IncreasesDamageSkill();
@@ -49,42 +63,19 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
         Weapon.ShootIsLocked = true;
-        
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
         Weapon.ShootIsLocked = false;
     }
 
     //for created types
-    private void AddTimeForMask0(float time_mSec)
+    private void AddTimeForMask(float time_mSec)
     {
-        _currentMasks[0].TimeForMasked = time_mSec/1000;
-        _currentMasks[0].gameObject.SetActive(true);
+        _currentMask.TimeForMasked = time_mSec / 1000;
+        _currentMask.gameObject.SetActive(true);
     }
-    private void AddTimeForMask1(float time_mSec)
-    {
-        _currentMasks[1].TimeForMasked = time_mSec/1000;
-        _currentMasks[1].gameObject.SetActive(true);
-    }
-    private void AddTimeForMask2(float time_mSec)
-    {
-        _currentMasks[2].TimeForMasked = time_mSec/1000;
-        _currentMasks[2].gameObject.SetActive(true);
-    }
-    
-    private void GettingMasks()
-    {
-        _currentMasks = new ButtonMask[skills.Count];
-        for (var i = 0; i < _currentMasks.Length; i++)
-        {
-            _currentMasks[i] = skills[i].IconMask.gameObject.GetComponent<ButtonMask>();
-            // _currentMasks[i].IconMask = _iconsMask[i];
-            
-            // _currentMasks[i].TimeForMasked = 5;
-        }
-    }
+
 }

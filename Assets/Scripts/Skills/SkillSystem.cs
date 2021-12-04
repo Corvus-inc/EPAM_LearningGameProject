@@ -8,15 +8,16 @@ public class SkillSystem : ISkillSystem
     public event Action<float> IsBoostSpeed;
     public event Action<float> IsIncreaseDamage;
 
-    private IPlayer _player;
+    private readonly IPlayer _player;
+    private readonly WeaponSystem _weaponSystem;
+    private readonly IHealthSystem _healthSystem;
+    
     private Weapon _currentWeapon;
-    private WeaponSystem _weaponSystem;
-    private IHealthSystem _healthSystem;
 
     //Characteristics for skill object
-    private const float _mSecForHealSkill = 1000;
-    private const float _mSecForBoostSkill = 2000;
-    private const float _mSecForDamageSkill = 5000;
+    private const float MSecForHealSkill = 1000;
+    private const float MSecForBoostSkill = 2000;
+    private const float MSecForDamageSkill = 5000;
 
     private bool _continuesHealSkill;
     private bool _continuesBoostSkill;
@@ -45,7 +46,7 @@ public class SkillSystem : ISkillSystem
             },
             ref _continuesHealSkill
             );
-        IsHeal?.Invoke(_mSecForHealSkill);
+        IsHeal?.Invoke(MSecForHealSkill);
     }
 
     public void BoostSpeedSkill()
@@ -63,7 +64,7 @@ public class SkillSystem : ISkillSystem
             },
             ref _continuesBoostSkill
             );
-        IsBoostSpeed?.Invoke(_mSecForBoostSkill);
+        IsBoostSpeed?.Invoke(MSecForBoostSkill);
     }
 
     public void IncreasesDamageSkill()
@@ -81,7 +82,7 @@ public class SkillSystem : ISkillSystem
             },
             ref _continuesDamageSkill
             );
-        IsIncreaseDamage?.Invoke(_mSecForDamageSkill);
+        IsIncreaseDamage?.Invoke(MSecForDamageSkill);
     }
 
     private void TimerSkillManager(Action start, Action finish,ref bool timerContinues)
@@ -94,7 +95,7 @@ public class SkillSystem : ISkillSystem
         start.Invoke();
         // _player.IsBoostedSpeed = true;
             
-        aTimer = new Timer(_mSecForBoostSkill);
+        aTimer = new Timer(MSecForBoostSkill);
         aTimer.Elapsed += TimerComplete;
         aTimer.Enabled = true;
         void TimerComplete(object sender, ElapsedEventArgs elapsedEventArgs)
