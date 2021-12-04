@@ -8,14 +8,14 @@ public class Starter : MonoBehaviour
     [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private GameState gameState;
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private CameraFollow2 cameraFollow2;
+    [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private SkillPanelUI playerSkillPanelUI;
     [SerializeField] private List<GameObject> _listPrefabWeapons;
     
     private IHealthSystem _playerHealthSystem;
     private WeaponSystem _playerWeaponSystem;
-    private SkillSystem _playerSkillSystem;
+    private ISkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
@@ -23,6 +23,7 @@ public class Starter : MonoBehaviour
 
     private ICameraFollow CameraFollow=> cameraFollow2;
     private IHealthBar PlayerUIHealthBar => playerUIHealthBar;
+    
     private void Awake()
     {
         Initialize();
@@ -36,6 +37,7 @@ public class Starter : MonoBehaviour
         GameState.GameIsLoaded = false;
 
         #region Player init
+        
         var goPlayer= Instantiate(playerPrefab,Vector3.zero, Quaternion.identity);
         goPlayer.transform.localScale = new Vector3(3.6f, 3.6f, 3.6f);
         _player = goPlayer.GetComponent<IPlayer>();
@@ -55,7 +57,7 @@ public class Starter : MonoBehaviour
         PlayerUIHealthBar.SetSize(_playerHealthSystem.Health);
         PlayerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
-         _playerSkillSystem = new SkillSystem(_playerHealthSystem, _player, _playerWeaponSystem);
+        _playerSkillSystem = new SkillSystem(_playerHealthSystem, _player, _playerWeaponSystem);
 
         #endregion
         CameraFollow.FollowTarget = goPlayer.transform;

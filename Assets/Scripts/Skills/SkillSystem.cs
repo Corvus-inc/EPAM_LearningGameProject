@@ -2,17 +2,16 @@
 using System.Timers;
 using UnityEngine;
 
-public class SkillSystem
+public class SkillSystem : ISkillSystem
 {
     public event Action<float> IsHeal;
     public event Action<float> IsBoostSpeed;
     public event Action<float> IsIncreaseDamage;
 
-    
-    private IHealthSystem _healthSystem;
     private IPlayer _player;
-    private WeaponSystem _weaponSystem;
     private Weapon _currentWeapon;
+    private WeaponSystem _weaponSystem;
+    private IHealthSystem _healthSystem;
 
     //Characteristics for skill object
     private const float _mSecForHealSkill = 1000;

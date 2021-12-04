@@ -7,12 +7,11 @@ using UnityEngine.UI;
 
 public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHandler
 {
-    public SkillSystem PlayerSkillSystem { private get; set; }
+    public ISkillSystem PlayerSkillSystem { private get; set; }
 
     [SerializeField] private List<Button> skillButtons;
     [SerializeField] private List<SkillUI> skills;
     
-    // private Image[] _iconsMask;
     private ButtonMask[] _currentMasks;
 
     private void Awake()
@@ -76,17 +75,6 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHa
         _currentMasks[2].TimeForMasked = time_mSec/1000;
         _currentMasks[2].gameObject.SetActive(true);
     }
-    
-    // private void InitIcons()
-    // {
-    //     _iconsMask = new Image[skills.Count];
-    //     for (var i = 0; i < _iconsMask.Length; i++)
-    //     {
-    //         _iconsMask[i] = skills[i].IconMask;
-    //         _iconsMask[i].fillAmount = 0;
-    //
-    //     }
-    // } 
     
     private void GettingMasks()
     {
