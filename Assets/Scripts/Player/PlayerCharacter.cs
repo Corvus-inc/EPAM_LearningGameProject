@@ -6,7 +6,7 @@ using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerCharacter : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour, IPlayer
 {
     public StatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
