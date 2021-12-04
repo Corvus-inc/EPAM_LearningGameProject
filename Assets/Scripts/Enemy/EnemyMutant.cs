@@ -11,7 +11,7 @@ public class EnemyMutant : MonoBehaviour
     [SerializeField] private LayerMask layerBullet;
     [SerializeField] private HealthBarEnemy healthBarEnemy;
     
-    private HealthSystem _healthSystem;
+    private IHealthSystem _healthSystem;
     private WeaponSystem _weaponSystem;
     private GameObject _currentWeapon;
     private Weapon _enemyWeapon;

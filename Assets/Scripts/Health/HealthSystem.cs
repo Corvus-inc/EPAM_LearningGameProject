@@ -4,24 +4,23 @@ using System.Collections.Generic;
 using LoaderSystem;
 using UnityEngine;
 
-public class HealthSystem
+public class HealthSystem : IHealthSystem
 {
     public StatLoader StatLoader { private get; set; }
     
     public event EventHandler OnHealthChanged;
     public event EventHandler OnHealthStateMin;
 
-    private int _health;
-    private int _healthMax;
     private int _healthMin;
 
-    public int MaxHeals => _healthMax;
-    public int Health => _health;
+    public int MaxHeals { get; }
+
+    public int Health { get; private set; }
 
     public HealthSystem(int healthMax)
     {
-        _healthMax = healthMax;
-        _health = healthMax;
+        MaxHeals = healthMax;
+        Health = healthMax;
         _healthMin = 0;
     }
     public HealthSystem(StatLoader statLoader)
@@ -30,23 +29,23 @@ public class HealthSystem
         //When player Die the subscription can multiply- on destroy
         StatLoader.OnSavePlayerData += SaveHealth;
 
-        _healthMax = StatLoader.HealthPlayerData.MaxHealth;
-        _health = StatLoader.HealthPlayerData.Health;
+        MaxHeals = StatLoader.HealthPlayerData.MaxHealth;
+        Health = StatLoader.HealthPlayerData.Health;
         _healthMin = 0;
     }
 
     public float GetHealthPercent()
     {
-        return (float)_health / _healthMax;
+        return (float)Health / MaxHeals;
     }
 
     public void Damage(int damageAmount)
     {
-        _health -= damageAmount;
+        Health -= damageAmount;
 
-        if (_health < _healthMin)
+        if (Health < _healthMin)
         {
-            _health = 0;
+            Health = 0;
             if (OnHealthStateMin != null) OnHealthStateMin(this, EventArgs.Empty);
         }
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
@@ -54,15 +53,15 @@ public class HealthSystem
 
     public void Heal(int healAmount)
     {
-        _health += healAmount;
+        Health += healAmount;
 
-        if (_health > _healthMax) _health = _healthMax;
+        if (Health > MaxHeals) Health = MaxHeals;
 
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
     }
 
     private void SaveHealth()
     {
-        StatLoader.HealthPlayerData.Health = _health;
+        StatLoader.HealthPlayerData.Health = Health;
     }
 }

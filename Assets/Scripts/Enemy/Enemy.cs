@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask _layerBullet;
     [SerializeField] private HealthBarEnemy _healthBarEnemy;
 
-    private HealthSystem _healthSystem;
+    private IHealthSystem _healthSystem;
     //private SphereCollider _enemyTrigger;
     private Transform _target;
 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public HealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { private get; set; }
     
     [SerializeField] private RectTransform _bar;
     

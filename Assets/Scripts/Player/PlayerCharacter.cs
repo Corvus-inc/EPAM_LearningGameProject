@@ -10,7 +10,7 @@ public class PlayerCharacter : MonoBehaviour
 {
     public StatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
-    public HealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
     public Weapon PlayerWeapon { get; private set; }

@@ -14,7 +14,7 @@ public class Starter : MonoBehaviour
     
 
     private WeaponSystem _playerWeaponSystem;
-    private HealthSystem _playerHealthSystem;
+    private IHealthSystem _playerHealthSystem;
     private SkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;

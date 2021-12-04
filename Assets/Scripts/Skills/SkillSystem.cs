@@ -9,7 +9,7 @@ public class SkillSystem
     public event Action<float> IsIncreaseDamage;
 
     
-    private HealthSystem _healthSystem;
+    private IHealthSystem _healthSystem;
     private PlayerCharacter _player;
     private WeaponSystem _weaponSystem;
     private Weapon _currentWeapon;
@@ -23,7 +23,7 @@ public class SkillSystem
     private bool _continuesBoostSkill;
     private bool _continuesDamageSkill;
 
-    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, WeaponSystem weaponSystem)
+    public SkillSystem(IHealthSystem healthSystem, PlayerCharacter player, WeaponSystem weaponSystem)
     {
         _healthSystem = healthSystem;
         _player = player;
