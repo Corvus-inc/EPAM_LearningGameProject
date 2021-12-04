@@ -8,7 +8,6 @@ public class MainMenuCamera : MonoBehaviour
 
     void Update()
     {   
-
         transform.Rotate(new Vector3(0, Time.deltaTime*_cameraSpeedRotate, 0));
     }
 }

@@ -1488,12 +1488,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6bd1cae3e62364a81cf1d409bc71c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUI: {fileID: 1019104554}
+  pauseMenu: {fileID: 1019104553}
   gameState: {fileID: 1648993238}
   player: {fileID: 522989009}
   playerUIHealthBar: {fileID: 319070862}
+  cameraFollow2: {fileID: 1377198275}
   playerSkillPanelUI: {fileID: 681081643}
-  playerUI: {fileID: 1019104554}
-  pauseMenu: {fileID: 1019104553}
   _listPrefabWeapons:
   - {fileID: 3117524531343680957, guid: 420550c489caf4ac18f0e047d28881f0, type: 3}
   - {fileID: 3102868453210313815, guid: 913288c0118d1458aa42510a23e2616a, type: 3}
@@ -2806,7 +2807,6 @@ GameObject:
   - component: {fileID: 1377198273}
   - component: {fileID: 1377198272}
   - component: {fileID: 1377198271}
-  - component: {fileID: 1377198274}
   - component: {fileID: 1377198275}
   m_Layer: 0
   m_Name: Camera
@@ -2880,23 +2880,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 69.85, y: 0, z: 0}
---- !u!114 &1377198274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377198270}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1260e57d7beb42b41be28fa4efa2f724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _followTarget: {fileID: 0}
-  _followOffset: {x: 0, y: 0, z: 0}
-  _lookAtTarget: {fileID: 0}
-  _lookAtOffset: {x: 0, y: 0, z: 0}
-  _followSpeed: 0
 --- !u!114 &1377198275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2909,9 +2892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8cc299681768844afadc1a569292c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followTarget: {fileID: 5717371555888173107}
-  _followOffset: {x: 0, y: 26, z: -9}
-  smoothTime: 0.39
 --- !u!1 &1648993235
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,11 +4868,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f053601429ca6d40a3e80af62e3d7f9, type: 3}
---- !u!4 &5717371555888173107 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7404018630311736618, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
-  m_PrefabInstance: {fileID: 2997273731282887961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6359366670409509891
 PrefabInstance:
   m_ObjectHideFlags: 0

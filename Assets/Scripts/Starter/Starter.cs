@@ -9,17 +9,18 @@ public class Starter : MonoBehaviour
     [SerializeField] private GameState gameState;
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
+    [SerializeField] private CameraFollow2 cameraFollow2;
     [SerializeField] private SkillPanelUI playerSkillPanelUI;
     [SerializeField] private List<GameObject> _listPrefabWeapons;
     
-
-    private WeaponSystem _playerWeaponSystem;
     private IHealthSystem _playerHealthSystem;
+    private WeaponSystem _playerWeaponSystem;
     private SkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
 
+    private ICameraFollow CameraFollow=> cameraFollow2;
     private IHealthBar PlayerUIHealthBar => playerUIHealthBar;
     private void Awake()
     {
@@ -29,7 +30,8 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-        //1 The loader loading start data or loadable data do it in beginning the Initialize.
+        CameraFollow.FollowTarget = player.transform;
+        
         _loader = new StatLoader(GameState.GameIsLoaded, gameState);
         GameState.GameIsLoaded = false;
 
