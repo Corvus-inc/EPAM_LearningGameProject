@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace LoaderSystem
 {
-    public class StatLoader
+    public class StatLoader : IStatLoader
     {
         public PlayerData PlayerData { get; private set; }
         public HealthPlayerData HealthPlayerData { get; private set; }
@@ -11,8 +11,7 @@ namespace LoaderSystem
 
         public event Action OnSavePlayerData;
 
-
-        private readonly PlayerStats _started = new PlayerStats()
+        private readonly PlayerStats _startedPlayerStats = new PlayerStats()
         {
             Health = 100,
             MAXHealth = 100,
@@ -28,13 +27,12 @@ namespace LoaderSystem
             }
         };
 
-        public PlayerStats LoadablePlayerStats { get; private set; }
+        private PlayerStats LoadablePlayerStats { get; }
         private PlayerStats SavingPlayerStats { get; set; }
 
-        //How transfer only delegate - gameState.IsSaveProgress
         public StatLoader(bool isLoader, GameState gameState)
         {
-            var startedData = new PlayerStats(_started);
+            var startedData = new PlayerStats(_startedPlayerStats);
             LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
             gameState.IsSaveProgress += SavePlayerStats;
 
@@ -44,11 +42,13 @@ namespace LoaderSystem
 
         public PlayerData LoadPlayerData()
         {
-            PlayerData = new PlayerData();
-            PlayerData.Speed = LoadablePlayerStats.Speed;
-            PlayerData.BoostSpeedRate = LoadablePlayerStats.BoostSpeedRate;
-            PlayerData.CountBullet = LoadablePlayerStats.CountBullets;
-            PlayerData.Position = LoadablePlayerStats.PlayerPosition;
+            PlayerData = new PlayerData
+            {
+                Speed = LoadablePlayerStats.Speed,
+                BoostSpeedRate = LoadablePlayerStats.BoostSpeedRate,
+                CountBullet = LoadablePlayerStats.CountBullets,
+                Position = LoadablePlayerStats.PlayerPosition
+            };
             return PlayerData;
         }
 
@@ -56,15 +56,17 @@ namespace LoaderSystem
         {
             OnSavePlayerData?.Invoke();
 
-            var savingPlayerData = new PlayerStats();
-            savingPlayerData.Health = HealthPlayerData.Health;
-            savingPlayerData.MAXHealth = _started.Health;
-            savingPlayerData.Speed = PlayerData.Speed;
-            savingPlayerData.BoostSpeedRate = _started.BoostSpeedRate;
-            savingPlayerData.CountBullets = PlayerData.CountBullet;
-            savingPlayerData.PlayerPosition = PlayerData.Position;
-            savingPlayerData.StartedWeapon = WeaponPlayerData.Index;
-            savingPlayerData.WeaponSavingStatsArray = WeaponPlayerData.WeaponSavingStatsList.ToArray();
+            var savingPlayerData = new PlayerStats
+            {
+                Health = HealthPlayerData.Health,
+                MAXHealth = _startedPlayerStats.Health,
+                Speed = PlayerData.Speed,
+                BoostSpeedRate = _startedPlayerStats.BoostSpeedRate,
+                CountBullets = PlayerData.CountBullet,
+                PlayerPosition = PlayerData.Position,
+                StartedWeapon = WeaponPlayerData.Index,
+                WeaponSavingStatsArray = WeaponPlayerData.WeaponSavingStatsList.ToArray()
+            };
 
             SavingPlayerStats = savingPlayerData;
             SavingSystem.Save(SavingPlayerStats, "PlayerData");
@@ -73,17 +75,21 @@ namespace LoaderSystem
 
         private HealthPlayerData LoadHealthPlayerData()
         {
-            HealthPlayerData = new HealthPlayerData();
-            HealthPlayerData.MaxHealth = LoadablePlayerStats.MAXHealth;
-            HealthPlayerData.Health = LoadablePlayerStats.Health;
+            HealthPlayerData = new HealthPlayerData
+            {
+                MaxHealth = LoadablePlayerStats.MAXHealth,
+                Health = LoadablePlayerStats.Health
+            };
             return HealthPlayerData;
         }
 
         private WeaponPlayerData LoadWeaponPlayerData()
         {
-            WeaponPlayerData = new WeaponPlayerData();
-            WeaponPlayerData.Index = LoadablePlayerStats.StartedWeapon;
-            WeaponPlayerData.WeaponSavingStatsList = LoadablePlayerStats.WeaponSavingStatsArray.ToList();
+            WeaponPlayerData = new WeaponPlayerData
+            {
+                Index = LoadablePlayerStats.StartedWeapon,
+                WeaponSavingStatsList = LoadablePlayerStats.WeaponSavingStatsArray.ToList()
+            };
             return WeaponPlayerData;
         }
     }

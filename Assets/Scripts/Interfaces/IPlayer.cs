@@ -2,7 +2,7 @@ using LoaderSystem;
 
 public interface IPlayer
 {
-    StatLoader StatLoader { set; }
+    IStatLoader StatLoader { set; }
     int CountBullets { get; }
     GameState GameState { set; }
     IHealthSystem HealthSystem { set; }

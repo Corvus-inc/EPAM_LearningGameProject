@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class PauseMenu : MonoBehaviour
 {
     public GameState GameState { private get; set; } 
-    public StatLoader Loader { private get; set; } 
+    public IStatLoader Loader { private get; set; } 
     
     [SerializeField][FormerlySerializedAs("UIMenu")] private GameObject uiMenu;
     [SerializeField][FormerlySerializedAs("UIPause")] private GameObject uiPause;

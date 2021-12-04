@@ -18,7 +18,7 @@ public class Starter : MonoBehaviour
     private ISkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
-    private StatLoader _loader;
+    private IStatLoader _loader;
     private IPlayer _player;
 
     private ICameraFollow CameraFollow=> cameraFollow2;

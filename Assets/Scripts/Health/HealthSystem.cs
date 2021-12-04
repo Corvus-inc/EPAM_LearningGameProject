@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class HealthSystem : IHealthSystem
 {
-    public StatLoader StatLoader { private get; set; }
+    private IStatLoader StatLoader { get;}
     
     public event EventHandler OnHealthChanged;
     public event EventHandler OnHealthStateMin;
@@ -23,7 +23,7 @@ public class HealthSystem : IHealthSystem
         Health = healthMax;
         _healthMin = 0;
     }
-    public HealthSystem(StatLoader statLoader)
+    public HealthSystem(IStatLoader statLoader)
     {
         StatLoader = statLoader;
         //When player Die the subscription can multiply- on destroy

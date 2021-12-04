@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WeaponSystem
 {
-    public StatLoader StatLoader { private get; set; }
+    public IStatLoader StatLoader { private get; set; }
     public Weapon CurrentWeapon { get; private set; }
     public int UserCountBullets{ get; private set; }
     
@@ -26,7 +26,7 @@ public class WeaponSystem
         UserCountBullets = userCountBullets;
         EquipWeapon(_gunEquipped);
     }
-    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, StatLoader statLoader)
+    public WeaponSystem(List<Weapon> listWeapons, Transform transformTo, UIPlayer UI, int userCountBullets, IStatLoader statLoader)
     {
         StatLoader = statLoader;
         // on destroy

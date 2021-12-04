@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour, IPlayer
 {
-    public StatLoader StatLoader { private get; set; }
+    public IStatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
     public IHealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
