@@ -9,12 +9,14 @@ public class EnemyMutant : MonoBehaviour
 
     [SerializeField] private GameObject prefabWeapon;
     [SerializeField] private LayerMask layerBullet;
-    [SerializeField] private HealthBarEnemy healthBarEnemy;
+    [SerializeField] private HealthBarEnemy healthBar;
     
     private IHealthSystem _healthSystem;
     private WeaponSystem _weaponSystem;
     private GameObject _currentWeapon;
     private Weapon _enemyWeapon;
+
+    private IHealthBar HealthBarEnemy => healthBar;
 
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class EnemyMutant : MonoBehaviour
         
         _healthSystem = new HealthSystem(startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
-        healthBarEnemy.HealthSystem = _healthSystem;
+        HealthBarEnemy.HealthSystem = _healthSystem;
     }
     
     private void OnCollisionEnter(Collision collision)

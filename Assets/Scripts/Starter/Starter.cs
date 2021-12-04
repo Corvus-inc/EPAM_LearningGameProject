@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Starter : MonoBehaviour
 {
+    [SerializeField] private UIPlayer playerUI;
+    [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private GameState gameState;
     [SerializeField] private PlayerCharacter player;
     [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private SkillPanelUI playerSkillPanelUI;
-    [SerializeField] private UIPlayer playerUI;
-    [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private List<GameObject> _listPrefabWeapons;
     
 
@@ -19,7 +19,8 @@ public class Starter : MonoBehaviour
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
     private StatLoader _loader;
-    
+
+    private IHealthBar PlayerUIHealthBar => playerUIHealthBar;
     private void Awake()
     {
         Initialize();
@@ -46,8 +47,8 @@ public class Starter : MonoBehaviour
         
         _playerWeaponSystem = new WeaponSystem(_playerWeapons, player.transform, playerUI, player.CountBullets, _loader);
         
-        playerUIHealthBar.SetSize(_playerHealthSystem.Health);
-        playerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
+        PlayerUIHealthBar.SetSize(_playerHealthSystem.Health);
+        PlayerUIHealthBar.SetColour(new Color32(33, 6, 102, 255));
         
          _playerSkillSystem = new SkillSystem(_playerHealthSystem, player, _playerWeaponSystem);
 

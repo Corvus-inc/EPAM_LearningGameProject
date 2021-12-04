@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : MonoBehaviour, IHealthBar
 {
     public IHealthSystem HealthSystem { private get; set; }
     

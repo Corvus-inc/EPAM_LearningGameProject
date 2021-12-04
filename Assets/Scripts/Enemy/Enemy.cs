@@ -9,18 +9,20 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private LayerMask _layerPlayer;
     [SerializeField] private LayerMask _layerBullet;
-    [SerializeField] private HealthBarEnemy _healthBarEnemy;
+    [SerializeField] private HealthBarEnemy healthBar;
 
     private IHealthSystem _healthSystem;
     //private SphereCollider _enemyTrigger;
     private Transform _target;
 
+    private IHealthBar HealthBarEnemy => healthBar;
+    
     private void Awake()
     {
         _healthSystem = new HealthSystem(_startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
-        _healthBarEnemy.HealthSystem = _healthSystem;
-        _healthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
+        HealthBarEnemy.HealthSystem = _healthSystem;
+        HealthBarEnemy.SetColour(Color.red);//why error in Awake, but working?
     }
 
     void Update()
