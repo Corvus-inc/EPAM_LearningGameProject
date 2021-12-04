@@ -1,19 +1,27 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameState : MonoBehaviour
+public class GameState : MonoBehaviour, IGameState
 {
     private const string NameStartGameScene = "MainScene";
-    private const float RestartDelay = 1f; 
+    private const float RestartDelay = 1f;
     private bool GameHasEnded { get; set; }
 
     public event Action IsSaveProgress;
-    
-    public static bool GameIsLoaded { get; set; }
-    public static bool GameIsPaused { get; private set; }
+
+    public bool GameIsLoaded { get; set; }
+    public bool GameIsPaused { get; private set; }
+
+    private void Awake()
+    {
+        var doubleGS = FindObjectOfType<GameState>().gameObject;
+        if (doubleGS != gameObject)
+        {
+            Destroy(doubleGS);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void LoadGame()
     {
@@ -25,7 +33,7 @@ public class GameState : MonoBehaviour
     {
         IsSaveProgress?.Invoke();
     }
-    
+
     public void StartGame()
     {
         SceneManager.LoadScene(NameStartGameScene);
@@ -36,7 +44,7 @@ public class GameState : MonoBehaviour
     {
         if (GameHasEnded) return;
         GameHasEnded = true;
-        Restart(); 
+        Restart();
     }
 
     public void Restart()
@@ -52,8 +60,8 @@ public class GameState : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-
     }
+
     public void Pause()
     {
         Time.timeScale = 0f;

@@ -30,7 +30,7 @@ namespace LoaderSystem
         private PlayerStats LoadablePlayerStats { get; }
         private PlayerStats SavingPlayerStats { get; set; }
 
-        public StatLoader(bool isLoader, GameState gameState)
+        public StatLoader(bool isLoader, IGameState gameState)
         {
             var startedData = new PlayerStats(_startedPlayerStats);
             LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
