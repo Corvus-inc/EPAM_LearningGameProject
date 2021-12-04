@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LoaderSystem;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerCharacter : MonoBehaviour, IPlayer
 {
@@ -14,7 +10,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
     public Weapon PlayerWeapon { get; private set; }
-    public GameState GameState { private get; set; }
+    public IGameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
     private int MaxHealthPlayer => HealthSystem.MaxHeals;

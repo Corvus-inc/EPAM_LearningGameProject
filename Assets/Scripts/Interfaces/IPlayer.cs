@@ -4,7 +4,7 @@ public interface IPlayer
 {
     IStatLoader StatLoader { set; }
     int CountBullets { get; }
-    GameState GameState { set; }
+    IGameState GameState { set; }
     IHealthSystem HealthSystem { set; }
     WeaponSystem WeaponSystem { set; }
     bool IsBoostedSpeed { set; }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Starter : MonoBehaviour
 {
+    [SerializeField] private GameState prefabGameState;
+    
+    
     [SerializeField] private UIPlayer playerUI;
     [SerializeField] private PauseMenu pauseMenu;
-    [SerializeField] private GameState gameState;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private CameraFollow2 cameraFollow2;
     [SerializeField] private HealthBar playerUIHealthBar;
@@ -18,10 +20,11 @@ public class Starter : MonoBehaviour
     private ISkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
     private PlayerStats _loaderData;
+    private IGameState _gameState;
     private IStatLoader _loader;
     private IPlayer _player;
 
-    private ICameraFollow CameraFollow=> cameraFollow2;
+    private ICameraFollow CameraFollow => cameraFollow2;
     private IHealthBar PlayerUIHealthBar => playerUIHealthBar;
     
     private void Awake()
@@ -32,9 +35,11 @@ public class Starter : MonoBehaviour
 
     private void Initialize()
     {
-
-        _loader = new StatLoader(GameState.GameIsLoaded, gameState);
-        GameState.GameIsLoaded = false;
+        var gst = FindObjectOfType<GameState>();
+        _gameState = gst ? gst : Instantiate(prefabGameState);
+        
+        _loader = new StatLoader(_gameState.GameIsLoaded, _gameState);
+        _gameState.GameIsLoaded = false;
 
         #region Player init
         
@@ -65,13 +70,13 @@ public class Starter : MonoBehaviour
 
     private void SetDependencies()
     {
-        _player.GameState = gameState;
+        _player.GameState = _gameState;
         _player.HealthSystem = _playerHealthSystem;
         _player.WeaponSystem = _playerWeaponSystem;
         
         playerUIHealthBar.HealthSystem = _playerHealthSystem;
         
-        pauseMenu.GameState = gameState;
+        pauseMenu.GameState = _gameState;
         pauseMenu.Loader = _loader;
         
         playerSkillPanelUI.PlayerSkillSystem = _playerSkillSystem;
