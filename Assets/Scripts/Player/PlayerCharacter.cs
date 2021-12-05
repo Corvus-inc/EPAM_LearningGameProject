@@ -31,7 +31,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     {
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
-            PlayerWeaponHolder._gunCurrent.UsageWeapon();
+            PlayerWeaponHolder.GunCurrent.UsageWeapon();
         }
         
         

@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public abstract class BaseWeapon : MonoBehaviour, IWeapon
 {   
-    public WeaponType WeaponType { get; private set; }
-    public int CountBulletInTheClip { get; set; }
     public static bool ShootIsLocked { get; set;} 
-    public bool WeaponActive { get; set; }
     
+    public int CountBulletInTheClip { get; set; }
+    public bool WeaponActive { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
     
-    public int ClipCount => clipCount;
-    public int ForceWeapon => forceWeapon;
     public RawImage Icon => icon;
     public Transform SpawnBullet => _spawnBullet;
     
@@ -27,16 +22,16 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     
     [SerializeField] protected RawImage icon;
     [SerializeField] protected int clipCount;
-    [SerializeField] private float _rateScale;
     [SerializeField] protected int forceWeapon;
+    
     [SerializeField] private Transform poolBullet;
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _spawnBullet;
     [SerializeField] private BaseBullet bulletPrefab;
     [SerializeField] private Transform _pointPositionWeapon;
+    [FormerlySerializedAs("_rateScale")] [SerializeField] private float scaleValue;
     
     protected IBullet bullet;
-    
     
     private int _indexBullet = 0;
     private List<BaseBullet> _listBullets;
@@ -86,7 +81,7 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
 
     public Vector3 GetRateScale()
     {
-        return new Vector3(_rateScale, _rateScale, _rateScale);
+        return new Vector3(scaleValue, scaleValue, scaleValue);
     }
     
     public void StartDoubleDamage(float second)
@@ -129,7 +124,7 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
             CountBulletInTheClip--;
             IsChangedClip?.Invoke();
         }
-        if (_indexBullet < ClipCount - 1)
+        if (_indexBullet < clipCount - 1)
         {
             DownClip();
             _indexBullet++;
@@ -185,8 +180,8 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
       
     private List<BaseBullet> CreateClip(BaseBullet bullet)
     {
-        var listBullets = new List<BaseBullet>(ClipCount);
-        for (var i = 0; i < ClipCount; i++)
+        var listBullets = new List<BaseBullet>(clipCount);
+        for (var i = 0; i < clipCount; i++)
         {
             listBullets.Add(Instantiate(bullet, poolBullet)); 
         }

@@ -74,7 +74,7 @@ public class SkillSystem : ISkillSystem
             ()=>
             {
                 _currentWeaponHolder = _weaponSystem.GetCurrentWeaponHolder();
-                var weapon = _currentWeaponHolder._gunCurrent;
+                var weapon = _currentWeaponHolder.GunCurrent;
                 weapon.StartDoubleDamage(MSecForDamageSkill/1000);
             }, 
             () =>

@@ -7,33 +7,33 @@ using UnityEngine.UI;
 public class WeaponHolder : MonoBehaviour
 {
     public RawImage CurrentIcon { get; private set; }
+    public BaseWeapon GunCurrent { get; private set; }
 
     
     [SerializeField] private BaseWeapon gunPrefab;
     [SerializeField] private Transform spawnWeapon;
 
-    public BaseWeapon _gunCurrent { get; private set; }
 
     private void Awake()
     {
-        _gunCurrent = Instantiate(gunPrefab, spawnWeapon);
+        GunCurrent = Instantiate(gunPrefab, spawnWeapon);
 
-        spawnWeapon.localScale = _gunCurrent.GetRateScale();
+        spawnWeapon.localScale = GunCurrent.GetRateScale();
         //Need correctly write this calculated
-        var localPosition = _gunCurrent.transform.localPosition;
+        var localPosition = GunCurrent.transform.localPosition;
         localPosition = new Vector3(
-            localPosition.x - _gunCurrent.GetPointLocalPositionWeapon().x,
-            localPosition.y - _gunCurrent.GetPointLocalPositionWeapon().y,
-            localPosition.z - _gunCurrent.GetPointLocalPositionWeapon().z);
-        _gunCurrent.transform.localPosition = localPosition;
+            localPosition.x - GunCurrent.GetPointLocalPositionWeapon().x,
+            localPosition.y - GunCurrent.GetPointLocalPositionWeapon().y,
+            localPosition.z - GunCurrent.GetPointLocalPositionWeapon().z);
+        GunCurrent.transform.localPosition = localPosition;
 
-        _gunCurrent.WeaponActive = true;
+        GunCurrent.WeaponActive = true;
 
-        CurrentIcon = _gunCurrent.Icon;
+        CurrentIcon = GunCurrent.Icon;
     }
     
     public void AimLookAt(Vector3 target)
     {
-        _gunCurrent.SpawnBullet.LookAt(target);
+        GunCurrent.SpawnBullet.LookAt(target);
     }
 }
