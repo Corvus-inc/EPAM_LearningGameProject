@@ -49,7 +49,7 @@ public class EnemyMutant : MonoBehaviour
     public void Attack(Transform targetPosition)
     {
         _enemyWeaponHolder.AimLookAt(targetPosition.position + Vector3.up*5);
-        _enemyWeaponHolder.UsageWeapon();
+        _enemyWeaponHolder._gunCurrent.UsageWeapon();
     }
 
     private void EnemyDie(object sender, EventArgs e)

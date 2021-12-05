@@ -72,12 +72,12 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        WeaponHolder.ShootIsLocked = true;
+        BaseWeapon.ShootIsLocked = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        WeaponHolder.ShootIsLocked = false;
+        BaseWeapon.ShootIsLocked = false;
     }
 
     //for created types
