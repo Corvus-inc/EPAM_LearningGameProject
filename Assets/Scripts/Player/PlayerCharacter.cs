@@ -9,7 +9,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     public IHealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
-    public Weapon PlayerWeapon { get; private set; }
+    public WeaponHolder PlayerWeaponHolder { get; private set; }
     public IGameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
@@ -21,7 +21,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
 
     private void Start()
     {
-        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+        PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         //on destroy
         StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
@@ -31,17 +31,17 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     {
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
-            PlayerWeapon.UsageWeapon();
+            PlayerWeaponHolder.UsageWeapon();
         }
         
         
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerWeapon = WeaponSystem.SwitchWeapon();
+            PlayerWeaponHolder = WeaponSystem.SwitchWeapon();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+            PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.R))

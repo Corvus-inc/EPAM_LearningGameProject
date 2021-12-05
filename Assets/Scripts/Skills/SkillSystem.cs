@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class SkillSystem : ISkillSystem
 {
@@ -12,7 +13,7 @@ public class SkillSystem : ISkillSystem
     private readonly WeaponSystem _weaponSystem;
     private readonly IHealthSystem _healthSystem;
     
-    private Weapon _currentWeapon;
+    private WeaponHolder _currentWeaponHolder;
 
     //Characteristics for skill object
     private const float MSecForHealSkill = 1000;
@@ -28,7 +29,7 @@ public class SkillSystem : ISkillSystem
         _healthSystem = healthSystem;
         _player = player;
         _weaponSystem = weaponSystem;
-        _currentWeapon = _weaponSystem.GetCurrentWeapon();
+        _currentWeaponHolder = _weaponSystem.GetCurrentWeaponHolder();
     }
 
     public void HealSkill()
@@ -72,8 +73,9 @@ public class SkillSystem : ISkillSystem
         TimerSkillManager(
             ()=>
             {
-                _currentWeapon = _weaponSystem.GetCurrentWeapon();
-                _currentWeapon.StartDoubleDamage(20);
+                _currentWeaponHolder = _weaponSystem.GetCurrentWeaponHolder();
+                var weapon = _currentWeaponHolder._gunCurrent;
+                weapon.StartDoubleDamage(MSecForDamageSkill/1000);
             }, 
             () =>
             {

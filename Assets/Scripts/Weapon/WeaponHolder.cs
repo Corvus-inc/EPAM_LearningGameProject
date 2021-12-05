@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Weapon : MonoBehaviour
+public class WeaponHolder : MonoBehaviour
 {
     public static bool ShootIsLocked { get; set;} 
     public WeaponType WeaponType { get; private set; }
     public int CountBulletInTheClip { get; set; }
     public int MaxBulletInTheClip{ get; private set; }
-    public RawImage CurrentIcon { get; set; }
+    public RawImage CurrentIcon { get; private set; }
 
     public event Action IsEmptyClip;
     public event Action IsChangedClip;
@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform spawnWeapon;
     [SerializeField] private BaseBullet bulletPrefab;
 
-    private BaseWeapon _gunCurrent;
+    public BaseWeapon _gunCurrent { get; private set; }
     private List<BaseBullet> _listBullets;
     private int _indexBullet = 0;
 
@@ -80,16 +80,6 @@ public class Weapon : MonoBehaviour
         }
         else remains = 0;
         return remains;
-    }
-
-    public void StartDoubleDamage(float second)
-    { 
-        StopCoroutine(_gunCurrent.DoubleDamage(0));
-        StartCoroutine(_gunCurrent.DoubleDamage(second));
-    }
-    public void StopDoubleDamage()
-    {
-        StopCoroutine(_gunCurrent.DoubleDamage(0));
     }
 
     private void LetItFly(int indexBullet)

@@ -13,12 +13,13 @@ public class Starter : MonoBehaviour
     [SerializeField] private CameraFollow2 cameraFollow2;
     [SerializeField] private HealthBar playerUIHealthBar;
     [SerializeField] private SkillPanelUI playerSkillPanelUI;
+    
     [SerializeField] private List<GameObject> _listPrefabWeapons;
+    private List<WeaponHolder> _playerWeapons;
     
     private IHealthSystem _playerHealthSystem;
     private WeaponSystem _playerWeaponSystem;
     private ISkillSystem _playerSkillSystem;
-    private List<Weapon> _playerWeapons;
     private IPlayerStats _loaderData;
     private IGameState _gameState;
     private IStatLoader _loader;
