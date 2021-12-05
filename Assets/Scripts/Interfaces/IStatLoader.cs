@@ -8,6 +8,5 @@ namespace LoaderSystem
         PlayerData PlayerData { get; } 
         HealthPlayerData HealthPlayerData { get; }
         WeaponPlayerData WeaponPlayerData { get; }
-        PlayerData LoadPlayerData();
     }
 }

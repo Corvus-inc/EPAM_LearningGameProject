@@ -49,7 +49,7 @@ public class Starter : MonoBehaviour
         _player = goPlayer.GetComponent<IPlayer>();
 
         _player.StatLoader = _loader;
-        _player.LoadPlayer(_loader.LoadPlayerData());
+        _player.LoadPlayer(_loader.PlayerData);
 
         _playerHealthSystem = new HealthSystem(_loader);
         

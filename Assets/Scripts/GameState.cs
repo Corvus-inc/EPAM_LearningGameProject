@@ -15,10 +15,13 @@ public class GameState : MonoBehaviour, IGameState
 
     private void Awake()
     {
-        var doubleGS = FindObjectOfType<GameState>().gameObject;
-        if (doubleGS != gameObject)
+        var doubleGS = FindObjectsOfType<GameState>();
+        foreach (var el in doubleGS)
         {
-            Destroy(doubleGS);
+            if (!ReferenceEquals( gameObject, el.gameObject))
+            {
+                Destroy(el.gameObject);
+            }
         }
         DontDestroyOnLoad(gameObject);
     }

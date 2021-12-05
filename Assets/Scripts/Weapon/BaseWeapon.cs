@@ -148,7 +148,6 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
             bullet.DeactivatingBullet();
         }
     }
-    
       
     private List<BaseBullet> CreateClip(BaseBullet bullet)
     {
@@ -182,6 +181,4 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     {
         return spawnBullet.localRotation;
     }
-
 }
-

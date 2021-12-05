@@ -28,18 +28,15 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             {
                 case Skill.Heal:
                     skill.Button.onClick.AddListener(PlayerSkillSystem.HealSkill);
-                    masks.Add(skill.Type, skill.Mask);
-                    PlayerSkillSystem.IsHeal += AddTimeForMask;
+                    PlayerSkillSystem.IsHeal += (time) => AddTimeForMask(time, skill.Mask);
                     break;
                 case Skill.BoostSpeed:
                     skill.Button.onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
-                    masks.Add(skill.Type, skill.Mask);
-                    PlayerSkillSystem.IsBoostSpeed += AddTimeForMask;
+                    PlayerSkillSystem.IsBoostSpeed += (time) => AddTimeForMask(time, skill.Mask);
                     break;
                 case Skill.IncreaseDamage:
                     skill.Button.onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
-                    masks.Add(skill.Type, skill.Mask);
-                    PlayerSkillSystem.IsIncreaseDamage += AddTimeForMask;
+                    PlayerSkillSystem.IsIncreaseDamage += (time) => AddTimeForMask(time, skill.Mask);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -52,20 +49,20 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _currentMask = masks[Skill.Heal];
+            // _currentMask = masks[Skill.Heal];
             PlayerSkillSystem.HealSkill();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _currentMask = masks[Skill.BoostSpeed];
+            // _currentMask = masks[Skill.BoostSpeed];
             PlayerSkillSystem.BoostSpeedSkill();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             
-            _currentMask = masks[Skill.IncreaseDamage];
+            // _currentMask = masks[Skill.IncreaseDamage];
             PlayerSkillSystem.IncreasesDamageSkill();
         }
     }
@@ -81,10 +78,10 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     //for created types
-    private void AddTimeForMask(float time_mSec)
+    private void AddTimeForMask(float time_mSec, ButtonMask mask)
     {
-        _currentMask.TimeForMasked = time_mSec / 1000;
-        _currentMask.gameObject.SetActive(true);
+        mask.TimeForMasked = time_mSec / 1000;
+        mask.gameObject.SetActive(true);
     }
 
 }

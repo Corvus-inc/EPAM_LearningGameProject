@@ -8,11 +8,9 @@ public class WeaponHolder : MonoBehaviour
 {
     public RawImage CurrentIcon { get; private set; }
     public BaseWeapon GunCurrent { get; private set; }
-
     
     [SerializeField] private BaseWeapon gunPrefab;
     [SerializeField] private Transform spawnWeapon;
-
 
     private void Awake()
     {

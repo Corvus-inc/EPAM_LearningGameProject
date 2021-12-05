@@ -37,11 +37,12 @@ namespace LoaderSystem
             //where delete subscribe
             gameState.IsSaveProgress += SavePlayerStats;
 
+            PlayerData = LoadPlayerData();
             HealthPlayerData = LoadHealthPlayerData();
             WeaponPlayerData = LoadWeaponPlayerData();
         }
 
-        public PlayerData LoadPlayerData()
+        private PlayerData LoadPlayerData()
         {
             PlayerData = new PlayerData
             {
