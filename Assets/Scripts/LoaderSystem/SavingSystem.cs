@@ -6,21 +6,21 @@ namespace LoaderSystem
 {
     public static class SavingSystem
     {
-        public static void Save<T>(T playerStats, string fileName)
+        public static void Save<T>(T stats, SaveName saveName)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            string path = Application.dataPath + $"/{fileName}.data";
+            string path = Application.dataPath + $"/{saveName.ToString()}.data";
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            var data =  playerStats;
+            var data =  stats;
             
             formatter.Serialize(stream, data);
             stream.Close();
         }
 
-        public static T Load<T>(string fileName, T defaultValue = default) where T : PlayerStats
+        public static T Load<T>(SaveName saveName, T defaultValue = default) where T : class, IStats
         {
-            string path = Application.dataPath + $"/{fileName}.data";
+            string path = Application.dataPath + $"/{saveName.ToString()}.data";
             if(File.Exists(path))
             {
                 BinaryFormatter formatter = new BinaryFormatter();

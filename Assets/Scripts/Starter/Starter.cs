@@ -19,7 +19,7 @@ public class Starter : MonoBehaviour
     private WeaponSystem _playerWeaponSystem;
     private ISkillSystem _playerSkillSystem;
     private List<Weapon> _playerWeapons;
-    private PlayerStats _loaderData;
+    private IPlayerStats _loaderData;
     private IGameState _gameState;
     private IStatLoader _loader;
     private IPlayer _player;

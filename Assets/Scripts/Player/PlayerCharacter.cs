@@ -13,12 +13,8 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     public IGameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
-    private int MaxHealthPlayer => HealthSystem.MaxHeals;
-    private int CurrentHealthPlayer => HealthSystem.Health;
-    
     [SerializeField] private LayerMask layerEnemy;
     [SerializeField] private Transform targetForLook;
-    [SerializeField] private  List<GameObject> prefabsWeapon;
 
     private float _speed;
     private float _boostSpeedRate;
@@ -85,7 +81,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
             position.y,
             position.z,
         };
-        //move to weapon system or create inventory or all
+        //move to the weapon system or create inventory or create both
         StatLoader.PlayerData.CountBullet = WeaponSystem.UserCountBullets;
     }
     

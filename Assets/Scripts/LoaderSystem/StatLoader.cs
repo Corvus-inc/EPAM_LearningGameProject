@@ -27,13 +27,14 @@ namespace LoaderSystem
             }
         };
 
-        private PlayerStats LoadablePlayerStats { get; }
-        private PlayerStats SavingPlayerStats { get; set; }
+        private IPlayerStats LoadablePlayerStats { get; }
+        private IPlayerStats SavingPlayerStats { get; set; }
 
         public StatLoader(bool isLoader, IGameState gameState)
         {
             var startedData = new PlayerStats(_startedPlayerStats);
-            LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load("PlayerData", startedData);
+            LoadablePlayerStats = !isLoader ? startedData : SavingSystem.Load(SaveName.PlayerData, startedData);
+            //where delete subscribe
             gameState.IsSaveProgress += SavePlayerStats;
 
             HealthPlayerData = LoadHealthPlayerData();
@@ -69,7 +70,7 @@ namespace LoaderSystem
             };
 
             SavingPlayerStats = savingPlayerData;
-            SavingSystem.Save(SavingPlayerStats, "PlayerData");
+            SavingSystem.Save(SavingPlayerStats, SaveName.PlayerData);
         }
 
 
