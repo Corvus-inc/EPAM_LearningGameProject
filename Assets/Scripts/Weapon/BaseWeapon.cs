@@ -14,29 +14,27 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     public int MaxBulletInTheClip{ get; private set; }
     
     public RawImage Icon => icon;
-    public Transform SpawnBullet => _spawnBullet;
+    public Transform SpawnBullet => spawnBullet;
     
     public event Action IsChangedClip;
     public event Action IsEmptyClip;
     
+    protected IBullet Bullet;
     
     [SerializeField] protected RawImage icon;
     [SerializeField] protected int clipCount;
     [SerializeField] protected int forceWeapon;
     
-    [SerializeField] private Transform poolBullet;
-    [SerializeField] private WeaponType _weaponType;
-    [SerializeField] private Transform _spawnBullet;
+    [SerializeField] private Transform poolBullet; 
+    [SerializeField] private WeaponType weaponType;
     [SerializeField] private BaseBullet bulletPrefab;
-    [SerializeField] private Transform _pointPositionWeapon;
     [FormerlySerializedAs("_rateScale")] [SerializeField] private float scaleValue;
+    [FormerlySerializedAs("_spawnBullet")] [SerializeField] private Transform spawnBullet;
+    [FormerlySerializedAs("_pointPositionWeapon")] [SerializeField] private Transform pointPositionWeapon;
     
-    protected IBullet bullet;
-    
-    private int _indexBullet = 0;
+    private int _indexBullet;
     private List<BaseBullet> _listBullets;
     
-
     private void Awake()
     {
         _listBullets = CreateClip(bulletPrefab);
@@ -48,13 +46,6 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
         //where delete this observe
         IsChangedClip += OnEmptyClip;
     }
-
-
-    public void AddBullet(IBullet bullet)
-    {
-        this.bullet = bullet;
-    }
-
     public abstract void Shoot();
     
     public void UsageWeapon()
@@ -63,20 +54,10 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
         NextIndexBullet();
         LetItFly(_indexBullet);
     }
-
-    public Vector3 GetSpawnBulletPosition()
-    {
-        return _spawnBullet.position;
-    }
-
-    public Quaternion GetSpawnBulletLocalRotation()
-    {
-        return _spawnBullet.localRotation;
-    }
     
     public Vector3 GetPointLocalPositionWeapon()
     {
-        return _pointPositionWeapon.localPosition;
+        return pointPositionWeapon.localPosition;
     }
 
     public Vector3 GetRateScale()
@@ -95,15 +76,6 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
         bullet.AddBulletDamage(forceWeapon);
     }
 
-    public IEnumerator DoubleDamage (float second)
-    {
-        var saveForce = forceWeapon;
-        forceWeapon *= 2;
-        yield return new WaitForSeconds(second);
-        forceWeapon = saveForce;
-    }
-    
-    
     private void LetItFly(int indexBullet)
     {
         if (!WeaponActive) return;
@@ -187,5 +159,29 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
         }
         return listBullets;
     }
+
+    private void AddBullet(IBullet bullet)
+    {
+        this.Bullet = bullet;
+    }
+    
+    private IEnumerator DoubleDamage (float second)
+    {
+        var saveForce = forceWeapon;
+        forceWeapon *= 2;
+        yield return new WaitForSeconds(second);
+        forceWeapon = saveForce;
+    }
+
+    private Vector3 GetSpawnBulletPosition()
+    {
+        return spawnBullet.position;
+    }
+
+    private Quaternion GetSpawnBulletLocalRotation()
+    {
+        return spawnBullet.localRotation;
+    }
+
 }
 

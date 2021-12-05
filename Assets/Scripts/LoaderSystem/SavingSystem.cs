@@ -8,33 +8,29 @@ namespace LoaderSystem
     {
         public static void Save<T>(T stats, SaveName saveName)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            string path = Application.dataPath + $"/{saveName.ToString()}.data";
-            FileStream stream = new FileStream(path, FileMode.Create);
+            var formatter = new BinaryFormatter();
+            var path = Application.dataPath + $"/{saveName.ToString()}.data";
+            var stream = new FileStream(path, FileMode.Create);
 
-            var data =  stats;
-            
-            formatter.Serialize(stream, data);
+            formatter.Serialize(stream, stats);
             stream.Close();
         }
 
         public static T Load<T>(SaveName saveName, T defaultValue = default) where T : class, IStats
         {
-            string path = Application.dataPath + $"/{saveName.ToString()}.data";
+            var path = Application.dataPath + $"/{saveName.ToString()}.data";
             if(File.Exists(path))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                FileStream stream = new FileStream(path, FileMode.Open);
+                var formatter = new BinaryFormatter();
+                var stream = new FileStream(path, FileMode.Open);
 
-                T data = formatter.Deserialize(stream) as T;
+                var data = formatter.Deserialize(stream) as T;
                 
                 return data;
             }
-            else
-            {
-                Debug.LogError("Safe file not found in " + path);
-                return defaultValue;
-            }
+
+            Debug.LogError("Safe file not found in " + path);
+            return defaultValue;
         }
     }
 }
