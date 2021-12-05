@@ -54,7 +54,13 @@ public abstract class BaseWeapon : MonoBehaviour, IWeapon
     {
         return new Vector3(_rateScale, _rateScale, _rateScale);
     }
-
+    
+    public void StartDoubleDamage(float second)
+    { 
+        StopCoroutine(DoubleDamage(0));
+        StartCoroutine(DoubleDamage(second));
+    }
+    
     protected void DamageToBullet(IBullet bullet)
     {
         bullet.AddBulletDamage(forceWeapon);
