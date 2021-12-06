@@ -704,7 +704,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -955167309496698128, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
   m_PrefabInstance: {fileID: 2997273731282887961}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1141291003}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db7c11aac16f3354f9b0c9614a1b6bc0, type: 3}
@@ -1520,6 +1520,10 @@ PrefabInstance:
       propertyPath: layerBullet.m_Bits
       value: 1024
       objectReference: {fileID: 0}
+    - target: {fileID: 6999410491497036252, guid: b763b5541ef47421fb3af7538089b574, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 9d3d47b6ea1194accb47a6f1caa567e2, type: 2}
     - target: {fileID: 8451464705846484321, guid: b763b5541ef47421fb3af7538089b574, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 2.408
@@ -2215,6 +2219,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca444927b4fa3247a519bb77724e1c4, type: 3}
+--- !u!1 &1141291003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5808238823369082681, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
+  m_PrefabInstance: {fileID: 2997273731282887961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1141291006
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141291003}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 9d3d47b6ea1194accb47a6f1caa567e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1183277703
 GameObject:
   m_ObjectHideFlags: 0
@@ -4757,7 +4785,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1373786281493989553, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d9b0005f3f25b29458bee8d47712b65f, type: 3}
 --- !u!1001 &5680851010604407017
 PrefabInstance:
