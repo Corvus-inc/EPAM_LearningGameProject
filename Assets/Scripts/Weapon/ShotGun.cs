@@ -8,7 +8,7 @@ public class ShotGun : BaseWeapon
     public override void Shoot()
     {
         SoundManager.PlaySound(Sound.ShotgunShoot);
-        DamageToBullet(bullet);
-        bullet.ActivatingBullet();
+        DamageToBullet(Bullet);
+        Bullet.ActivatingBullet();
     }
 }

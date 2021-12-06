@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Sounds
 {
@@ -6,15 +7,17 @@ namespace Sounds
     {
         [SerializeField] private SoundAudioClip[] soundAudioClipArray;
 
-        public SoundAudioClip[] SoundAudioClipArray => soundAudioClipArray;
-        public static SoundAssets I
+        public IEnumerable<SoundAudioClip> SoundAudioClipArray => soundAudioClipArray;
+        
+        public static SoundAssets Instance
         {
             get
             {
-                if (_i == null) _i = Instantiate(Resources.Load<SoundAssets>("SoundAssets"));
-                return _i;
+                if (_instanceSoundAssets == null) _instanceSoundAssets = Instantiate(Resources.Load<SoundAssets>("SoundAssets"));
+                return _instanceSoundAssets;
             }
         }
-        private static SoundAssets _i;
+        
+        private static SoundAssets _instanceSoundAssets;
     }
 }

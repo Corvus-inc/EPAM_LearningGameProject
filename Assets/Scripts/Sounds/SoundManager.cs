@@ -47,7 +47,7 @@ namespace Sounds
 
         private static AudioClip GetAudioClip(Sound sound)
         {
-            foreach (var soundAudioClip in SoundAssets.I.SoundAudioClipArray)
+            foreach (var soundAudioClip in SoundAssets.Instance.SoundAudioClipArray)
             {
                 if (soundAudioClip.sound == sound)
                 {

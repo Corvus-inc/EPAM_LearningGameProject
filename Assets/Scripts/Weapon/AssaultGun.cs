@@ -8,7 +8,7 @@ public class AssaultGun : BaseWeapon, IWeapon
     public override void Shoot()
     {
         SoundManager.PlaySound(Sound.AssaultShoot);
-        DamageToBullet(bullet);
-        bullet.ActivatingBullet();
+        DamageToBullet(Bullet);
+        Bullet.ActivatingBullet();
     }
 }

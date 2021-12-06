@@ -49,9 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa3294aef43f4e39ac2c1ed3d7db69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   button: {fileID: 8456781684415187275}
   icon: {fileID: 424440876941715786}
-  iconMask: {fileID: 1081207533735194594}
+  mask: {fileID: 1911831228509576552}
 --- !u!1 &5226411714572780163
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,14 +410,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7176183685824003445, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
   m_PrefabInstance: {fileID: 6279047760268053256}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1081207533735194594 stripped
+--- !u!114 &1911831228509576552 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6350796949888591082, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
+  m_CorrespondingSourceObject: {fileID: -3626636897088792992, guid: 70a871d9ecc184f2fafe5b6a0d898912, type: 3}
   m_PrefabInstance: {fileID: 6279047760268053256}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 72714ed8c53c747e4b2c3dc6b091314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

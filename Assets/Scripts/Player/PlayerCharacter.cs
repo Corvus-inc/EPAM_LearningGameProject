@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LoaderSystem;
 using Sounds;
 using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerCharacter : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour, IPlayer
 {
-    public StatLoader StatLoader { private get; set; }
+    public IStatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
-    public HealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
     public WeaponHolder PlayerWeaponHolder { get; private set; }
-    public GameState GameState { private get; set; }
+    public IGameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
-    private int MaxHealthPlayer => HealthSystem.MaxHeals;
-    private int CurrentHealthPlayer => HealthSystem.Health;
-    
     [SerializeField] private LayerMask layerEnemy;
     [SerializeField] private Transform targetForLook;
-    [SerializeField] private  List<GameObject> prefabsWeapon;
 
     private float _speed;
     private float _boostSpeedRate;
@@ -41,7 +34,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
-            PlayerWeaponHolder.UsageWeapon();
+            PlayerWeaponHolder.GunCurrent.UsageWeapon();
         }
         
         
@@ -91,7 +84,7 @@ public class PlayerCharacter : MonoBehaviour
             position.y,
             position.z,
         };
-        //move to weapon system or create inventory or all
+        //move to the weapon system or create inventory or create both
         StatLoader.PlayerData.CountBullet = WeaponSystem.UserCountBullets;
     }
     
