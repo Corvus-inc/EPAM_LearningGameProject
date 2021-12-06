@@ -101,7 +101,7 @@ MonoBehaviour:
   layerBullet:
     serializedVersion: 2
     m_Bits: 1024
-  healthBarEnemy: {fileID: 8985171105296082385}
+  healthBar: {fileID: 8985171105296082385}
 --- !u!136 &4846679290802770642
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Timers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-public class SkillSystem
+public class SkillSystem : ISkillSystem
 {
     public event Action<float> IsHeal;
     public event Action<float> IsBoostSpeed;
     public event Action<float> IsIncreaseDamage;
 
+    private readonly IPlayer _player;
+    private readonly WeaponSystem _weaponSystem;
+    private readonly IHealthSystem _healthSystem;
     
-    private HealthSystem _healthSystem;
-    private PlayerCharacter _player;
-    private WeaponSystem _weaponSystem;
-    private Weapon _currentWeapon;
+    private WeaponHolder _currentWeaponHolder;
 
     //Characteristics for skill object
-    private const float _mSecForHealSkill = 1000;
-    private const float _mSecForBoostSkill = 2000;
-    private const float _mSecForDamageSkill = 5000;
+    private const float MSecForHealSkill = 1000;
+    private const float MSecForBoostSkill = 2000;
+    private const float MSecForDamageSkill = 5000;
 
     private bool _continuesHealSkill;
     private bool _continuesBoostSkill;
     private bool _continuesDamageSkill;
 
-    public SkillSystem(HealthSystem healthSystem, PlayerCharacter player, WeaponSystem weaponSystem)
+    public SkillSystem(IHealthSystem healthSystem, IPlayer player, WeaponSystem weaponSystem)
     {
         _healthSystem = healthSystem;
         _player = player;
         _weaponSystem = weaponSystem;
-        _currentWeapon = _weaponSystem.GetCurrentWeapon();
+        _currentWeaponHolder = _weaponSystem.GetCurrentWeaponHolder();
     }
 
     public void HealSkill()
@@ -46,7 +47,7 @@ public class SkillSystem
             },
             ref _continuesHealSkill
             );
-        IsHeal?.Invoke(_mSecForHealSkill);
+        IsHeal?.Invoke(MSecForHealSkill);
     }
 
     public void BoostSpeedSkill()
@@ -64,7 +65,7 @@ public class SkillSystem
             },
             ref _continuesBoostSkill
             );
-        IsBoostSpeed?.Invoke(_mSecForBoostSkill);
+        IsBoostSpeed?.Invoke(MSecForBoostSkill);
     }
 
     public void IncreasesDamageSkill()
@@ -72,8 +73,9 @@ public class SkillSystem
         TimerSkillManager(
             ()=>
             {
-                _currentWeapon = _weaponSystem.GetCurrentWeapon();
-                _currentWeapon.StartDoubleDamage(20);
+                _currentWeaponHolder = _weaponSystem.GetCurrentWeaponHolder();
+                var weapon = _currentWeaponHolder.GunCurrent;
+                weapon.StartDoubleDamage(MSecForDamageSkill/1000);
             }, 
             () =>
             {
@@ -82,7 +84,7 @@ public class SkillSystem
             },
             ref _continuesDamageSkill
             );
-        IsIncreaseDamage?.Invoke(_mSecForDamageSkill);
+        IsIncreaseDamage?.Invoke(MSecForDamageSkill);
     }
 
     private void TimerSkillManager(Action start, Action finish,ref bool timerContinues)
@@ -95,7 +97,7 @@ public class SkillSystem
         start.Invoke();
         // _player.IsBoostedSpeed = true;
             
-        aTimer = new Timer(_mSecForBoostSkill);
+        aTimer = new Timer(MSecForBoostSkill);
         aTimer.Elapsed += TimerComplete;
         aTimer.Enabled = true;
         void TimerComplete(object sender, ElapsedEventArgs elapsedEventArgs)

@@ -6,6 +6,6 @@ public class SpitWeapon : BaseWeapon
 {
     public override void Shoot()
     {
-        bullet.ActivatingBullet();
+        Bullet.ActivatingBullet();
     }
 }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class WeaponCreator : MonoBehaviour
 {
-    public List<Weapon> InitStoreWeapons(List<GameObject> weaponPrefabs, Transform startedPosition)
+    public List<WeaponHolder> InitStoreWeapons(List<GameObject> weaponPrefabs, Transform startedPosition)
     {
         var storePosition = new GameObject("StoreWeapons").transform;
         storePosition.position = Vector3.down;
-        List<Weapon> weapons = new List<Weapon>();
+        List<WeaponHolder> weapons = new List<WeaponHolder>();
         foreach (var weapon in weaponPrefabs)
         {
-            var newWeapon = Instantiate(weapon, startedPosition).GetComponent<Weapon>();
+            var newWeapon = Instantiate(weapon, startedPosition).GetComponent<WeaponHolder>();
             weapons.Add(newWeapon);
             newWeapon.transform.SetParent(storePosition);
             newWeapon.gameObject.SetActive(false);
