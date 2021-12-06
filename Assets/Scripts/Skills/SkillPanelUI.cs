@@ -5,98 +5,83 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler , IPointerExitHandler
+public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public SkillSystem PlayerSkillSystem { private get; set; }
+    public ISkillSystem PlayerSkillSystem { private get; set; }
 
-    [SerializeField] private List<Button> skillButtons;
     [SerializeField] private List<SkillUI> skills;
+
+    private List <Button> skillButtons;
+    private ButtonMask _currentMask;
+    private Dictionary<Skill, ButtonMask> masks;
     
-    // private Image[] _iconsMask;
-    private ButtonMask[] _currentMasks;
-
-    private void Awake()
-    {
-        // InitIcons();
-        GettingMasks();
-    }
-
     private void Start()
-    { 
-        skillButtons[0].onClick.AddListener(PlayerSkillSystem.HealSkill); 
-        skillButtons[1].onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
-        skillButtons[2].onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
+    {
+        #region Init skills UI
 
-        PlayerSkillSystem.IsHeal += AddTimeForMask0;
-        PlayerSkillSystem.IsBoostSpeed += AddTimeForMask1;
-        PlayerSkillSystem.IsIncreaseDamage += AddTimeForMask2;
+        masks = new Dictionary<Skill, ButtonMask>();
+        
+        foreach (var skill in skills)
+        {
+            
+            switch (skill.Type)
+            {
+                case Skill.Heal:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.HealSkill);
+                    PlayerSkillSystem.IsHeal += (time) => AddTimeForMask(time, skill.Mask);
+                    break;
+                case Skill.BoostSpeed:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.BoostSpeedSkill);
+                    PlayerSkillSystem.IsBoostSpeed += (time) => AddTimeForMask(time, skill.Mask);
+                    break;
+                case Skill.IncreaseDamage:
+                    skill.Button.onClick.AddListener(PlayerSkillSystem.IncreasesDamageSkill);
+                    PlayerSkillSystem.IsIncreaseDamage += (time) => AddTimeForMask(time, skill.Mask);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        #endregion
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            // _currentMask = masks[Skill.Heal];
             PlayerSkillSystem.HealSkill();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            // _currentMask = masks[Skill.BoostSpeed];
             PlayerSkillSystem.BoostSpeedSkill();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            
+            // _currentMask = masks[Skill.IncreaseDamage];
             PlayerSkillSystem.IncreasesDamageSkill();
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
-        Weapon.ShootIsLocked = true;
-        
+        BaseWeapon.ShootIsLocked = true;
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
-        Weapon.ShootIsLocked = false;
+        BaseWeapon.ShootIsLocked = false;
     }
 
     //for created types
-    private void AddTimeForMask0(float time_mSec)
+    private void AddTimeForMask(float time_mSec, ButtonMask mask)
     {
-        _currentMasks[0].TimeForMasked = time_mSec/1000;
-        _currentMasks[0].gameObject.SetActive(true);
+        mask.TimeForMasked = time_mSec / 1000;
+        mask.gameObject.SetActive(true);
     }
-    private void AddTimeForMask1(float time_mSec)
-    {
-        _currentMasks[1].TimeForMasked = time_mSec/1000;
-        _currentMasks[1].gameObject.SetActive(true);
-    }
-    private void AddTimeForMask2(float time_mSec)
-    {
-        _currentMasks[2].TimeForMasked = time_mSec/1000;
-        _currentMasks[2].gameObject.SetActive(true);
-    }
-    
-    // private void InitIcons()
-    // {
-    //     _iconsMask = new Image[skills.Count];
-    //     for (var i = 0; i < _iconsMask.Length; i++)
-    //     {
-    //         _iconsMask[i] = skills[i].IconMask;
-    //         _iconsMask[i].fillAmount = 0;
-    //
-    //     }
-    // } 
-    
-    private void GettingMasks()
-    {
-        _currentMasks = new ButtonMask[skills.Count];
-        for (var i = 0; i < _currentMasks.Length; i++)
-        {
-            _currentMasks[i] = skills[i].IconMask.gameObject.GetComponent<ButtonMask>();
-            // _currentMasks[i].IconMask = _iconsMask[i];
-            
-            // _currentMasks[i].TimeForMasked = 5;
-        }
-    }
+
 }

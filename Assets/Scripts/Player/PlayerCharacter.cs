@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LoaderSystem;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class PlayerCharacter : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour, IPlayer
 {
-    public StatLoader StatLoader { private get; set; }
+    public IStatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
-    public HealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { private get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
-    public Weapon PlayerWeapon { get; private set; }
-    public GameState GameState { private get; set; }
+    public WeaponHolder PlayerWeaponHolder { get; private set; }
+    public IGameState GameState { private get; set; }
     public int CountBullets{ get; private set; }
 
-    private int MaxHealthPlayer => HealthSystem.MaxHeals;
-    private int CurrentHealthPlayer => HealthSystem.Health;
-    
     [SerializeField] private LayerMask layerEnemy;
     [SerializeField] private Transform targetForLook;
-    [SerializeField] private  List<GameObject> prefabsWeapon;
 
     private float _speed;
     private float _boostSpeedRate;
 
     private void Start()
     {
-        PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+        PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         //on destroy
         StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
@@ -39,17 +31,17 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
-            PlayerWeapon.UsageWeapon();
+            PlayerWeaponHolder.GunCurrent.UsageWeapon();
         }
         
         
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerWeapon = WeaponSystem.SwitchWeapon();
+            PlayerWeaponHolder = WeaponSystem.SwitchWeapon();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            PlayerWeapon = WeaponSystem.GetEquippedWeapon();
+            PlayerWeaponHolder = WeaponSystem.GetEquippedWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -89,7 +81,7 @@ public class PlayerCharacter : MonoBehaviour
             position.y,
             position.z,
         };
-        //move to weapon system or create inventory or all
+        //move to the weapon system or create inventory or create both
         StatLoader.PlayerData.CountBullet = WeaponSystem.UserCountBullets;
     }
     

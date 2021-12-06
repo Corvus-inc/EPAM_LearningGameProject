@@ -19,6 +19,7 @@ public class ButtonMask : MonoBehaviour
     {
         UpdateCoolDown(TimeForMasked);
     }
+    
     private void UpdateCoolDown(float timeCoolDown)
     {
         if (Math.Abs(IconMask.fillAmount - 1) < float.Epsilon) return;

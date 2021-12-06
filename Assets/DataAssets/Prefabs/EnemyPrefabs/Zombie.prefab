@@ -509,7 +509,7 @@ MonoBehaviour:
   _layerBullet:
     serializedVersion: 2
     m_Bits: 1024
-  _healthBarEnemy: {fileID: 494336672195344416}
+  healthBar: {fileID: 494336672195344416}
 --- !u!54 &7821355853311804580
 Rigidbody:
   m_ObjectHideFlags: 0

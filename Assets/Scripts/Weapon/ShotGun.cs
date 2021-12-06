@@ -6,7 +6,7 @@ public class ShotGun : BaseWeapon
 {
     public override void Shoot()
     {
-        DamageToBullet(bullet);
-        bullet.ActivatingBullet();
+        DamageToBullet(Bullet);
+        Bullet.ActivatingBullet();
     }
 }

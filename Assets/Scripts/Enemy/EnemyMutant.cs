@@ -1,32 +1,34 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyMutant : MonoBehaviour
 {
     [Range(0,1000)] [SerializeField] private int startHealthEnemy;
 
-    [SerializeField] private GameObject prefabWeapon;
+    [FormerlySerializedAs("prefabWeapon")] [SerializeField] private GameObject prefabWeaponHandler;
     [SerializeField] private LayerMask layerBullet;
-    [SerializeField] private HealthBarEnemy healthBarEnemy;
+    [SerializeField] private HealthBarEnemy healthBar;
     
-    private HealthSystem _healthSystem;
     private WeaponSystem _weaponSystem;
     private GameObject _currentWeapon;
-    private Weapon _enemyWeapon;
+    private IHealthSystem _healthSystem;
+    private WeaponHolder _enemyWeaponHolder;
+
+    private IHealthBar HealthBarEnemy => healthBar;
 
     private void Awake()
     {
-        var newWeapon = Instantiate(prefabWeapon, transform).GetComponent<Weapon>();
-        _weaponSystem = new WeaponSystem(newWeapon.gameObject, transform, 1000);
-        _currentWeapon = newWeapon.gameObject;
-        _enemyWeapon = _currentWeapon.GetComponent<Weapon>();
+        var newWeapon = Instantiate(prefabWeaponHandler, transform).GetComponent<WeaponHolder>();
+        var go = newWeapon.gameObject;
+        _weaponSystem = new WeaponSystem(go, transform, 1000);
+        _currentWeapon = go;
+        _enemyWeaponHolder = _currentWeapon.GetComponent<WeaponHolder>();
         
         
         _healthSystem = new HealthSystem(startHealthEnemy);
         _healthSystem.OnHealthStateMin += EnemyDie;
-        healthBarEnemy.HealthSystem = _healthSystem;
+        HealthBarEnemy.HealthSystem = _healthSystem;
     }
     
     private void OnCollisionEnter(Collision collision)
@@ -46,8 +48,8 @@ public class EnemyMutant : MonoBehaviour
 
     public void Attack(Transform targetPosition)
     {
-        _enemyWeapon.AimLookAt(targetPosition.position + Vector3.up*5);
-        _enemyWeapon.UsageWeapon();
+        _enemyWeaponHolder.AimLookAt(targetPosition.position + Vector3.up*5);
+        _enemyWeaponHolder.GunCurrent.UsageWeapon();
     }
 
     private void EnemyDie(object sender, EventArgs e)

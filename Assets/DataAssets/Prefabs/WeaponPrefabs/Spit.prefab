@@ -30,6 +30,36 @@ Transform:
   m_Father: {fileID: 3439837298408441459}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3226735106241185307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2061453584118838684}
+  m_Layer: 0
+  m_Name: PoolBullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2061453584118838684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226735106241185307}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.634, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3439837298408441459}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4272264332182764943
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +122,7 @@ Transform:
   m_Children:
   - {fileID: 4070109054397263363}
   - {fileID: 2792678165854270483}
+  - {fileID: 2061453584118838684}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -160,6 +191,8 @@ MonoBehaviour:
   clipCount: 10
   forceWeapon: 1
   _rateScale: 0.01
+  poolBullet: {fileID: 2061453584118838684}
   _weaponType: 0
   _spawnBullet: {fileID: 4070109054397263363}
+  bulletPrefab: {fileID: 6836780565350369350, guid: daa8a6b7ef2354e6897259616a7d901b, type: 3}
   _pointPositionWeapon: {fileID: 2792678165854270483}

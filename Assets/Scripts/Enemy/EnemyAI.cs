@@ -29,13 +29,13 @@ public class EnemyAI : MonoBehaviour
     {
         _mutant = GetComponent<EnemyMutant>();
         _scale = gameObject.transform.localScale.x;
-        moveTargetPosition = GameObject.Find("Player")?.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _state = State.Roaming;
     }
 
     private void Start()
     {
+        moveTargetPosition = GameObject.Find("Player(Clone)")?.transform;
         _startingPosition = transform.position;
         _roamPosition = GetRoamingPosition();
     }
