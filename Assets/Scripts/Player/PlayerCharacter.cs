@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using LoaderSystem;
+using Sounds;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour, IPlayer
@@ -18,6 +20,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
 
     private float _speed;
     private float _boostSpeedRate;
+    private bool _isMoving;
 
     private void Start()
     {
@@ -104,6 +107,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
         if (check)
         {
             HealthSystem.Damage(20);
+            SoundManager.PlaySound(Sound.PlayerHit);
         }
     }
 
@@ -122,17 +126,25 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
             currentSpeed *= _boostSpeedRate * axisMediator;
         }
 
-        if (verticalAxis != 0)
+        if (verticalAxis != 0 || horiontalAxis != 0)
         {
-            Vector3 toTranslate = Vector3.forward * verticalAxis * Time.deltaTime * currentSpeed;
-            transform.Translate(toTranslate, Space.World);
-        }
+            _isMoving = true;
+            SoundManager.PlaySound(Sound.PlayerMove);
+            
+            if (verticalAxis != 0 ) 
+            {
+                Vector3 toTranslate = Vector3.forward * verticalAxis * Time.deltaTime * currentSpeed;
+                transform.Translate(toTranslate, Space.World);
+            }
 
-        if (horiontalAxis != 0)
-        {
-            Vector3 toTranslate = Vector3.right * horiontalAxis * Time.deltaTime * currentSpeed;
-            transform.Translate(toTranslate, Space.World);
+            if (horiontalAxis != 0)
+            {
+                Vector3 toTranslate = Vector3.right * horiontalAxis * Time.deltaTime * currentSpeed;
+                transform.Translate(toTranslate, Space.World);
+            }
         }
+        else _isMoving = false;
+
     }
     
     private void LookAtTargetForPlayer(Transform targetForLook)

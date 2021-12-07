@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LoaderSystem;
+using Sounds;
 using UnityEngine;
 
 public class Starter : MonoBehaviour
@@ -67,6 +68,8 @@ public class Starter : MonoBehaviour
 
         #endregion
         CameraFollow.FollowTarget = goPlayer.transform;
+        SoundManager.Initialize();
+        SoundManager.PlayBackgroundMusic(Sound.Background);
     }
 
     private void SetDependencies()

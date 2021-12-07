@@ -49,20 +49,14 @@ public class SkillPanelUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // _currentMask = masks[Skill.Heal];
             PlayerSkillSystem.HealSkill();
         }
-
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            // _currentMask = masks[Skill.BoostSpeed];
             PlayerSkillSystem.BoostSpeedSkill();
         }
-
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            
-            // _currentMask = masks[Skill.IncreaseDamage];
             PlayerSkillSystem.IncreasesDamageSkill();
         }
     }
