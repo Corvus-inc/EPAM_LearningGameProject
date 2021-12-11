@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2780967493295996489}
-  - component: {fileID: 2780967493295996488}
+  - component: {fileID: 8883715479048811582}
+  - component: {fileID: 1950536629723021571}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: SpawnerCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2780967493295996488
+--- !u!114 &8883715479048811582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,9 +41,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2780967493295996491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3efd4e05cdb0db4aad06f1f59119d01, type: 3}
+  m_Script: {fileID: 11500000, guid: ee4f59c0c7555474fab6c40d95f57a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCounter: 3
-  coolDown: 1
-  enemy: {fileID: 7496082630642398528, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
+  prefabEnemy: {fileID: 7496082630642398528, guid: d58be77cba3adf54cb14b15052b86514, type: 3}
+  countHumans: 3
+  distanceRandomHuman: 0.5
+--- !u!135 &1950536629723021571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2780967493295996491}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 9.7, z: 0}

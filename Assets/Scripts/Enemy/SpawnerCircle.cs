@@ -1,16 +1,19 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class SpawnerCircle : MonoBehaviour
+public class SpawnerCircle : MonoBehaviour, ISpawningWithHealth
 {
-    [SerializeField] private GameObject prefabEnemy;
+    public event Action<IHaveHealth> spawnedObject;
+    
+    [SerializeField] private BaseHaveHealth prefabEnemy;
     
     [Range(1f, 7f)] [SerializeField] private int countHumans;
     [Range(0.5f, 3f)] [SerializeField] private float distanceRandomHuman;
 
-    private List<GameObject> _humansInCircle;
+    private List<BaseHaveHealth> _humansInCircle;
     private float _distanceRandomHuman;
     private int _countHumans;
 
@@ -18,7 +21,7 @@ public class SpawnerCircle : MonoBehaviour
     {
         _countHumans = countHumans;
         _distanceRandomHuman = distanceRandomHuman;
-        _humansInCircle = new List<GameObject>();
+        _humansInCircle = new List<BaseHaveHealth>();
         HumanPlaceInCircle();
     }
 
@@ -32,9 +35,10 @@ public class SpawnerCircle : MonoBehaviour
 
             var rndPos = new Vector3(points[i].x, prefabEnemy.transform.position.y, points[i].y);
 
-            var obj = Instantiate(prefabEnemy, rndPos, Quaternion.Euler(humanRotate), transform);
-
+            var obj = Instantiate(prefabEnemy, rndPos, Quaternion.identity, transform);
             obj.transform.localPosition = rndPos;
+            spawnedObject?.Invoke(obj);
+
            
             _humansInCircle.Add(obj);
         }
@@ -51,7 +55,7 @@ public class SpawnerCircle : MonoBehaviour
 
         var flagP = true;
 
-        for (var i = 0; i < _countHumans; i++)
+        for (var i = 0; i <= _countHumans; i++)
         {
             var rnd = Random.insideUnitCircle * gameObject.GetComponent<SphereCollider>().radius;
             if (points.Count > 0)
@@ -76,5 +80,3 @@ public class SpawnerCircle : MonoBehaviour
         return points;
     }
 }
-
-

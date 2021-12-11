@@ -306,6 +306,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6359366671458412735, guid: 6ca444927b4fa3247a519bb77724e1c4, type: 3}
   m_PrefabInstance: {fileID: 6359366670409509891}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &202339516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202339517}
+  m_Layer: 0
+  m_Name: ZombieBars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &202339517
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202339516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 717201669}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &256750149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,6 +1381,7 @@ GameObject:
   - component: {fileID: 717201672}
   - component: {fileID: 717201671}
   - component: {fileID: 717201670}
+  - component: {fileID: 717201673}
   m_Layer: 0
   m_Name: WorldOverlay
   m_TagString: Untagged
@@ -1366,6 +1402,7 @@ RectTransform:
   m_Children:
   - {fileID: 606622991}
   - {fileID: 928061757}
+  - {fileID: 202339517}
   m_Father: {fileID: 66993984}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1434,6 +1471,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &717201673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717201668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1ac8b2b6ad2401f80952114169bdc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieHealthBar: {fileID: 1881270427750020819, guid: 92e17cb06dd7f4d5887f7b768c144f30, type: 3}
+  offsetZombieBar: {x: 0, y: 7, z: 0}
+  spawner: {fileID: 8883715479048811582, guid: 9255bd4b5076b45e69eca4acf9be7c7e, type: 3}
+  zombieBars: {fileID: 202339517}
 --- !u!1 &800948807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,6 +1563,10 @@ PrefabInstance:
       propertyPath: layerBullet.m_Bits
       value: 1024
       objectReference: {fileID: 0}
+    - target: {fileID: -4769620631862777375, guid: b763b5541ef47421fb3af7538089b574, type: 3}
+      propertyPath: prefabWeaponHandler
+      value: 
+      objectReference: {fileID: 413371911583523119, guid: 149828609a8384f248a926d460f490f0, type: 3}
     - target: {fileID: 8451464705846484321, guid: b763b5541ef47421fb3af7538089b574, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 2.408
