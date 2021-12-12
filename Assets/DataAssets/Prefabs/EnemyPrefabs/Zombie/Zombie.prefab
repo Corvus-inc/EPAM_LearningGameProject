@@ -501,14 +501,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startHealthEnemy: 111
-  _speedEnemy: 3.82
+  _speedEnemy: 0
   _layerPlayer:
     serializedVersion: 2
     m_Bits: 256
   _layerBullet:
     serializedVersion: 2
     m_Bits: 1024
-  healthBar: {fileID: 0}
 --- !u!54 &7821355853311804580
 Rigidbody:
   m_ObjectHideFlags: 0
