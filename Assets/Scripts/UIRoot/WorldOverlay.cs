@@ -5,33 +5,31 @@ using UnityEngine;
 
 public class WorldOverlay : MonoBehaviour
 {
+    public  List<ISpawningWithHealth> ZombieSpawnings { private get; set; }
+    public Dictionary<HealthBarEnemy, Transform> ListBars { private get; set; }
+    
     [SerializeField] private HealthBarEnemy zombieHealthBar;
     [SerializeField] private Vector3 offsetZombieBar;
-    [SerializeField] private SpawnerCircle spawner;
     [SerializeField] private Transform zombieBars;
     
-    private ISpawningWithHealth _onceSpawningWithHealth;
-    private Dictionary<HealthBarEnemy, Transform> _listBars;
-    private void Awake()
-    {
-        _onceSpawningWithHealth = Instantiate(spawner);
-        _listBars = new Dictionary<HealthBarEnemy, Transform>();
-
-        _onceSpawningWithHealth.spawnedObject += CreateZombieHealthBar;
-    }
-
     private void Update()
     {
-        foreach (var bar in _listBars)
+        foreach (var bar in ListBars)
         {
-            bar.Key.FollowTo(_listBars[bar.Key], offsetZombieBar);
+            bar.Key.FollowTo(ListBars[bar.Key], offsetZombieBar);
         }
     }
 
-    private void CreateZombieHealthBar(IHaveHealth health)
+    public void CreateZombieHealthBar(IHaveHealth health)
     {
         var bar = Instantiate(zombieHealthBar, zombieBars);
         bar.HealthSystem = health.MyHealthSystem;
-        _listBars.Add(bar, health.GetHealthOwner().transform);
+        bar.SetColour(Color.red);
+        bar.HealthSystem.OnHealthStateMin += (sender, args) => 
+        { 
+            Destroy(bar.gameObject);
+            ListBars.Remove(bar);
+        };
+        ListBars.Add(bar, health.GetHealthOwner().transform);
     }
 }

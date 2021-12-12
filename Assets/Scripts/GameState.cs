@@ -53,6 +53,7 @@ public class GameState : MonoBehaviour, IGameState
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameHasEnded = false;
         Resume();
     }
 

@@ -1,29 +1,23 @@
 ﻿using Sounds;
 using UnityEngine;
 
-public class Enemy : BaseHaveHealth, IEnemy, IHaveHealth
+public class Enemy : BaseHaveHealth, IEnemy
 {
-    public IHealthSystem MyHealthSystem { get; private set; }
-    
     [Range(0,1000)] [SerializeField] private int _startHealthEnemy;
     [Range(0,10)] [SerializeField] private float _speedEnemy;
 
     [SerializeField] private LayerMask _layerPlayer;
     [SerializeField] private LayerMask _layerBullet;
-    
-    [SerializeField] private HealthBarEnemy healthBar;
 
     private Transform _target;
-
-    private IHealthBar HealthBarEnemy => healthBar;
     
     private void Awake()
     {
         MyHealthSystem = new HealthSystem(_startHealthEnemy);
-        MyHealthSystem.OnHealthStateMin += EnemyDie;
-        
-        HealthBarEnemy.HealthSystem = MyHealthSystem;
-        HealthBarEnemy.SetColour(Color.red);
+        MyHealthSystem.OnHealthStateMin += (sender, args) => 
+        { 
+            Destroy(gameObject);
+        };
     }
 
     void Update()
@@ -58,10 +52,5 @@ public class Enemy : BaseHaveHealth, IEnemy, IHaveHealth
             _target = other.transform;
             enabled = true;
         }
-    }
-     private void EnemyDie(object sender, System.EventArgs e)
-    {
-        MyHealthSystem.OnHealthStateMin -= EnemyDie;
-        Destroy(gameObject);
     }
 }

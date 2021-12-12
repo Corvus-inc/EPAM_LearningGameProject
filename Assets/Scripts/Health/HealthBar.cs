@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour, IHealthBar
 {
-    public IHealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { get; set; }
     
     [SerializeField] private RectTransform _bar; 
     private Transform canvasPosition;
@@ -35,20 +35,5 @@ public class HealthBar : MonoBehaviour, IHealthBar
     private void HealthSystem_OnOnHealthChanged(object sender, System.EventArgs e)
     {
         SetSize(HealthSystem.GetHealthPercent());
-    }
-
-    private void PlaceBarOnCanvas()
-    {
-        // Find UIRoot/WorldOverlay
-        if (canvasPosition != null)
-        {
-            transform.SetParent(canvasPosition);
-        }
-        else
-        {
-            var go = new GameObject("CanvasForBars");
-            canvasPosition = go.transform;
-            go.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
-        }
     }
 }

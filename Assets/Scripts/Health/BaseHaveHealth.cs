@@ -5,7 +5,7 @@ using UnityEngine;
 
  public abstract class BaseHaveHealth : MonoBehaviour, IHaveHealth 
  {
-     public IHealthSystem MyHealthSystem { get; }
+     public IHealthSystem MyHealthSystem { get; protected set; }
      public GameObject GetHealthOwner()
      {
          return gameObject;

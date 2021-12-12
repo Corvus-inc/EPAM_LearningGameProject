@@ -42,6 +42,7 @@ public class SpawnerCircle : MonoBehaviour, ISpawningWithHealth
            
             _humansInCircle.Add(obj);
         }
+        // spawnedObject = null;
     }
 
     private List<Vector2> CreateRandomPoints() 
