@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour, IPlayer
 {
+    public PlayerLevel MyLevel { get; set; } 
     public IStatLoader StatLoader { private get; set; }
     public WeaponSystem WeaponSystem { private get; set; }
-    public IHealthSystem HealthSystem { private get; set; }
+    public IHealthSystem HealthSystem { get; set; }
     public bool IsBoostedSpeed{ private get; set; }
     ///temporary? for working with skills
     public WeaponHolder PlayerWeaponHolder { get; private set; }
@@ -21,6 +22,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
     private float _speed;
     private float _boostSpeedRate;
     private bool _isMoving;
+    private bool UnlockSwap;
 
     private void Start()
     {
@@ -28,6 +30,7 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
         //on destroy
         StatLoader.OnSavePlayerData += SavePlayerData;
         HealthSystem.OnHealthStateMin += PlayerDie;
+        MyLevel.Unlock2lvl += () => { UnlockSwap = true; };
     }
 
     private void Update()
@@ -35,10 +38,12 @@ public class PlayerCharacter : MonoBehaviour, IPlayer
         if (Input.GetMouseButtonDown(0) && !GameState.GameIsPaused)
         {
             PlayerWeaponHolder.GunCurrent.UsageWeapon();
+            MyLevel.Experience = 10f;
+
         }
         
         
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)&&UnlockSwap)
         {
             PlayerWeaponHolder = WeaponSystem.SwitchWeapon();
         }

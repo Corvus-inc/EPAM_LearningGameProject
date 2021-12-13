@@ -8,7 +8,13 @@ public class Enemy : BaseHaveHealth, IEnemy
 
     [SerializeField] private LayerMask _layerPlayer;
     [SerializeField] private LayerMask _layerBullet;
-
+    [SerializeField] private Animator animator;
+    
+    private static readonly int IsWalk = Animator.StringToHash("walk");
+    private static readonly int IsRun = Animator.StringToHash("run");
+    private static readonly int IsAttack = Animator.StringToHash("attack");
+    
+    
     private Transform _target;
     
     private void Awake()
@@ -18,13 +24,14 @@ public class Enemy : BaseHaveHealth, IEnemy
         { 
             Destroy(gameObject);
         };
+        animator.SetTrigger(IsWalk);
     }
 
     void Update()
     {
         if (_target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime* _speedEnemy);
+            // transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime* _speedEnemy);
             transform.LookAt(_target);
         }
     }
@@ -42,7 +49,7 @@ public class Enemy : BaseHaveHealth, IEnemy
             
            StopCoroutine(bullet.DeactivatingBullet(0));
            bullet.DeactivatingBullet();
-       }    
+       }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -51,6 +58,27 @@ public class Enemy : BaseHaveHealth, IEnemy
         {
             _target = other.transform;
             enabled = true;
+            animator.SetTrigger(IsRun);
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (GameUtils.Utils.CheckLayerMask(other.gameObject, _layerPlayer))
+        {
+            _target = null;
+            enabled = false;
+            animator.SetTrigger(IsWalk);
+        }
+    }
+
+    public void DamagePlayer()
+    {
+        _target.gameObject.GetComponent<PlayerCharacter>().HealthSystem.Damage(20);
+    }
+
+    public void Attack(Transform targetPosition)
+    {
+        animator.SetTrigger(IsRun);
+        animator.SetTrigger(IsAttack);
     }
 }

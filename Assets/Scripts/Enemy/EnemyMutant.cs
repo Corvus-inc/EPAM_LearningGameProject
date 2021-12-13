@@ -3,7 +3,7 @@ using Sounds;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class EnemyMutant : MonoBehaviour
+public class EnemyMutant : MonoBehaviour, IEnemy
 {
     [Range(0,1000)] [SerializeField] private int startHealthEnemy;
 

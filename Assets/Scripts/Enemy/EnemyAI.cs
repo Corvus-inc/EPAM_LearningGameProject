@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
 {
     private Transform moveTargetPosition;
 
-    private EnemyMutant _mutant;
+    private IEnemy _mutant;
     
     private NavMeshAgent _navMeshAgent;
     private Vector3 _startingPosition;
@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        _mutant = GetComponent<EnemyMutant>();
+        _mutant = GetComponent<IEnemy>();
         _scale = gameObject.transform.localScale.x;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _state = State.Roaming;
@@ -44,7 +44,6 @@ public class EnemyAI : MonoBehaviour
     {
         switch (_state)
         {
-            default:
             case State.Roaming:
                 MoveTo(_roamPosition);
                 var reachedPositionDistance = 1f*_scale;
@@ -84,6 +83,8 @@ public class EnemyAI : MonoBehaviour
                     _state = State.Roaming;
                 }
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 

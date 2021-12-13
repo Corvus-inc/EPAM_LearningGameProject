@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class Starter : MonoBehaviour
 {
     [SerializeField] private GameState prefabGameState;
-    
+    [SerializeField] private PlayerLevel playerLevel;
     
     [SerializeField] private UIPlayer playerUI;
     [SerializeField] private PauseMenu pauseMenu;
@@ -73,6 +73,7 @@ public class Starter : MonoBehaviour
 
         _playerSkillSystem = new SkillSystem(_playerHealthSystem, _player, _playerWeaponSystem);
 
+        
         #endregion
 
         CameraFollow.FollowTarget = goPlayer.transform;
@@ -98,7 +99,9 @@ public class Starter : MonoBehaviour
             _player.GameState = _gameState;
             _player.HealthSystem = _playerHealthSystem;
             _player.WeaponSystem = _playerWeaponSystem;
-        
+            _player.MyLevel = playerLevel;
+            
+            playerUI.MyLevel = playerLevel;
             playerUIHealthBar.HealthSystem = _playerHealthSystem;
         
             pauseMenu.GameState = _gameState;
